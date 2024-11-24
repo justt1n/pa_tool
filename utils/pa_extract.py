@@ -28,11 +28,12 @@ def __extract_offer_items_from_soup(soup: BeautifulSoup) -> list[OfferItem]:
                 delivery_time=__extract_delivery_time(offer_item_tag),
                 min_stock=offers_model[offer_item_id].get("min_stock", None),
                 min_unit=offers_model[offer_item_id].get("min_unit", None),
+                quantity=__extract_quantity(offer_item_tag),
                 price=__extract_price(offer_item_tag),
             )
         )
         # Sleep interval
-        time.sleep(random.uniform(1.5, 3))
+        time.sleep(random.uniform(1, 1.5))
 
     return offer_items
 
@@ -109,6 +110,15 @@ def __extract_price(
         price_txt = price_tag.get_text(strip=True).replace("$", "")
         return float(price_txt)
 
+    return None
+
+
+def __extract_quantity(
+    tag: Tag,
+) -> int | None:
+    quan_tag = tag.select_one(".OLP-input-number")
+    if quan_tag:
+        return int(quan_tag.attrs["value"])
     return None
 
 
