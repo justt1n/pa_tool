@@ -4,8 +4,12 @@ import random
 import execjs
 from bs4 import BeautifulSoup, Tag
 from model.crawl_model import Seller, DeliveryTime, TimeUnit, OfferItem
+from .exceptions import PACrawlerError
+from decorator.retry import retry
+from requests import HTTPError
 
 
+@retry(retries=10, delay=1.5, exception=HTTPError)
 def __get_soup(
     url: str,
 ) -> BeautifulSoup:
@@ -28,12 +32,11 @@ def __extract_offer_items_from_soup(soup: BeautifulSoup) -> list[OfferItem]:
                 delivery_time=__extract_delivery_time(offer_item_tag),
                 min_stock=offers_model[offer_item_id].get("min_stock", None),
                 min_unit=offers_model[offer_item_id].get("min_unit", None),
-                quantity=__extract_quantity(offer_item_tag),
                 price=__extract_price(offer_item_tag),
             )
         )
         # Sleep interval
-        time.sleep(random.uniform(1, 1.5))
+        # time.sleep(random.uniform(1, 1.5))
 
     return offer_items
 
@@ -44,7 +47,7 @@ def __extract_offer_id(
     offer_id_tag = tag.select_one(".offerid")
     if offer_id_tag:
         return offer_id_tag.get_text(strip=True)
-    return ""
+    raise PACrawlerError("Can't extract offer id")
 
 
 def __extract_server(
@@ -60,6 +63,9 @@ def __extract_server(
         offer_title_lv2_tag.get_text(strip=True) if offer_title_lv2_tag else ""
     )
 
+    if offer_title_lv1 == "" or offer_title_lv2 == "":
+        raise PACrawlerError("Can't extract server")
+
     return f"{offer_title_lv1} - {offer_title_lv2}"
 
 
@@ -71,7 +77,7 @@ def __extract_seller_feedback_count(
             feedback_tag = grid_item.select_one(".txt-gold")
             if feedback_tag:
                 return int(feedback_tag.get_text(strip=True).replace(",", ""))
-    return 0
+    raise PACrawlerError("Can't extract feedback count")
 
 
 def __extract_seller(
@@ -79,6 +85,8 @@ def __extract_seller(
 ) -> Seller:
     offer_seller_name_tag = tag.select_one(".username")
     name = offer_seller_name_tag.get_text(strip=True) if offer_seller_name_tag else ""
+    if name == "":
+        raise PACrawlerError("Can't extract seller name")
     seller_soup = __get_soup(f"https://www.playerauctions.com/store/{name}/")
     feedback_count = __extract_seller_feedback_count(seller_soup)
     # feedback_count = 0
@@ -90,7 +98,7 @@ def __extract_seller(
 
 def __extract_delivery_time(
     tag: Tag,
-) -> DeliveryTime | None:
+) -> DeliveryTime:
     delivery_text_tag = tag.select_one(".OLP-delivery-text")
     if delivery_text_tag:
         delivery_text = delivery_text_tag.get_text(strip=True)
@@ -99,18 +107,18 @@ def __extract_delivery_time(
             value=int(delivery_splitted[0]),
             unit=TimeUnit(delivery_splitted[1]),
         )
-    return None
+    raise PACrawlerError("Can't extract delivery time")
 
 
 def __extract_price(
     tag: Tag,
-) -> float | None:
+) -> float:
     price_tag = tag.select_one(".offer-price-tag")
     if price_tag:
         price_txt = price_tag.get_text(strip=True).replace("$", "")
         return float(price_txt)
 
-    return None
+    raise PACrawlerError("Can't extract price")
 
 
 def __extract_quantity(
@@ -139,9 +147,10 @@ def __extract_min_unit_and_min_stock(
 
             return res_dict
 
-    return {}
+    raise PACrawlerError("Can't extract min_unit and min_stock")
 
 
+@retry(3, delay=0.25, exception=PACrawlerError)
 def extract_offer_items(
     url: str,
 ) -> list[OfferItem]:

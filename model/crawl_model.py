@@ -54,11 +54,10 @@ class OfferItem(BaseModel):
     offer_id: str
     server: str
     seller: Seller
-    delivery_time: DeliveryTime | None
-    min_unit: int | None
-    min_stock: int | None
-    quantity: int | None
-    price: float | None
+    delivery_time: DeliveryTime
+    min_unit: int
+    min_stock: int
+    price: float
 
     @staticmethod
     def min_offer_item(
