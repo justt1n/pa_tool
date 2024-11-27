@@ -1,6 +1,5 @@
 import requests
-import time
-import random
+
 import execjs
 from bs4 import BeautifulSoup, Tag
 from model.crawl_model import Seller, DeliveryTime, TimeUnit, OfferItem
@@ -32,6 +31,7 @@ def __extract_offer_items_from_soup(soup: BeautifulSoup) -> list[OfferItem]:
                 delivery_time=__extract_delivery_time(offer_item_tag),
                 min_stock=offers_model[offer_item_id].get("min_stock", None),
                 min_unit=offers_model[offer_item_id].get("min_unit", None),
+                quantity=__extract_quantity(offer_item_tag),
                 price=__extract_price(offer_item_tag),
             )
         )
@@ -123,11 +123,12 @@ def __extract_price(
 
 def __extract_quantity(
     tag: Tag,
-) -> int | None:
+) -> int:
     quan_tag = tag.select_one(".OLP-input-number")
     if quan_tag:
         return int(quan_tag.attrs["value"])
-    return None
+
+    raise PACrawlerError("Can't extract quantity")
 
 
 def __extract_min_unit_and_min_stock(

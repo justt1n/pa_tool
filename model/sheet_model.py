@@ -140,6 +140,23 @@ class G2G(BaseGSheetModel):
     G2G_SHEET_BLACKLIST: Annotated[str, "AX"]
     G2G_CELL_BLACKLIST: Annotated[str, "AY"]
 
+    def get_blacklist(
+        self,
+        gsheet: GSheet,
+    ) -> list[str]:
+        sheet = Sheet.from_sheet_id(
+            gsheet,
+            self.G2G_IDSHEET_BLACKLIST,
+        )
+        worksheet = sheet.open_worksheet(
+            worksheet_name=self.G2G_SHEET_BLACKLIST,
+        )
+        query_values = worksheet.batch_get([self.G2G_CELL_BLACKLIST])[0]
+        blacklist = []
+        for value in query_values:
+            blacklist.append(value[0])
+        return blacklist
+
 
 class FUN(BaseGSheetModel):
     FUN_CHECK: Annotated[int, "AZ"]

@@ -11,8 +11,9 @@ from utils.sheet_operator import (
     query_multi_model_from_worksheet,
 )
 from utils.pa_extract import extract_offer_items
+from utils.g2g_extract import g2g_extract_offer_items
 from model.sheet_model import G2G, Product, StockInfo, FUN, BIJ
-from model.crawl_model import OfferItem, DeliveryTime
+from model.crawl_model import G2GOfferItem, OfferItem, DeliveryTime
 from model.payload import PriceInfo, Row
 from model.enums import StockType
 
@@ -143,6 +144,19 @@ def calculate_price_change(
     )
 
 
+def g2g_lowest_price(
+    gsheet: GSheet,
+    g2g: G2G,
+) -> G2GOfferItem:
+    g2g_offer_items = g2g_extract_offer_items(g2g.G2G_PRODUCT_COMPARE)
+    filtered_g2g_offer_items = G2GOfferItem.filter_valid_g2g_offer_item(
+        g2g,
+        g2g_offer_items,
+        g2g.get_blacklist(gsheet),
+    )
+    return G2GOfferItem.min_offer_item(filtered_g2g_offer_items)
+
+
 def run():
     gsheet = GSheet()
     sheet = Sheet.from_sheet_id(
@@ -153,10 +167,11 @@ def run():
     row_indexes = [7, 8]
     for index in row_indexes:
         row = Row.from_row_index(worksheet, index)
-        offer_items = extract_offer_items(row.product.PRODUCT_COMPARE)
-        if is_change_price(row.product, offer_items):
-            print(
-                calculate_price_change(
-                    gsheet, row.product, row.stock_info, offer_items
-                ).model_dump(mode="json")
-            )
+        # offer_items = extract_offer_items(row.product.PRODUCT_COMPARE)
+        # if is_change_price(row.product, offer_items):
+        #     print(
+        #         calculate_price_change(
+        #             gsheet, row.product, row.stock_info, offer_items
+        #         ).model_dump(mode="json")
+        #     )
+        print(g2g_lowest_price(gsheet, row.g2g))
