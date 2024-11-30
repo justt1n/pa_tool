@@ -1,8 +1,16 @@
 import time
 from functools import wraps
 from selenium.common.exceptions import StaleElementReferenceException
+from typing import TypeVar, Type
 
-def retry(retries=3, delay=0.25, exception=StaleElementReferenceException):
+T = TypeVar("T", bound=Exception)
+
+
+def retry(
+    retries: int = 3,
+    delay: float = 0.25,
+    exception: Type[T] = StaleElementReferenceException,
+):
     """
     A decorator that retries a function call if a specified exception occurs.
 
@@ -10,6 +18,7 @@ def retry(retries=3, delay=0.25, exception=StaleElementReferenceException):
     :param delay: Delay in seconds between retries.
     :param exception: Exception type to catch and retry on.
     """
+
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -18,9 +27,12 @@ def retry(retries=3, delay=0.25, exception=StaleElementReferenceException):
                 try:
                     return func(*args, **kwargs)
                 except exception as e:
+                    print(e)
                     attempts -= 1
                     if attempts == 0:
                         raise
                     time.sleep(delay)
+
         return wrapper
+
     return decorator

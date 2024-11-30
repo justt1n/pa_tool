@@ -1,11 +1,16 @@
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 from dataclasses import dataclass, field
 from typing import Optional
 
+from pydantic import BaseModel
+from model.crawl_model import OfferItem
+from model.enums import StockType
+from utils.sheet_operator import query_multi_model_from_worksheet
+from .sheet_model import Product, StockInfo, G2G, FUN, BIJ
+
 
 @dataclass
-class Product:
+class Product_:
     CHECK: Optional[str] = field(default=None)
     Product_name: Optional[str] = field(default=None)
     Note: Optional[str] = field(default=None)
@@ -78,3 +83,51 @@ class Product:
     BIJ_STOCKMAX: Optional[int] = field(default=None)
     HESONHANDONGIA3: Optional[float] = field(default=None)
 
+
+class Row:
+    row_index: int
+    product: Product
+    stock_info: StockInfo
+    g2g: G2G
+    fun: FUN
+    bij: BIJ
+
+    def __init__(
+        self,
+        row_index: int,
+        worksheet: gspread.worksheet.Worksheet,
+        product: Product,
+        stock_info: StockInfo,
+        g2g: G2G,
+        fun: FUN,
+        bij: BIJ,
+    ) -> None:
+        self.row_index = row_index
+        self.worksheet = worksheet
+        self.product = product
+        self.stock_info = stock_info
+        self.g2g = g2g
+        self.fun = fun
+        self.bij = bij
+
+    @staticmethod
+    def from_row_index(
+        worksheet,
+        row_index: int,
+    ) -> "Row":
+        return Row(
+            row_index,
+            worksheet,
+            *query_multi_model_from_worksheet(
+                worksheet, [Product, StockInfo, G2G, FUN, BIJ], row_index
+            ),  # type: ignore
+        )
+
+
+class PriceInfo(BaseModel):
+    price_min: float
+    price_mac: float
+    adjusted_price: float
+    range_adjust: float | None = None
+    offer_item: OfferItem
+    stock_type: StockType
