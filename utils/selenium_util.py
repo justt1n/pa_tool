@@ -1,21 +1,30 @@
-from selenium.webdriver.chromium import webdriver
+import pathlib
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+PATH_TO_EXTENSION = pathlib.Path(__file__).parent.parent.joinpath(
+    "extensions/rektcaptcha"
+)
 
 
 class SeleniumUtil:
     def __init__(self):
-        self.driver = webdriver.Chrome()
+        chrome_options = webdriver.ChromeOptions()
 
-    def get(self, url):
+        chrome_options.add_argument(f"load-extension={PATH_TO_EXTENSION}")
+
+        self.driver = webdriver.Chrome(options=chrome_options)
+
+    def get(
+        self,
+        url: str,
+    ) -> None:
         self.driver.get(url)
 
-    def find_element_by_xpath(self, xpath):
-        return self.driver.find_element_by_xpath(xpath)
-
-    def find_elements_by_xpath(self, xpath):
-        return self.driver.find_elements_by_xpath(xpath)
-
-    def close(self):
-        self.driver.close()
-
-    def quit(self):
-        self.driver.quit()
+    def click_by_inner_text(
+        self,
+        txt: str,
+    ) -> None:
+        element = self.driver.find_element(By.XPATH, f"//*[text()='{txt}']")
+        element.click()
