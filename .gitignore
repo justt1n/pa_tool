@@ -162,3 +162,8 @@ cython_debug/
 #.idea/
 /.idea/
 /.idea/
+
+
+# Browser user data
+**/user_data/*
+!**/user_data/.gitkeep
