@@ -1,8 +1,8 @@
+import os
 import time
 from selenium.webdriver.common.by import By
 
 from utils.selenium_util import SeleniumUtil
-
 
 def login(
     browser: SeleniumUtil,
@@ -10,14 +10,13 @@ def login(
     browser.get(
         "https://www.playerauctions.com/wow-classic-gold/?Serverid=13563&Quantity=6000&PageIndex=1"
     )
-
     browser.click_by_inner_text("LOG IN")
 
     username_tag = browser.driver.find_element(By.ID, "username")
-    username_tag.send_keys("")
+    username_tag.send_keys(os.getenv("PA_USERNAME"))
 
     pass_tag = browser.driver.find_element(By.ID, "password")
-    pass_tag.send_keys("")
+    pass_tag.send_keys(os.getenv("PA_PASSWORD"))
 
     inner_text = " LOG IN "  # Replace with the desired text
     browser.click_by_inner_text(inner_text)
@@ -38,3 +37,7 @@ def login(
     browser.get(
         "https://me.playerauctions.com/member/batchoffer/?menutype=offer&menusubtype=currencybulkoffertool"
     )
+
+if __name__ == "__main__":
+    browser = SeleniumUtil()
+    login(browser)
