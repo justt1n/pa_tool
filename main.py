@@ -4,6 +4,7 @@ import os
 
 from dotenv import load_dotenv
 
+from utils.biji_extract import bij_lowest_price
 from utils.ggsheet import GSheet, Sheet
 from utils.logger import setup_logging
 from model.payload import Row
@@ -52,10 +53,13 @@ def process():
                     gsheet, row.product, row.stock_info, offer_items
                 ).model_dump(mode="json")
             )
+        ##USAGE BIJI
+        bij_lowest_price(BIJ_HOST_DATA, browser, row.bij)
 
 
 ### MAIN ###
 
 if __name__ == "__main__":
-    HOST_DATA = read_file_with_encoding(os.getenv('DATA_PATH'), encoding='utf-8')
+    BIJ_HOST_DATA = read_file_with_encoding(os.getenv('DATA_PATH'), encoding='utf-8')
     process()
+
