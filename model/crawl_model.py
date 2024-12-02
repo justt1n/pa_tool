@@ -1,3 +1,5 @@
+import re
+
 from pydantic import BaseModel
 from enum import Enum
 from .sheet_model import G2G
@@ -38,7 +40,7 @@ class DeliveryTime(BaseModel):
 
     @staticmethod
     def from_text(
-        txt: str,
+            txt: str,
     ) -> "DeliveryTime":
         # Remove duplicated white space
         while "  " in txt:
@@ -63,7 +65,7 @@ class OfferItem(BaseModel):
 
     @staticmethod
     def min_offer_item(
-        offer_items: list["OfferItem"],
+            offer_items: list["OfferItem"],
     ) -> "OfferItem":
         min = offer_items[0]
         for offer_item in offer_items:
@@ -81,9 +83,9 @@ class G2GOfferItem(BaseModel):
     price_per_unit: float
 
     def is_valid(
-        self,
-        g2g: G2G,
-        g2g_blacklist: list[str],
+            self,
+            g2g: G2G,
+            g2g_blacklist: list[str],
     ) -> bool:
         if self.seller_name in g2g_blacklist:
             return False
@@ -101,9 +103,9 @@ class G2GOfferItem(BaseModel):
 
     @staticmethod
     def filter_valid_g2g_offer_item(
-        g2g: G2G,
-        g2g_offer_items: list["G2GOfferItem"],
-        g2g_blacklist: list[str],
+            g2g: G2G,
+            g2g_offer_items: list["G2GOfferItem"],
+            g2g_blacklist: list[str],
     ) -> list["G2GOfferItem"]:
         valid_g2g_offer_items = []
         for g2g_offer_item in g2g_offer_items:
@@ -114,7 +116,7 @@ class G2GOfferItem(BaseModel):
 
     @staticmethod
     def min_offer_item(
-        g2g_offer_items: list["G2GOfferItem"],
+            g2g_offer_items: list["G2GOfferItem"],
     ) -> "G2GOfferItem":
         min = g2g_offer_items[0]
         for g2g_offer_item in g2g_offer_items:
@@ -122,3 +124,19 @@ class G2GOfferItem(BaseModel):
                 min = g2g_offer_item
 
         return min
+
+
+def extract_integers_from_string(s):
+    return [int(num) for num in re.findall(r'\d+', s)]
+
+
+class BijOfferItem(BaseModel):
+    username: str
+    money: float
+    gold: list
+    min_gold: int
+    max_gold: int
+    dept: str
+    time: str
+    link: str
+    type: str

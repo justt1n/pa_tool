@@ -1,6 +1,8 @@
 import random
 import gspread
 from typing import Any
+
+from utils.biji_extract import bij_lowest_price
 from utils.ggsheet import (
     GSheet,
     Sheet,
@@ -167,11 +169,11 @@ def run():
     row_indexes = [7, 8]
     for index in row_indexes:
         row = Row.from_row_index(worksheet, index)
-        # offer_items = extract_offer_items(row.product.PRODUCT_COMPARE)
+        offer_items = extract_offer_items(row.product.PRODUCT_COMPARE)
         # if is_change_price(row.product, offer_items):
         #     print(
         #         calculate_price_change(
         #             gsheet, row.product, row.stock_info, offer_items
         #         ).model_dump(mode="json")
         #     )
-        print(g2g_lowest_price(gsheet, row.g2g))
+        print(bij_lowest_price(gsheet, row.g2g))

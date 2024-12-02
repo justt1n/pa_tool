@@ -1,3 +1,5 @@
+import codecs
+import json
 import os
 
 from dotenv import load_dotenv
@@ -18,6 +20,14 @@ gs = GSheet()
 
 
 ### FUNCTIONS ###
+def read_file_with_encoding(file_path, encoding='utf-8'):
+    try:
+        with codecs.open(file_path, 'r', encoding=encoding) as file:
+            content = json.load(file)
+        return content
+    except UnicodeDecodeError as e:
+        print(f"Error decoding file: {e}")
+        return None
 
 
 def process():
@@ -47,4 +57,5 @@ def process():
 ### MAIN ###
 
 if __name__ == "__main__":
+    HOST_DATA = read_file_with_encoding(os.getenv('DATA_PATH'), encoding='utf-8')
     process()
