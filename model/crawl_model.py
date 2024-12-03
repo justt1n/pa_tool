@@ -1,3 +1,5 @@
+import re
+
 from pydantic import BaseModel
 from enum import Enum
 from .sheet_model import G2G, FUN
@@ -122,6 +124,22 @@ class G2GOfferItem(BaseModel):
                 min = g2g_offer_item
 
         return min
+
+
+def extract_integers_from_string(s):
+    return [int(num) for num in re.findall(r"\d+", s)]
+
+
+class BijOfferItem(BaseModel):
+    username: str
+    money: float
+    gold: list
+    min_gold: int
+    max_gold: int
+    dept: str
+    time: str
+    link: str
+    type: str
 
 
 class FUNOfferItem(BaseModel):

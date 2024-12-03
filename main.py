@@ -1,7 +1,10 @@
+import codecs
+import json
 import os
 
 from dotenv import load_dotenv
 
+from utils.biji_extract import bij_lowest_price
 from utils.ggsheet import GSheet, Sheet
 from utils.logger import setup_logging
 from model.payload import Row
@@ -18,6 +21,14 @@ gs = GSheet()
 
 
 ### FUNCTIONS ###
+def read_file_with_encoding(file_path, encoding='utf-8'):
+    try:
+        with codecs.open(file_path, 'r', encoding=encoding) as file:
+            content = json.load(file)
+        return content
+    except UnicodeDecodeError as e:
+        print(f"Error decoding file: {e}")
+        return None
 
 
 def process():
@@ -42,9 +53,13 @@ def process():
                     gsheet, row.product, row.stock_info, offer_items
                 ).model_dump(mode="json")
             )
+        ##USAGE BIJI
+        bij_lowest_price(BIJ_HOST_DATA, browser, row.bij)
 
 
 ### MAIN ###
 
 if __name__ == "__main__":
+    BIJ_HOST_DATA = read_file_with_encoding(os.getenv('DATA_PATH'), encoding='utf-8')
     process()
+
