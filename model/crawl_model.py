@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from enum import Enum
-from .sheet_model import G2G
+from .sheet_model import G2G, FUN
 
 
 class Seller(BaseModel):
@@ -122,3 +122,46 @@ class G2GOfferItem(BaseModel):
                 min = g2g_offer_item
 
         return min
+
+
+class FUNOfferItem(BaseModel):
+    seller: str
+    in_stock: int
+    price: float
+
+    def is_valid(
+        self,
+        fun: FUN,
+        fun_blacklist: list[str],
+    ) -> bool:
+        if self.seller in fun_blacklist:
+            return False
+
+        if self.in_stock < fun.FUN_STOCK:
+            return False
+
+        return True
+
+    @staticmethod
+    def filter_valid_fun_offer_items(
+        fun: FUN,
+        fun_offer_items: list["FUNOfferItem"],
+        fun_blacklist: list[str],
+    ) -> list["FUNOfferItem"]:
+        valid_fun_offer_items = []
+        for fun_offer_item in fun_offer_items:
+            if fun_offer_item.is_valid(fun, fun_blacklist):
+                valid_fun_offer_items.append(fun_offer_item)
+
+        return valid_fun_offer_items
+
+    @staticmethod
+    def min_offer_item(
+        fun_offer_items: list["FUNOfferItem"],
+    ) -> "FUNOfferItem":
+        min_fun_offer_item = fun_offer_items[0]
+        for fun_offer_item in fun_offer_items:
+            if fun_offer_item.price < min_fun_offer_item.price:
+                min_fun_offer_item = fun_offer_item
+
+        return min_fun_offer_item

@@ -170,10 +170,19 @@ class FUN(BaseGSheetModel):
     FUN_FILTER24: Annotated[str | None, "BH"] = None
     PRICE2: Annotated[str | None, "BI"] = None
     FACTION2: Annotated[str | None, "BJ"] = None
-    FUN_STOCK: Annotated[int | None, "BK"] = None
+    FUN_STOCK: Annotated[int, "BK"]
     FUN_IDSHEET_BLACKLIST: Annotated[str, "BL"]
     FUN_SHEET_BLACKLIST: Annotated[str, "BM"]
     FUN_CELL_BLACKLIST: Annotated[str, "BN"]
+
+    def get_blacklist(self, gsheet: GSheet) -> list[str]:
+        sheet = Sheet.from_sheet_id(gsheet, self.FUN_IDSHEET_BLACKLIST)
+        worksheet = sheet.open_worksheet(self.FUN_SHEET_BLACKLIST)
+        query_values = worksheet.batch_get([self.FUN_CELL_BLACKLIST])[0]
+        blacklist = []
+        for value in query_values:
+            blacklist.append(value[0])
+        return blacklist
 
 
 class BIJ(BaseGSheetModel):

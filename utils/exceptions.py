@@ -4,3 +4,7 @@ class PACrawlerError(Exception):
 
 class G2GCrawlerError(Exception):
     pass
+
+
+class FUNCrawlerError(Exception):
+    pass
