@@ -7,6 +7,7 @@ from utils.ggsheet import (
     GSheet,
     Sheet,
 )
+from utils.selenium_util import SeleniumUtil
 from utils.sheet_operator import (
     query_model_from_worksheet,
     update_model_to_worksheet,
@@ -17,7 +18,7 @@ from utils.g2g_extract import g2g_extract_offer_items
 from utils.fun_extract import fun_extract_offer_items
 from utils.biji_extract import bij_lowest_price
 from model.sheet_model import G2G, Product, StockInfo, FUN, BIJ
-from model.crawl_model import G2GOfferItem, OfferItem, DeliveryTime, FUNOfferItem
+from model.crawl_model import G2GOfferItem, OfferItem, DeliveryTime, FUNOfferItem, BijOfferItem
 from model.payload import PriceInfo, Row
 from model.enums import StockType
 
@@ -103,6 +104,8 @@ def calculate_price_stock_fake(
     gsheet: GSheet,
     row: Row,
     quantity: int,
+    hostdata: dict,
+    selenium: SeleniumUtil,
 ):
     g2g_min_price = None
     if row.g2g.G2G_CHECK == 1:
@@ -149,9 +152,16 @@ def calculate_price_stock_fake(
             )
             print(f"FUN min price: {fun_min_price}")
 
-        bij_min_price = None
-        if row.bij.BIJ_CHECK == 1:
-            pass
+    bij_min_price = None
+    if row.bij.BIJ_CHECK == 1:
+        bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij)
+        if bij_min_offer_item:
+            bij_min_price = (
+                bij_min_offer_item.money
+                * row.bij.BIJ_PROFIT
+                * quantity
+            )
+            print(f"BIJ min price: {bij_min_price}")
 
     return min(
         [i for i in [g2g_min_price, fun_min_price, bij_min_price] if i is not None]
@@ -162,7 +172,8 @@ def calculate_price_change(
     gsheet: GSheet,
     row: Row,
     offer_items: list[OfferItem],
-    BIJ_HOST_DATA: list,
+    BIJ_HOST_DATA: dict,
+    selenium: SeleniumUtil,
 ) -> PriceInfo:
     stock_type = identify_stock(
         gsheet,
@@ -178,7 +189,7 @@ def calculate_price_change(
 
     elif stock_type is StockType.stock_fake:
         stock_fake_price = calculate_price_stock_fake(
-            gsheet=gsheet, row=row, quantity=offer_items[0].quantity
+            gsheet=gsheet, row=row, quantity=offer_items[0].quantity, hostdata=BIJ_HOST_DATA, selenium=selenium
         )
         product_min_price = stock_fake_price  # TODO
         product_max_price = stock_fake_price  # TODO

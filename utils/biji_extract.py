@@ -93,7 +93,7 @@ def get_hostname_by_host_id(data, hostid):
 
 
 def bij_lowest_price(
-        BIJ_HOST_DATA: list,
+        BIJ_HOST_DATA: dict,
         selenium: SeleniumUtil,
         data: BIJ) -> BijOfferItem:
     retries_time = int(os.getenv('RETRIES_TIME'))

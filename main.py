@@ -31,12 +31,12 @@ def read_file_with_encoding(file_path, encoding='utf-8'):
         return None
 
 
-def process():
+def process(
+        BIJ_HOST_DATA: dict,
+        gsheet: GSheet,
+        browser: SeleniumUtil
+):
     print("process")
-    gsheet = GSheet()
-    browser = SeleniumUtil()
-    login(browser)
-
     sheet = Sheet.from_sheet_id(
         gsheet=gsheet,
         sheet_id=os.getenv("SPREADSHEET_ID"),  # type: ignore
@@ -50,16 +50,18 @@ def process():
         if is_change_price(row.product, offer_items):
             print(
                 calculate_price_change(
-                    gsheet, row.product, row.stock_info, offer_items
+                    gsheet, row, offer_items, BIJ_HOST_DATA, browser
                 ).model_dump(mode="json")
             )
-        ##USAGE BIJI
-        bij_lowest_price(BIJ_HOST_DATA, browser, row.bij)
+
 
 
 ### MAIN ###
 
 if __name__ == "__main__":
     BIJ_HOST_DATA = read_file_with_encoding(os.getenv('DATA_PATH'), encoding='utf-8')
-    process()
+    gsheet = GSheet()
+    browser = SeleniumUtil()
+    # login(browser)
+    process(BIJ_HOST_DATA, gsheet, browser)
 
