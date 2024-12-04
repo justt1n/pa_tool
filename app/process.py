@@ -168,6 +168,14 @@ def calculate_price_change(
         gsheet,
         row.stock_info,
     )
+
+    min_offer_item = OfferItem.min_offer_item(
+        filter_valid_offer_items(
+            row.product,
+            offer_items,
+        )
+    )
+
     if stock_type is StockType.stock_1:
         product_min_price = row.product.min_price_stock_1(gsheet)
         product_max_price = row.product.max_price_stock_1(gsheet)
@@ -178,17 +186,15 @@ def calculate_price_change(
 
     elif stock_type is StockType.stock_fake:
         stock_fake_price = calculate_price_stock_fake(
-            gsheet=gsheet, row=row, quantity=offer_items[0].quantity
+            gsheet=gsheet, row=row, quantity=min_offer_item.quantity
         )
-        product_min_price = stock_fake_price  # TODO
-        product_max_price = stock_fake_price  # TODO
+        if stock_fake_price < min_offer_item.price:
+            product_min_price = stock_fake_price
+            product_max_price = min_offer_item.price
+        else:
+            product_min_price = stock_fake_price
+            product_max_price = stock_fake_price
 
-    min_offer_item = OfferItem.min_offer_item(
-        filter_valid_offer_items(
-            row.product,
-            offer_items,
-        )
-    )
     range_adjust = None
     if min_offer_item.price < product_min_price:  # type: ignore
         adjusted_price = min_offer_item
@@ -223,22 +229,3 @@ def g2g_lowest_price(
         g2g.get_blacklist(gsheet),
     )
     return G2GOfferItem.min_offer_item(filtered_g2g_offer_items)
-
-
-def run():
-    gsheet = GSheet()
-    sheet = Sheet.from_sheet_id(
-        gsheet=gsheet,
-        sheet_id="1ckkWEa7xbOdFKbdqGxVkpVpMm1RG6dljmigitzeN7jc",
-    )
-    worksheet = sheet.open_worksheet("Sheet1")
-    row_indexes = [7, 8]
-    for index in row_indexes:
-        row = Row.from_row_index(worksheet, index)
-        offer_items = extract_offer_items(row.product.PRODUCT_COMPARE)
-        if is_change_price(row.product, offer_items):
-            print(
-                calculate_price_change(
-                    gsheet, row.product, row.stock_info, offer_items
-                ).model_dump(mode="json")
-            )
