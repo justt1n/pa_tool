@@ -4,7 +4,6 @@ import os
 
 from dotenv import load_dotenv
 
-from utils.biji_extract import bij_lowest_price
 from utils.ggsheet import GSheet, Sheet
 from utils.logger import setup_logging
 from model.payload import Row
