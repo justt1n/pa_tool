@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
+import constants
 from app.login import login
 from app.process import run, get_row_run_index, is_change_price, calculate_price_change
 from main import read_file_with_encoding
@@ -22,7 +23,7 @@ def test_login():
 def test_run_bij():
     gsheet = GSheet()
     browser = SeleniumUtil()
-    BIJ_HOST_DATA = read_file_with_encoding(os.getenv('DATA_PATH'), encoding='utf-8')
+    BIJ_HOST_DATA = read_file_with_encoding(constants.DATA_PATH, encoding='utf-8')
     sheet = Sheet.from_sheet_id(
         gsheet=gsheet,
         sheet_id=os.getenv("SPREADSHEET_ID"),  # type: ignore

@@ -93,3 +93,12 @@ def query_multi_model_from_worksheet(
             print(f"Validate error on row : {row_index}")
             return []
     return result_model
+
+
+def update_string_to_worksheet(
+    worksheet: gspread.worksheet.Worksheet,
+    cell: str,
+    value: str,
+) -> None:
+    worksheet.update(cell, value)
+

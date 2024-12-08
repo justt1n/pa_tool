@@ -3,13 +3,16 @@ import logging
 import os
 from datetime import datetime
 
+import constants
+
+
 def setup_logging():
     # Load environment variables at the beginning of the script
     load_dotenv('settings.env')
 
     # Configure logging from environment variables
-    log_level = os.getenv('LOG_LEVEL', 'INFO').upper()
-    log_format = os.getenv('LOG_FORMAT', '%(asctime)s - %(message)s')
+    log_level = constants.LOG_LEVEL
+    log_format = constants.LOG_FORMAT
 
     # Create log file based on the current date in the logs/ directory
     log_dir = 'logs'

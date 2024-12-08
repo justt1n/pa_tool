@@ -1,8 +1,9 @@
-import gspread
 from dataclasses import dataclass, field
 from typing import Optional
 
+import gspread
 from pydantic import BaseModel
+
 from model.crawl_model import OfferItem
 from model.enums import StockType
 from utils.sheet_operator import query_multi_model_from_worksheet
@@ -93,14 +94,14 @@ class Row:
     bij: BIJ
 
     def __init__(
-        self,
-        row_index: int,
-        worksheet: gspread.worksheet.Worksheet,
-        product: Product,
-        stock_info: StockInfo,
-        g2g: G2G,
-        fun: FUN,
-        bij: BIJ,
+            self,
+            row_index: int,
+            worksheet: gspread.worksheet.Worksheet,
+            product: Product,
+            stock_info: StockInfo,
+            g2g: G2G,
+            fun: FUN,
+            bij: BIJ,
     ) -> None:
         self.row_index = row_index
         self.worksheet = worksheet
@@ -112,16 +113,20 @@ class Row:
 
     @staticmethod
     def from_row_index(
-        worksheet,
-        row_index: int,
-    ) -> "Row":
-        return Row(
-            row_index,
             worksheet,
-            *query_multi_model_from_worksheet(
-                worksheet, [Product, StockInfo, G2G, FUN, BIJ], row_index
-            ),  # type: ignore
-        )
+            row_index: int,
+    ) -> "Row":
+        try:
+            return Row(
+                row_index,
+                worksheet,
+                *query_multi_model_from_worksheet(
+                    worksheet, [Product, StockInfo, G2G, FUN, BIJ], row_index
+                ),  # type: ignore
+            )
+        except Exception as e:
+            print(f"Missing or failed to parse row {row_index}: {e}")
+            return None
 
 
 class PriceInfo(BaseModel):
