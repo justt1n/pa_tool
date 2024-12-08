@@ -111,8 +111,10 @@ def calculate_price_stock_fake(
         if filtered_g2g_offer_items:
             g2g_min_offer_item = G2GOfferItem.min_offer_item(filtered_g2g_offer_items)
             g2g_min_price = (
-                    g2g_min_offer_item.price_per_unit * quantity * row.g2g.G2G_PROFIT
-            )
+                round(g2g_min_offer_item.price_per_unit
+                      * quantity
+                      * row.g2g.G2G_PROFIT, 4)
+                , g2g_min_offer_item.seller_name)
             print(f"G2G min price: {g2g_min_price}")
 
     fun_min_price = None
@@ -138,11 +140,11 @@ def calculate_price_stock_fake(
         if filtered_fun_offer_items:
             fun_min_offer_item = FUNOfferItem.min_offer_item(filtered_fun_offer_items)
             fun_min_price = (
-                    fun_min_offer_item.price
-                    * row.fun.FUN_PROFIT
-                    * row.fun.FUN_DISCOUNTFEE
-                    * quantity
-            )
+                round(fun_min_offer_item.price
+                      * row.fun.FUN_PROFIT
+                      * row.fun.FUN_DISCOUNTFEE
+                      * quantity, 4)
+                , fun_min_offer_item.seller)
             print(f"FUN min price: {fun_min_price}")
 
     bij_min_price = None
@@ -150,16 +152,17 @@ def calculate_price_stock_fake(
         bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij)
         if bij_min_offer_item:
             bij_min_price = (
-                    bij_min_offer_item.money
-                    * row.bij.BIJ_PROFIT
-                    * quantity
-                    * row.bij.HESONHANDONGIA3
-            )
+                round(bij_min_offer_item.money
+                      * row.bij.BIJ_PROFIT
+                      * quantity
+                      * row.bij.HESONHANDONGIA3, 4)
+                , bij_min_offer_item.username)
             print(f"BIJ min price: {bij_min_price}")
 
     return min(
-        [i for i in [g2g_min_price, fun_min_price, bij_min_price] if i is not None]
-    )
+        [i for i in [g2g_min_price, fun_min_price, bij_min_price] if i is not None],
+        key=lambda x: x[0]
+    ), [g2g_min_price, fun_min_price, bij_min_price]
 
 
 def calculate_price_change(
@@ -168,7 +171,7 @@ def calculate_price_change(
         offer_items: list[OfferItem],
         BIJ_HOST_DATA: dict,
         selenium: SeleniumUtil,
-) -> PriceInfo:
+) -> tuple[PriceInfo, list] | None:
     stock_type = identify_stock(
         gsheet,
         row.stock_info,
@@ -180,7 +183,7 @@ def calculate_price_change(
             offer_items,
         )
     )
-
+    stock_fake_items = None
     if stock_type is StockType.stock_1:
         product_min_price = row.product.min_price_stock_1(gsheet) * min_offer_item.quantity
         product_max_price = row.product.max_price_stock_1(gsheet) * min_offer_item.quantity
@@ -190,15 +193,17 @@ def calculate_price_change(
         product_max_price = row.product.max_price_stock_2(gsheet) * min_offer_item.quantity
 
     elif stock_type is StockType.stock_fake:
-        stock_fake_price = calculate_price_stock_fake(
+        (stock_fake_price, stock_fake_items) = calculate_price_stock_fake(
             gsheet=gsheet, row=row, quantity=min_offer_item.quantity, hostdata=BIJ_HOST_DATA, selenium=selenium
         )
-        if stock_fake_price < min_offer_item.price:
-            product_min_price = stock_fake_price
+        if stock_fake_price is None:
+            return None
+        if stock_fake_price[0] < min_offer_item.price:
+            product_min_price = stock_fake_price[0]
             product_max_price = min_offer_item.price
         else:
-            product_min_price = stock_fake_price
-            product_max_price = stock_fake_price
+            product_min_price = stock_fake_price[0]
+            product_max_price = stock_fake_price[0]
 
     range_adjust = None
     if min_offer_item.price < product_min_price:  # type: ignore
@@ -220,7 +225,7 @@ def calculate_price_change(
         offer_item=min_offer_item,
         stock_type=stock_type,
         range_adjust=range_adjust,
-    )
+    ), stock_fake_items
 
 
 def g2g_lowest_price(
