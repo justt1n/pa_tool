@@ -1,32 +1,25 @@
 import random
-import gspread
 from typing import Any
 
+import gspread
+
+from model.crawl_model import G2GOfferItem, OfferItem, DeliveryTime, FUNOfferItem
+from model.enums import StockType
+from model.payload import PriceInfo, Row
+from model.sheet_model import G2G, Product, StockInfo
 from utils.biji_extract import bij_lowest_price
+from utils.fun_extract import fun_extract_offer_items
+from utils.g2g_extract import g2g_extract_offer_items
 from utils.ggsheet import (
     GSheet,
-    Sheet,
 )
 from utils.selenium_util import SeleniumUtil
-from utils.sheet_operator import (
-    query_model_from_worksheet,
-    update_model_to_worksheet,
-    query_multi_model_from_worksheet,
-)
-from utils.pa_extract import extract_offer_items
-from utils.g2g_extract import g2g_extract_offer_items
-from utils.fun_extract import fun_extract_offer_items
-from utils.biji_extract import bij_lowest_price
-from model.sheet_model import G2G, Product, StockInfo, FUN, BIJ
-from model.crawl_model import G2GOfferItem, OfferItem, DeliveryTime, FUNOfferItem, BijOfferItem
-from model.payload import PriceInfo, Row
-from model.enums import StockType
 
 
 def get_row_run_index(
-    worksheet: gspread.worksheet.Worksheet,
-    col_check_index: int = 1,
-    value_check: Any = "1",
+        worksheet: gspread.worksheet.Worksheet,
+        col_check_index: int = 1,
+        value_check: Any = "1",
 ) -> list[int]:
     row_indexes: list[int] = []
     for i, row_value in enumerate(worksheet.col_values(col_check_index), start=1):
@@ -37,13 +30,13 @@ def get_row_run_index(
 
 
 def is_valid_offer_item(
-    product: Product,
-    offer_item: OfferItem,
+        product: Product,
+        offer_item: OfferItem,
 ) -> bool:
     product_delivery_time = DeliveryTime.from_text(product.DELIVERY_TIME)
     if (
-        offer_item.delivery_time is None
-        or offer_item.delivery_time > product_delivery_time
+            offer_item.delivery_time is None
+            or offer_item.delivery_time > product_delivery_time
     ):
         return False
     if offer_item.seller.feedback_count < product.FEEDBACK:
@@ -57,8 +50,8 @@ def is_valid_offer_item(
 
 
 def filter_valid_offer_items(
-    product: Product,
-    offer_items: list[OfferItem],
+        product: Product,
+        offer_items: list[OfferItem],
 ) -> list[OfferItem]:
     return [
         offer_item
@@ -73,8 +66,8 @@ def is_offer_items_contain_my_name() -> bool:
 
 
 def is_change_price(
-    product: Product,
-    offer_items: list[OfferItem],
+        product: Product,
+        offer_items: list[OfferItem],
 ) -> bool:
     if is_offer_items_contain_my_name():
         return False
@@ -90,8 +83,8 @@ def is_change_price(
 
 
 def identify_stock(
-    gsheet: GSheet,
-    stock_info: StockInfo,
+        gsheet: GSheet,
+        stock_info: StockInfo,
 ) -> StockType:
     if stock_info.stock_1(gsheet) >= stock_info.STOCK_LIMIT:
         return StockType.stock_1
@@ -101,11 +94,11 @@ def identify_stock(
 
 
 def calculate_price_stock_fake(
-    gsheet: GSheet,
-    row: Row,
-    quantity: int,
-    hostdata: dict,
-    selenium: SeleniumUtil,
+        gsheet: GSheet,
+        row: Row,
+        quantity: int,
+        hostdata: dict,
+        selenium: SeleniumUtil,
 ):
     g2g_min_price = None
     if row.g2g.G2G_CHECK == 1:
@@ -118,7 +111,7 @@ def calculate_price_stock_fake(
         if filtered_g2g_offer_items:
             g2g_min_offer_item = G2GOfferItem.min_offer_item(filtered_g2g_offer_items)
             g2g_min_price = (
-                g2g_min_offer_item.price_per_unit * quantity * row.g2g.G2G_PROFIT
+                    g2g_min_offer_item.price_per_unit * quantity * row.g2g.G2G_PROFIT
             )
             print(f"G2G min price: {g2g_min_price}")
 
@@ -129,11 +122,11 @@ def calculate_price_stock_fake(
             [
                 i
                 for i in [
-                    row.fun.FUN_FILTER21,
-                    row.fun.FUN_FILTER22,
-                    row.fun.FUN_FILTER23,
-                    row.fun.FUN_FILTER24,
-                ]
+                row.fun.FUN_FILTER21,
+                row.fun.FUN_FILTER22,
+                row.fun.FUN_FILTER23,
+                row.fun.FUN_FILTER24,
+            ]
                 if i is not None
             ],
         )
@@ -145,10 +138,10 @@ def calculate_price_stock_fake(
         if filtered_fun_offer_items:
             fun_min_offer_item = FUNOfferItem.min_offer_item(filtered_fun_offer_items)
             fun_min_price = (
-                fun_min_offer_item.price
-                * row.fun.FUN_PROFIT
-                * row.fun.FUN_DISCOUNTFEE
-                * quantity
+                    fun_min_offer_item.price
+                    * row.fun.FUN_PROFIT
+                    * row.fun.FUN_DISCOUNTFEE
+                    * quantity
             )
             print(f"FUN min price: {fun_min_price}")
 
@@ -157,9 +150,9 @@ def calculate_price_stock_fake(
         bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij)
         if bij_min_offer_item:
             bij_min_price = (
-                bij_min_offer_item.money
-                * row.bij.BIJ_PROFIT
-                * quantity
+                    bij_min_offer_item.money
+                    * row.bij.BIJ_PROFIT
+                    * quantity
             )
             print(f"BIJ min price: {bij_min_price}")
 
@@ -169,11 +162,11 @@ def calculate_price_stock_fake(
 
 
 def calculate_price_change(
-    gsheet: GSheet,
-    row: Row,
-    offer_items: list[OfferItem],
-    BIJ_HOST_DATA: dict,
-    selenium: SeleniumUtil,
+        gsheet: GSheet,
+        row: Row,
+        offer_items: list[OfferItem],
+        BIJ_HOST_DATA: dict,
+        selenium: SeleniumUtil,
 ) -> PriceInfo:
     stock_type = identify_stock(
         gsheet,
@@ -188,12 +181,12 @@ def calculate_price_change(
     )
 
     if stock_type is StockType.stock_1:
-        product_min_price = row.product.min_price_stock_1(gsheet)
-        product_max_price = row.product.max_price_stock_1(gsheet)
+        product_min_price = row.product.min_price_stock_1(gsheet) * min_offer_item.quantity
+        product_max_price = row.product.max_price_stock_1(gsheet) * min_offer_item.quantity
 
     elif stock_type is StockType.stock_2:
-        product_min_price = row.product.min_price_stock_2(gsheet)
-        product_max_price = row.product.max_price_stock_2(gsheet)
+        product_min_price = row.product.min_price_stock_2(gsheet) * min_offer_item.quantity
+        product_max_price = row.product.max_price_stock_2(gsheet) * min_offer_item.quantity
 
     elif stock_type is StockType.stock_fake:
         stock_fake_price = calculate_price_stock_fake(
@@ -208,7 +201,7 @@ def calculate_price_change(
 
     range_adjust = None
     if min_offer_item.price < product_min_price:  # type: ignore
-        adjusted_price = min_offer_item
+        adjusted_price = product_min_price
     elif min_offer_item.price > product_max_price:  # type: ignore
         adjusted_price = product_max_price
     else:
@@ -230,8 +223,8 @@ def calculate_price_change(
 
 
 def g2g_lowest_price(
-    gsheet: GSheet,
-    g2g: G2G,
+        gsheet: GSheet,
+        g2g: G2G,
 ) -> G2GOfferItem:
     g2g_offer_items = g2g_extract_offer_items(g2g.G2G_PRODUCT_COMPARE)
     filtered_g2g_offer_items = G2GOfferItem.filter_valid_g2g_offer_item(

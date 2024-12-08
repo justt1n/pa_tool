@@ -4,12 +4,11 @@ import os
 
 from dotenv import load_dotenv
 
+from app.process import calculate_price_change, is_change_price, get_row_run_index
+from model.payload import Row
 from utils.ggsheet import GSheet, Sheet
 from utils.logger import setup_logging
-from model.payload import Row
-from app.process import calculate_price_change, is_change_price, get_row_run_index
 from utils.pa_extract import extract_offer_items
-from app.login import login
 from utils.selenium_util import SeleniumUtil
 
 ### SETUP ###
@@ -47,12 +46,11 @@ def process(
         row = Row.from_row_index(worksheet, index)
         offer_items = extract_offer_items(row.product.PRODUCT_COMPARE)
         if is_change_price(row.product, offer_items):
-            print(
-                calculate_price_change(
-                    gsheet, row, offer_items, BIJ_HOST_DATA, browser
-                ).model_dump(mode="json")
+            itemInfo = calculate_price_change(
+                gsheet, row, offer_items, BIJ_HOST_DATA, browser
             )
-
+            print(f"Price change:\n{itemInfo.model_dump(mode="json")}")
+        print("Next row...")
 
 
 ### MAIN ###
@@ -63,4 +61,3 @@ if __name__ == "__main__":
     browser = SeleniumUtil()
     # login(browser)
     process(BIJ_HOST_DATA, gsheet, browser)
-
