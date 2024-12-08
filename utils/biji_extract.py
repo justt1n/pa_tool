@@ -22,6 +22,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
+import constants
 from model.crawl_model import BijOfferItem, extract_integers_from_string
 from model.sheet_model import BIJ
 from utils.selenium_util import SeleniumUtil
@@ -96,11 +97,11 @@ def bij_lowest_price(
         BIJ_HOST_DATA: dict,
         selenium: SeleniumUtil,
         data: BIJ) -> BijOfferItem:
-    retries_time = int(os.getenv('RETRIES_TIME'))
+    retries_time = constants.RETRIES_TIME
     data.BIJ_NAME = get_hostname_by_host_id(BIJ_HOST_DATA, data.BIJ_NAME)
     data.BIJ_NAME = str(data.BIJ_NAME) + " "
     selenium.get("https://www.bijiaqi.com/")
-    wait = WebDriverWait(selenium.driver, float(os.getenv('TIMEOUT')))
+    wait = WebDriverWait(selenium.driver, constants.TIMEOUT)
     input_field = wait.until(EC.element_to_be_clickable((By.ID, 'speedhostname')))
     input_field.send_keys(data.BIJ_NAME)
     input_field.send_keys(Keys.BACKSPACE)

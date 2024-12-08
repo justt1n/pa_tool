@@ -10,6 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
+import constants
 from decorator.retry import retry
 
 PATH_TO_EXTENSION = pathlib.Path(__file__).parent.parent.joinpath(
@@ -22,10 +23,10 @@ class SeleniumUtil:
         _driver_path = ChromeDriverManager().install()
         _chrome_service = Service(executable_path=_driver_path)
         _chrome_options = webdriver.ChromeOptions()
-        _retry_time = int(os.getenv("RETRIES_TIME", 5))
+        _retry_time = constants.RETRIES_TIME
         self.driver = None
         if mode == 1:
-            _chrome_options.add_argument(f"load-extension={os.getenv('PATH_TO_EXTENSION', PATH_TO_EXTENSION)}")
+            _chrome_options.add_argument(f"load-extension={PATH_TO_EXTENSION}")
             for _ in range(_retry_time):
                 try:
                     self.driver = webdriver.Chrome(service=_chrome_service, options=_chrome_options)

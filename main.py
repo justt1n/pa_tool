@@ -5,6 +5,7 @@ from datetime import datetime
 
 from dotenv import load_dotenv
 
+import constants
 from app.process import calculate_price_change, is_change_price, get_row_run_index
 from model.crawl_model import OfferItem
 from model.payload import Row, PriceInfo
@@ -108,6 +109,7 @@ def write_to_log_cell(
         if log_type == "time":
             r, c = a1_to_rowcol(f"D{row_index}")
         worksheet.update_cell(r, c, log_str)
+        print(f"Log updated at row: {row_index}")
     except Exception as e:
         print(f"Error writing to log cell: {e}")
 
@@ -115,8 +117,8 @@ def write_to_log_cell(
 ### MAIN ###
 
 if __name__ == "__main__":
-    BIJ_HOST_DATA = read_file_with_encoding(os.getenv('DATA_PATH'), encoding='utf-8')
-    gsheet = GSheet()
+    BIJ_HOST_DATA = read_file_with_encoding(constants.DATA_PATH, encoding='utf-8')
+    gsheet = GSheet(constants.KEY_PATH)
     # normal_browser = SeleniumUtil(mode=1)
     headless_browser = SeleniumUtil(mode=2)
     process(BIJ_HOST_DATA, gsheet, headless_browser)
