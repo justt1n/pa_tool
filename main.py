@@ -44,6 +44,8 @@ def process(
     for index in row_indexes:
         print(f"Row: {index}")
         row = Row.from_row_index(worksheet, index)
+        if not isinstance(row, Row):
+            continue
         offer_items = extract_offer_items(row.product.PRODUCT_COMPARE)
         if is_change_price(row.product, offer_items):
             itemInfo = calculate_price_change(
@@ -58,6 +60,6 @@ def process(
 if __name__ == "__main__":
     BIJ_HOST_DATA = read_file_with_encoding(os.getenv('DATA_PATH'), encoding='utf-8')
     gsheet = GSheet()
-    browser = SeleniumUtil()
-    # login(browser)
-    process(BIJ_HOST_DATA, gsheet, browser)
+    # normal_browser = SeleniumUtil(mode=1)
+    headless_browser = SeleniumUtil(mode=2)
+    process(BIJ_HOST_DATA, gsheet, headless_browser)

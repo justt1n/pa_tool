@@ -153,6 +153,7 @@ def calculate_price_stock_fake(
                     bij_min_offer_item.money
                     * row.bij.BIJ_PROFIT
                     * quantity
+                    * row.bij.HESONHANDONGIA3
             )
             print(f"BIJ min price: {bij_min_price}")
 

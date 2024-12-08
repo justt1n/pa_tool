@@ -106,17 +106,16 @@ def bij_lowest_price(
     input_field.send_keys(Keys.BACKSPACE)
     input_field.send_keys(Keys.ENTER)
     time.sleep(1)
-    retries = retries_time
     table = None
-    while retries > 0:
+    while retries_time > 0:
         try:
             table = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'td table.tb.bijia.limit')))
             more_row = selenium.driver.find_element(By.XPATH, "//tr[@class='more']")
             selenium.driver.execute_script("arguments[0].click();", more_row)
             break
         except StaleElementReferenceException:
-            retries -= 1
-            if retries == 0:
+            retries_time -= 1
+            if retries_time == 0:
                 raise
             time.sleep(0.25)
 
@@ -162,7 +161,7 @@ def bij_lowest_price(
     ans = list()
     for result in results:
         if result.type in data.BIJ_DELIVERY_METHOD:
-            if data.BIJ_STOCKMIN >= result.min_gold and data.BIJ_STOCKMAX <= result.max_gold:
+            if data.BIJ_STOCKMIN >= result.min_gold and result.max_gold <= data.BIJ_STOCKMAX:
                 ans = result
                 break
     return ans
