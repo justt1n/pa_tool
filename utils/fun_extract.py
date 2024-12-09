@@ -107,6 +107,7 @@ def __extract_fun_offer_items_from_soup(
     return fun_offer_items
 
 
+@retry(20, 0.5, HTTPError)
 def fun_extract_offer_items(
     url: str,
     filters: list[str],

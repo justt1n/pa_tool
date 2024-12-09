@@ -12,7 +12,7 @@ import re
 
 @retry(retries=10, delay=1.5, exception=HTTPError)
 def __get_soup(
-    url: str,
+        url: str,
 ) -> BeautifulSoup:
     res = requests.get(
         url=url,
@@ -25,12 +25,12 @@ def __get_soup(
 
 
 def __g2g_extract_offer_items_from_soup(
-    soup: BeautifulSoup,
+        soup: BeautifulSoup,
 ) -> list[G2GOfferItem]:
     g2g_offer_items = []
 
     for offer_item_tag in soup.select(
-        "#pre_checkout_sls_offer .other_offer-desk-main-box"
+            "#pre_checkout_sls_offer .other_offer-desk-main-box"
     ):
         g2g_offer_items.append(
             G2GOfferItem(
@@ -46,7 +46,7 @@ def __g2g_extract_offer_items_from_soup(
 
 
 def __g2g_extract_seller_name(
-    tag: Tag,
+        tag: Tag,
 ) -> str:
     seller_name_tag = tag.select_one(".seller__name-detail")
     if seller_name_tag:
@@ -55,7 +55,7 @@ def __g2g_extract_seller_name(
 
 
 def __g2g_extract_delivery_time(
-    tag: Tag,
+        tag: Tag,
 ) -> DeliveryTime:
     UNIT_MAP: Final[dict[str, str]] = {
         "h": "Hours",
@@ -79,7 +79,7 @@ def __g2g_extract_delivery_time(
 
 
 def __g2g_extract_stock(
-    tag: Tag,
+        tag: Tag,
 ) -> int:
     for flex_tag in tag.select(".flex-1.align-self"):
         if "Stock" in flex_tag.get_text(strip=True):
@@ -95,7 +95,7 @@ def __g2g_extract_stock(
 
 
 def __g2g_extract_min_purchase(
-    tag: Tag,
+        tag: Tag,
 ) -> int:
     for flex_tag in tag.select(".flex-1.align-self"):
         if "Min. purchase" in flex_tag.get_text(strip=True):
@@ -111,7 +111,7 @@ def __g2g_extract_min_purchase(
 
 
 def __g2g_extract_price_per_unit(
-    tag: Tag,
+        tag: Tag,
 ) -> float:
     price_tag = tag.select_one(".offer-price-amount")
     if price_tag:
@@ -120,8 +120,9 @@ def __g2g_extract_price_per_unit(
     raise G2GCrawlerError("Can't extract Price per unit")
 
 
+@retry(retries=20, delay=0.5, exception=HTTPError)
 def g2g_extract_offer_items(
-    url: str,
+        url: str,
 ) -> list[G2GOfferItem]:
     soup = __get_soup(url)
     return __g2g_extract_offer_items_from_soup(soup)

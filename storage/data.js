@@ -5600,59 +5600,19 @@ var _HOST = [{
     "language": ""
 }, {
     "gameid": "141",
-    "hostid": "26576",
-    "hostname": "Darkscape",
-    "language": ""
-}, {
-    "gameid": "141",
     "hostid": "26731",
     "hostname": "Deadman",
     "language": ""
 }, {
     "gameid": "141",
     "hostid": "24657",
-    "hostname": "Old School",
+    "hostname": "Old School RuneScape",
     "language": "OLD"
 }, {
     "gameid": "141",
     "hostid": "22916",
-    "hostname": "RuneScape 3",
+    "hostname": "RuneScape",
     "language": "US"
-}, {
-    "gameid": "141",
-    "hostid": "34702",
-    "hostname": "RuneScape 3 FSW",
-    "language": ""
-}, {
-    "gameid": "141",
-    "hostid": "28078",
-    "hostname": "RuneScape 3(Blue partyhat)",
-    "language": ""
-}, {
-    "gameid": "141",
-    "hostid": "28081",
-    "hostname": "RuneScape 3(Green partyhat)",
-    "language": ""
-}, {
-    "gameid": "141",
-    "hostid": "28082",
-    "hostname": "RuneScape 3(Purple partyhat)",
-    "language": ""
-}, {
-    "gameid": "141",
-    "hostid": "28080",
-    "hostname": "RuneScape 3(Red partyhat)",
-    "language": ""
-}, {
-    "gameid": "141",
-    "hostid": "28079",
-    "hostname": "RuneScape 3(White partyhat)",
-    "language": ""
-}, {
-    "gameid": "141",
-    "hostid": "28083",
-    "hostname": "RuneScape 3(Yellow partyhat)",
-    "language": ""
 }, {
     "gameid": "142",
     "hostid": "34774",
@@ -25770,8 +25730,63 @@ var _HOST = [{
     "language": "3"
 }, {
     "gameid": "439",
-    "hostid": "34726",
-    "hostname": "Artorius - SA East",
+    "hostid": "37082",
+    "hostname": "Alkaid - SA East",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37089",
+    "hostname": "Andrometus - EU Central",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37075",
+    "hostname": "Apus - EU Central",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37081",
+    "hostname": "Aquarius - US West",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37080",
+    "hostname": "Arctica - US East",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37073",
+    "hostname": "Aries - EU Central",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37077",
+    "hostname": "Asterion - EU Central",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37084",
+    "hostname": "Bellatrix - US West",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37085",
+    "hostname": "Cathaysia - US East",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37106",
+    "hostname": "Cerberus - AP Southeast",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37086",
+    "hostname": "Cimmeria - US East",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37083",
+    "hostname": "Cursa - SA East",
     "language": ""
 }, {
     "gameid": "439",
@@ -25785,23 +25800,33 @@ var _HOST = [{
     "language": "3"
 }, {
     "gameid": "439",
+    "hostid": "37076",
+    "hostname": "Draco - EU Central",
+    "language": ""
+}, {
+    "gameid": "439",
     "hostid": "32920",
     "hostname": "El Dorado - US West",
     "language": "3"
 }, {
     "gameid": "439",
-    "hostid": "34738",
-    "hostname": "Isabella - US West",
+    "hostid": "37104",
+    "hostname": "El Nath - US West",
     "language": ""
 }, {
     "gameid": "439",
-    "hostid": "34757",
-    "hostname": "Kronos - EU Central",
+    "hostid": "37087",
+    "hostname": "Hudsonland - US East",
     "language": ""
 }, {
     "gameid": "439",
-    "hostid": "34743",
-    "hostname": "Lilith - US East",
+    "hostid": "37088",
+    "hostname": "Kalahari - US East",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37105",
+    "hostname": "Kenorland - US East",
     "language": ""
 }, {
     "gameid": "439",
@@ -25815,8 +25840,38 @@ var _HOST = [{
     "language": "3"
 }, {
     "gameid": "439",
-    "hostid": "34737",
-    "hostname": "Sutekh - AP Southeast",
+    "hostid": "37079",
+    "hostname": "Pangea - US East",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "35655",
+    "hostname": "Phoenix - EU Central",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37093",
+    "hostname": "Pisces - AP Southeast",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37078",
+    "hostname": "Rosa - US East",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37074",
+    "hostname": "Sagitta - EU Central",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37091",
+    "hostname": "Siren - EU Central",
+    "language": ""
+}, {
+    "gameid": "439",
+    "hostid": "37092",
+    "hostname": "Taurus - EU Central",
     "language": ""
 }, {
     "gameid": "439",
@@ -28545,33 +28600,63 @@ var _HOST = [{
     "language": ""
 }, {
     "gameid": "472",
-    "hostid": "36296",
-    "hostname": "SS5 Season Clockwork Ballet Hardcore-America",
-    "language": ""
-}, {
-    "gameid": "472",
     "hostid": "36297",
-    "hostname": "SS5 Season Clockwork Ballet Hardcore-Asia",
+    "hostname": "S5 Clockwork Ballet Hardcore-ASIA",
     "language": ""
 }, {
     "gameid": "472",
     "hostid": "36298",
-    "hostname": "SS5 Season Clockwork Ballet Hardcore-Europe",
+    "hostname": "S5 Clockwork Ballet Hardcore-EU",
     "language": ""
 }, {
     "gameid": "472",
-    "hostid": "34708",
-    "hostname": "SS5 Season Clockwork Ballet-America",
+    "hostid": "36296",
+    "hostname": "S5 Clockwork Ballet Hardcore-US",
     "language": ""
 }, {
     "gameid": "472",
     "hostid": "34707",
-    "hostname": "SS5 Season Clockwork Ballet-Asia",
+    "hostname": "S5 Clockwork Ballet-ASIA",
     "language": ""
 }, {
     "gameid": "472",
     "hostid": "34706",
-    "hostname": "SS5 Season Clockwork Ballet-Europe",
+    "hostname": "S5 Clockwork Ballet-EU",
+    "language": ""
+}, {
+    "gameid": "472",
+    "hostid": "34708",
+    "hostname": "S5 Clockwork Ballet-US",
+    "language": ""
+}, {
+    "gameid": "472",
+    "hostid": "37114",
+    "hostname": "S6 The Frozen Canvas Hardcore-AISA",
+    "language": ""
+}, {
+    "gameid": "472",
+    "hostid": "37115",
+    "hostname": "S6 The Frozen Canvas Hardcore-EU",
+    "language": ""
+}, {
+    "gameid": "472",
+    "hostid": "37113",
+    "hostname": "S6 The Frozen Canvas Hardcore-US",
+    "language": ""
+}, {
+    "gameid": "472",
+    "hostid": "37111",
+    "hostname": "S6 The Frozen Canvas-AISA",
+    "language": ""
+}, {
+    "gameid": "472",
+    "hostid": "37112",
+    "hostname": "S6 The Frozen Canvas-EU",
+    "language": ""
+}, {
+    "gameid": "472",
+    "hostid": "37110",
+    "hostname": "S6 The Frozen Canvas-US",
     "language": ""
 }, {
     "gameid": "472",
@@ -28581,7 +28666,7 @@ var _HOST = [{
 }, {
     "gameid": "472",
     "hostid": "36300",
-    "hostname": "Standard-Asia",
+    "hostname": "Standard-ASIA",
     "language": ""
 }, {
     "gameid": "472",
@@ -29315,6 +29400,16 @@ var _HOST = [{
     "language": ""
 }, {
     "gameid": "481",
+    "hostid": "37177",
+    "hostname": "Blade Ball-Tokens",
+    "language": ""
+}, {
+    "gameid": "481",
+    "hostid": "37214",
+    "hostname": "Pets Go-Diamonds",
+    "language": ""
+}, {
+    "gameid": "481",
     "hostid": "35015",
     "hostname": "Robux",
     "language": ""
@@ -29436,12 +29531,12 @@ var _HOST = [{
 }, {
     "gameid": "488",
     "hostid": "35743",
-    "hostname": "Season of the Infernal Hordes",
+    "hostname": "Season of Hatred Rising",
     "language": ""
 }, {
     "gameid": "488",
     "hostid": "35744",
-    "hostname": "Season of the Infernal Hordes Hardcore",
+    "hostname": "Season of Hatred Rising Hardcore",
     "language": ""
 }, {
     "gameid": "488",
@@ -30556,102 +30651,102 @@ var _HOST = [{
 }, {
     "gameid": "501",
     "hostid": "36043",
-    "hostname": "S5冥狱石(Stygian Stone)",
+    "hostname": "S6冥狱石(Stygian Stone)",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36044",
-    "hostname": "S5冥狱石(Stygian Stone) - Hardcore",
+    "hostname": "S6冥狱石(Stygian Stone) - Hardcore",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "35974",
-    "hostname": "S5安达利尔门票(Andariel Ticket)",
+    "hostname": "S6安达利尔门票(Andariel Ticket)",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "35975",
-    "hostname": "S5安达利尔门票(Andariel Ticket) - Hardcore",
+    "hostname": "S6安达利尔门票(Andariel Ticket) - Hardcore",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36887",
-    "hostname": "S5恶念之心(Malignant Heart)",
+    "hostname": "S6恶念之心(Malignant Heart)",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36892",
-    "hostname": "S5恶念之心(Malignant Heart) - Hardcore",
+    "hostname": "S6恶念之心(Malignant Heart) - Hardcore",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36886",
-    "hostname": "S5提纯的恐惧(Distilled Fear)",
+    "hostname": "S6提纯的恐惧(Distilled Fear)",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36891",
-    "hostname": "S5提纯的恐惧(Distilled Fear) - Hardcore",
+    "hostname": "S6提纯的恐惧(Distilled Fear) - Hardcore",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36884",
-    "hostname": "S5枷锁(Sandscorched Shackles)",
+    "hostname": "S6枷锁(Sandscorched Shackles)",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36889",
-    "hostname": "S5枷锁(Sandscorched Shackles) - Hardcore",
+    "hostname": "S6枷锁(Sandscorched Shackles) - Hardcore",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36885",
-    "hostname": "S5活体钢铁(Living Steel)",
+    "hostname": "S6活体钢铁(Living Steel)",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36890",
-    "hostname": "S5活体钢铁(Living Steel) - Hardcore",
+    "hostname": "S6活体钢铁(Living Steel) - Hardcore",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "35745",
-    "hostname": "S5瓦尔申门票(Varshan Ticket)",
+    "hostname": "S6瓦尔申门票(Varshan Ticket)",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "35746",
-    "hostname": "S5瓦尔申门票(Varshan Ticket) - Hardcore",
+    "hostname": "S6瓦尔申门票(Varshan Ticket) - Hardcore",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36881",
-    "hostname": "S5精纯鲜血(Exquisite Blood)",
+    "hostname": "S6精纯鲜血(Exquisite Blood)",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36882",
-    "hostname": "S5精纯鲜血(Exquisite Blood) - Hardcore",
+    "hostname": "S6精纯鲜血(Exquisite Blood) - Hardcore",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "35747",
-    "hostname": "S5都瑞尔门票(Duriel Ticket)",
+    "hostname": "S6都瑞尔门票(Duriel Ticket)",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "35748",
-    "hostname": "S5都瑞尔门票(Duriel Ticket) - Hardcore",
+    "hostname": "S6都瑞尔门票(Duriel Ticket) - Hardcore",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36883",
-    "hostname": "S5针垫玩偶(‍Pincushioned Doll)",
+    "hostname": "S6针垫玩偶(‍Pincushioned Doll)",
     "language": ""
 }, {
     "gameid": "501",
     "hostid": "36888",
-    "hostname": "S5针垫玩偶(‍Pincushioned Doll) - Hardcore",
+    "hostname": "S6针垫玩偶(‍Pincushioned Doll) - Hardcore",
     "language": ""
 }, {
     "gameid": "501",
@@ -30925,58 +31020,38 @@ var _HOST = [{
     "language": ""
 }, {
     "gameid": "512",
-    "hostid": "35944",
-    "hostname": "Aaron-亚伦",
+    "hostid": "37006",
+    "hostname": "Elowen-埃洛温",
     "language": ""
 }, {
     "gameid": "512",
-    "hostid": "35946",
-    "hostname": "Asota-阿索塔",
+    "hostid": "37007",
+    "hostname": "Ezekiel-埃斯克尔",
     "language": ""
 }, {
     "gameid": "512",
-    "hostid": "35950",
-    "hostname": "Berkant-贝尔坎特",
+    "hostid": "37008",
+    "hostname": "Greedal-葛瑞达",
+    "language": ""
+}, {
+    "gameid": "512",
+    "hostid": "37009",
+    "hostname": "Hyperboost1-超级加强1区",
+    "language": ""
+}, {
+    "gameid": "512",
+    "hostid": "37010",
+    "hostname": "Hyperboost2-超级加强2区",
     "language": ""
 }, {
     "gameid": "512",
     "hostid": "35945",
-    "hostname": "Callis-卡利斯",
+    "hostname": "kallis-卡利斯",
     "language": ""
 }, {
     "gameid": "512",
-    "hostid": "35784",
-    "hostname": "Crimson-赤红",
-    "language": ""
-}, {
-    "gameid": "512",
-    "hostid": "35679",
-    "hostname": "Davinci-达芬奇",
-    "language": ""
-}, {
-    "gameid": "512",
-    "hostid": "35947",
-    "hostname": "Einar-埃纳尔",
-    "language": ""
-}, {
-    "gameid": "512",
-    "hostid": "35949",
-    "hostname": "Fonsine-索力西恩",
-    "language": ""
-}, {
-    "gameid": "512",
-    "hostid": "35683",
-    "hostname": "Lunar-露娜",
-    "language": ""
-}, {
-    "gameid": "512",
-    "hostid": "35948",
-    "hostname": "Ponsine-庞西内",
-    "language": ""
-}, {
-    "gameid": "512",
-    "hostid": "35692",
-    "hostname": "Stonegard-石守卫",
+    "hostid": "37011",
+    "hostname": "Solar-索拉",
     "language": ""
 }, {
     "gameid": "513",
@@ -34015,6 +34090,301 @@ var _HOST = [{
     "language": ""
 }, {
     "gameid": "546",
+    "hostid": "37118",
+    "hostname": "Necro Settlers Event Standard-Ancient Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37119",
+    "hostname": "Necro Settlers Event Standard-Armourer's Scrap",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37143",
+    "hostname": "Necro Settlers Event Standard-Armourer’s Scrap",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37144",
+    "hostname": "Necro Settlers Event Standard-Awakened Sextant",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37145",
+    "hostname": "Necro Settlers Event Standard-Awakener’s Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37120",
+    "hostname": "Necro Settlers Event Standard-Blacksmith's Whetstone",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37146",
+    "hostname": "Necro Settlers Event Standard-Blacksmith’s Whetstone",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37121",
+    "hostname": "Necro Settlers Event Standard-Blessed Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37122",
+    "hostname": "Necro Settlers Event Standard-Cartographer's Chisel",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37147",
+    "hostname": "Necro Settlers Event Standard-Cartographer’s Chisel",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37123",
+    "hostname": "Necro Settlers Event Standard-Chaos Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37124",
+    "hostname": "Necro Settlers Event Standard-Chromatic Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37148",
+    "hostname": "Necro Settlers Event Standard-Crusader’s Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37125",
+    "hostname": "Necro Settlers Event Standard-Divine Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37149",
+    "hostname": "Necro Settlers Event Standard-Elevated Sextant",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37126",
+    "hostname": "Necro Settlers Event Standard-Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37172",
+    "hostname": "Necro Settlers Event Standard-Exceptional Eldritch Ember",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37168",
+    "hostname": "Necro Settlers Event Standard-Exceptional Eldritch Ichor",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37127",
+    "hostname": "Necro Settlers Event Standard-Gemcutter's Prism",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37150",
+    "hostname": "Necro Settlers Event Standard-Gemcutter’s Prism",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37128",
+    "hostname": "Necro Settlers Event Standard-Glassblower's Bauble",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37151",
+    "hostname": "Necro Settlers Event Standard-Glassblower’s Bauble",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37171",
+    "hostname": "Necro Settlers Event Standard-Grand Eldritch Ember",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37167",
+    "hostname": "Necro Settlers Event Standard-Grand Eldritch Ichor",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37170",
+    "hostname": "Necro Settlers Event Standard-Greater Eldritch Ember",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37166",
+    "hostname": "Necro Settlers Event Standard-Greater Eldritch Ichor",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37152",
+    "hostname": "Necro Settlers Event Standard-Hinekora's Lock",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37153",
+    "hostname": "Necro Settlers Event Standard-Hunter’s Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37129",
+    "hostname": "Necro Settlers Event Standard-Jeweller's Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37154",
+    "hostname": "Necro Settlers Event Standard-Jeweller’s Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37169",
+    "hostname": "Necro Settlers Event Standard-Lesser Eldritch Ember",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37165",
+    "hostname": "Necro Settlers Event Standard-Lesser Eldritch Ichor",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37130",
+    "hostname": "Necro Settlers Event Standard-Mirror of Kalandra",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37131",
+    "hostname": "Necro Settlers Event Standard-Orb of Alchemy",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37132",
+    "hostname": "Necro Settlers Event Standard-Orb of Alteration",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37155",
+    "hostname": "Necro Settlers Event Standard-Orb of Annulment",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37133",
+    "hostname": "Necro Settlers Event Standard-Orb of Augmentation",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37134",
+    "hostname": "Necro Settlers Event Standard-Orb of Chance",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37156",
+    "hostname": "Necro Settlers Event Standard-Orb of Conflict",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37157",
+    "hostname": "Necro Settlers Event Standard-Orb of Dominance",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37135",
+    "hostname": "Necro Settlers Event Standard-Orb of Fusing",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37136",
+    "hostname": "Necro Settlers Event Standard-Orb of Regret",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37137",
+    "hostname": "Necro Settlers Event Standard-Orb of Scouring",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37138",
+    "hostname": "Necro Settlers Event Standard-Orb of Transmutation",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37158",
+    "hostname": "Necro Settlers Event Standard-Orb of Unmaking",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37139",
+    "hostname": "Necro Settlers Event Standard-Portal Scroll",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37175",
+    "hostname": "Necro Settlers Event Standard-Primal Crystallised Lifeforce",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37159",
+    "hostname": "Necro Settlers Event Standard-Redeemer’s Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37140",
+    "hostname": "Necro Settlers Event Standard-Regal Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37176",
+    "hostname": "Necro Settlers Event Standard-Sacred Crystallised Lifeforce",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37160",
+    "hostname": "Necro Settlers Event Standard-Scroll of Wisdom",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37141",
+    "hostname": "Necro Settlers Event Standard-Stacked Deck",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37161",
+    "hostname": "Necro Settlers Event Standard-Tailoring Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37162",
+    "hostname": "Necro Settlers Event Standard-Tempering Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37142",
+    "hostname": "Necro Settlers Event Standard-Vaal ORB",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37163",
+    "hostname": "Necro Settlers Event Standard-Veiled Chaos Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37174",
+    "hostname": "Necro Settlers Event Standard-Vivid Crystallised Lifeforce",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37164",
+    "hostname": "Necro Settlers Event Standard-Warlord’s Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "546",
+    "hostid": "37173",
+    "hostname": "Necro Settlers Event Standard-Wild Crystallised Lifeforce",
+    "language": ""
+}, {
+    "gameid": "546",
     "hostid": "36665",
     "hostname": "Settlers Hardcore-Ancient Orb",
     "language": ""
@@ -34698,7 +35068,1448 @@ var _HOST = [{
     "hostid": "36928",
     "hostname": "S5针垫玩偶(‍Pincushioned Doll) - Hardcore",
     "language": ""
+}, {
+    "gameid": "552",
+    "hostid": "36929",
+    "hostname": "PC",
+    "language": ""
+}, {
+    "gameid": "552",
+    "hostid": "36930",
+    "hostname": "PS",
+    "language": ""
+}, {
+    "gameid": "552",
+    "hostid": "36931",
+    "hostname": "Switch",
+    "language": ""
+}, {
+    "gameid": "552",
+    "hostid": "36932",
+    "hostname": "XBOX",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37065",
+    "hostname": "Abalone - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37016",
+    "hostname": "Abundance - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36988",
+    "hostname": "Adriana - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37037",
+    "hostname": "Akidu - NA West",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37001",
+    "hostname": "Alexia - AP Northeast",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36935",
+    "hostname": "Amos - NA East(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37062",
+    "hostname": "Anvy - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37002",
+    "hostname": "Aridus - AP Northeast",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36993",
+    "hostname": "Arkhan - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37034",
+    "hostname": "Arnette - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37064",
+    "hostname": "Artifact - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36960",
+    "hostname": "Ashur - NA West",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37012",
+    "hostname": "Bailey - AP Northeast",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36994",
+    "hostname": "Basilisk - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36980",
+    "hostname": "Bellandir - EU Central(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36943",
+    "hostname": "Benediction - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36991",
+    "hostname": "Benny - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37040",
+    "hostname": "Bercant - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36967",
+    "hostname": "Berserk - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37035",
+    "hostname": "Brent - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37052",
+    "hostname": "Chamir - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36937",
+    "hostname": "Chernobog - NA East(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37070",
+    "hostname": "Chianghone - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37066",
+    "hostname": "Chimaerus - AP Northeast",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36968",
+    "hostname": "Citadel - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36956",
+    "hostname": "Clay - NA West",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36975",
+    "hostname": "Conquest - EU Central(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36989",
+    "hostname": "Cornelius - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37053",
+    "hostname": "Courage - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36951",
+    "hostname": "Crimson - NA West(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36963",
+    "hostname": "DaVinci - SA East(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37039",
+    "hostname": "Desire - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37014",
+    "hostname": "Destruction - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37057",
+    "hostname": "Domoore - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36948",
+    "hostname": "Dracoryft - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37022",
+    "hostname": "Elleia - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36976",
+    "hostname": "Ember - EU Central(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36990",
+    "hostname": "Excavator - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36981",
+    "hostname": "Ezekiel - EU Central(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36971",
+    "hostname": "Felix - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36969",
+    "hostname": "Glacial - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36970",
+    "hostname": "Grace - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37072",
+    "hostname": "Grinwell - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36942",
+    "hostname": "Helpie - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36955",
+    "hostname": "Henry - NA West",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37041",
+    "hostname": "Immortality - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37059",
+    "hostname": "Junath - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37043",
+    "hostname": "Junobote - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37019",
+    "hostname": "Justice - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37056",
+    "hostname": "Kamarshea - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37023",
+    "hostname": "Karchars - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36936",
+    "hostname": "Karnix - NA East(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36933",
+    "hostname": "Kastleton - NA East(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36974",
+    "hostname": "Kazar - EU Central(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37038",
+    "hostname": "Kuaku - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36934",
+    "hostname": "Laslan - NA East(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36961",
+    "hostname": "Legion - SA East(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37018",
+    "hostname": "Leonardas - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37024",
+    "hostname": "Lequirus - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36996",
+    "hostname": "Leviathan - AP Northeast（先行）",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36973",
+    "hostname": "Lightbringer - EU Central(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36945",
+    "hostname": "Lottie - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36949",
+    "hostname": "Lunar - NA West(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36938",
+    "hostname": "Magna - NA East(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37058",
+    "hostname": "Malakar - AP Northeast",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37020",
+    "hostname": "Mallok - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37021",
+    "hostname": "Mankipak - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36972",
+    "hostname": "Morin - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36941",
+    "hostname": "Morokai - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36946",
+    "hostname": "Oath - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37060",
+    "hostname": "Oliver - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37025",
+    "hostname": "Pakilo - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37063",
+    "hostname": "Payton - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36985",
+    "hostname": "Penance - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37044",
+    "hostname": "Percy - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37026",
+    "hostname": "Porfos - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37071",
+    "hostname": "Resolution - AP Northeast",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37055",
+    "hostname": "Risieth - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37027",
+    "hostname": "Rumi - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37000",
+    "hostname": "Salvation - AP Northeast",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36947",
+    "hostname": "Sanctuary - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36950",
+    "hostname": "Sanctum - NA West(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37069",
+    "hostname": "Scorpos - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37028",
+    "hostname": "Shaderock - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37029",
+    "hostname": "Soiri - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36957",
+    "hostname": "Soulfire - NA West",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37030",
+    "hostname": "Stallof - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36986",
+    "hostname": "Starfall - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37042",
+    "hostname": "Stonegard - NA West",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36995",
+    "hostname": "Stormbringer - AP Northeast（先行）",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37003",
+    "hostname": "Taion- AP Northeast",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37067",
+    "hostname": "Talandre - NA West",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37017",
+    "hostname": "Talem - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36978",
+    "hostname": "Talus - EU Central(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36958",
+    "hostname": "Tiago - NA West",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37031",
+    "hostname": "Titanreach - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36987",
+    "hostname": "Torrent - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37045",
+    "hostname": "Urstella - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37051",
+    "hostname": "Valkarg - AP Northeast",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37054",
+    "hostname": "Valor - SA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37032",
+    "hostname": "Vanfeld - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36962",
+    "hostname": "Vengeance - SA East(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36959",
+    "hostname": "Veron - NA West",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36984",
+    "hostname": "Vortex - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36944",
+    "hostname": "Whisperion - NA East",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "37033",
+    "hostname": "Windwhisper - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36979",
+    "hostname": "Wraith - EU Central(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36939",
+    "hostname": "Xeroth - NA East(先行)",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36992",
+    "hostname": "Zarek - EU Central",
+    "language": ""
+}, {
+    "gameid": "553",
+    "hostid": "36977",
+    "hostname": "Zenith - EU Central(先行)",
+    "language": ""
+}, {
+    "gameid": "554",
+    "hostid": "37108",
+    "hostname": "Paola - EU Central",
+    "language": ""
+}, {
+    "gameid": "554",
+    "hostid": "37109",
+    "hostname": "Pippin - NA East",
+    "language": ""
+}, {
+    "gameid": "555",
+    "hostid": "37005",
+    "hostname": "main server",
+    "language": ""
+}, {
+    "gameid": "556",
+    "hostid": "37094",
+    "hostname": "Kronomo - US West",
+    "language": ""
+}, {
+    "gameid": "556",
+    "hostid": "37097",
+    "hostname": "Mardi - EU Central",
+    "language": ""
+}, {
+    "gameid": "556",
+    "hostid": "37096",
+    "hostname": "Nihal - SA East",
+    "language": ""
+}, {
+    "gameid": "556",
+    "hostid": "37098",
+    "hostname": "Taiyi - AP Southeast",
+    "language": ""
+}, {
+    "gameid": "556",
+    "hostid": "37095",
+    "hostname": "Tumtum - US East",
+    "language": ""
+}, {
+    "gameid": "557",
+    "hostid": "37101",
+    "hostname": "Chertan - SA East",
+    "language": ""
+}, {
+    "gameid": "557",
+    "hostid": "37103",
+    "hostname": "Crux - AP Southeast",
+    "language": ""
+}, {
+    "gameid": "557",
+    "hostid": "37102",
+    "hostname": "Iroko - EU Central",
+    "language": ""
+}, {
+    "gameid": "557",
+    "hostid": "37099",
+    "hostname": "Pleiades - US West",
+    "language": ""
+}, {
+    "gameid": "557",
+    "hostid": "37100",
+    "hostname": "Sundew - US East",
+    "language": ""
+}, {
+    "gameid": "558",
+    "hostid": "37107",
+    "hostname": "Artale",
+    "language": ""
+}, {
+    "gameid": "559",
+    "hostid": "37178",
+    "hostname": "Skeleton 01",
+    "language": ""
+}, {
+    "gameid": "559",
+    "hostid": "37179",
+    "hostname": "Skeleton 02",
+    "language": ""
+}, {
+    "gameid": "559",
+    "hostid": "37180",
+    "hostname": "Skeleton 03",
+    "language": ""
+}, {
+    "gameid": "559",
+    "hostid": "37181",
+    "hostname": "Skeleton 04",
+    "language": ""
+}, {
+    "gameid": "559",
+    "hostid": "37182",
+    "hostname": "Skeleton 05",
+    "language": ""
+}, {
+    "gameid": "559",
+    "hostid": "37183",
+    "hostname": "Skeleton 06",
+    "language": ""
+}, {
+    "gameid": "559",
+    "hostid": "37184",
+    "hostname": "Skeleton 07",
+    "language": ""
+}, {
+    "gameid": "559",
+    "hostid": "37185",
+    "hostname": "Skeleton 08",
+    "language": ""
+}, {
+    "gameid": "559",
+    "hostid": "37186",
+    "hostname": "Skeleton 09",
+    "language": ""
+}, {
+    "gameid": "559",
+    "hostid": "37187",
+    "hostname": "Skeleton 10",
+    "language": ""
+}, {
+    "gameid": "559",
+    "hostid": "37188",
+    "hostname": "Skeleton 11",
+    "language": ""
+}, {
+    "gameid": "559",
+    "hostid": "37189",
+    "hostname": "Skeleton 12",
+    "language": ""
+}, {
+    "gameid": "560",
+    "hostid": "37196",
+    "hostname": "Doomhowl(Hardcore) - Alliance",
+    "language": ""
+}, {
+    "gameid": "560",
+    "hostid": "37197",
+    "hostname": "Doomhowl(Hardcore) - Horde",
+    "language": ""
+}, {
+    "gameid": "560",
+    "hostid": "37200",
+    "hostname": "Dreamscythe - Alliance",
+    "language": ""
+}, {
+    "gameid": "560",
+    "hostid": "37201",
+    "hostname": "Dreamscythe - Horde",
+    "language": ""
+}, {
+    "gameid": "560",
+    "hostid": "37202",
+    "hostname": "Maladath(AU) - Alliance",
+    "language": ""
+}, {
+    "gameid": "560",
+    "hostid": "37203",
+    "hostname": "Maladath(AU) - Horde",
+    "language": ""
+}, {
+    "gameid": "560",
+    "hostid": "37198",
+    "hostname": "Nightslayer - Alliance",
+    "language": ""
+}, {
+    "gameid": "560",
+    "hostid": "37199",
+    "hostname": "Nightslayer - Horde",
+    "language": ""
+}, {
+    "gameid": "561",
+    "hostid": "37190",
+    "hostname": "Soulseeker(Hardcore) - Alliance",
+    "language": ""
+}, {
+    "gameid": "561",
+    "hostid": "37191",
+    "hostname": "Soulseeker(Hardcore) - Horde",
+    "language": ""
+}, {
+    "gameid": "561",
+    "hostid": "37192",
+    "hostname": "Spineshatter - Alliance",
+    "language": ""
+}, {
+    "gameid": "561",
+    "hostid": "37193",
+    "hostname": "Spineshatter - Horde",
+    "language": ""
+}, {
+    "gameid": "561",
+    "hostid": "37194",
+    "hostname": "Thunderstrike - Alliance",
+    "language": ""
+}, {
+    "gameid": "561",
+    "hostid": "37195",
+    "hostname": "Thunderstrike - Horde",
+    "language": ""
+}, {
+    "gameid": "562",
+    "hostid": "37204",
+    "hostname": "无情 - 联盟",
+    "language": ""
+}, {
+    "gameid": "562",
+    "hostid": "37205",
+    "hostname": "无情 - 部落",
+    "language": ""
+}, {
+    "gameid": "562",
+    "hostid": "37206",
+    "hostname": "硬汉 - 联盟",
+    "language": ""
+}, {
+    "gameid": "562",
+    "hostid": "37207",
+    "hostname": "硬汉 - 部落",
+    "language": ""
+}, {
+    "gameid": "562",
+    "hostid": "37208",
+    "hostname": "铁血 - 联盟",
+    "language": ""
+}, {
+    "gameid": "562",
+    "hostid": "37209",
+    "hostname": "铁血 - 部落",
+    "language": ""
+}, {
+    "gameid": "563",
+    "hostid": "37210",
+    "hostname": "Teremus - Alliance",
+    "language": ""
+}, {
+    "gameid": "563",
+    "hostid": "37211",
+    "hostname": "Teremus - Horde",
+    "language": ""
+}, {
+    "gameid": "563",
+    "hostid": "37212",
+    "hostname": "Voidwalker - Alliance",
+    "language": ""
+}, {
+    "gameid": "563",
+    "hostid": "37213",
+    "hostname": "Voidwalker - Horde",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37226",
+    "hostname": "挪亚-多洛爾",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37225",
+    "hostname": "挪亚-梅杜莎",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37222",
+    "hostname": "挪亚-莫爾斯",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37221",
+    "hostname": "挪亚-菲狄斯",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37223",
+    "hostname": "挪亚-薩盧斯",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37224",
+    "hostname": "挪亚-霍諾爾",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37232",
+    "hostname": "方舟-多洛爾",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37231",
+    "hostname": "方舟-梅杜莎",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37228",
+    "hostname": "方舟-莫爾斯",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37227",
+    "hostname": "方舟-菲狄斯",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37229",
+    "hostname": "方舟-薩盧斯",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37230",
+    "hostname": "方舟-霍諾爾",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37220",
+    "hostname": "海達-多洛爾",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37219",
+    "hostname": "海達-梅杜莎",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37216",
+    "hostname": "海達-莫爾斯",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37215",
+    "hostname": "海達-菲狄斯",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37217",
+    "hostname": "海達-薩盧斯",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37218",
+    "hostname": "海達-霍諾爾",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37238",
+    "hostname": "露娜-多洛爾",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37237",
+    "hostname": "露娜-梅杜莎",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37234",
+    "hostname": "露娜-莫爾斯",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37233",
+    "hostname": "露娜-菲狄斯",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37235",
+    "hostname": "露娜-薩盧斯",
+    "language": ""
+}, {
+    "gameid": "564",
+    "hostid": "37236",
+    "hostname": "露娜-霍諾爾",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37296",
+    "hostname": "Early Access Hardcore - Ancient Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37297",
+    "hostname": "Early Access Hardcore - Armourer’s Scrap",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37298",
+    "hostname": "Early Access Hardcore - Awakened Sextant",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37299",
+    "hostname": "Early Access Hardcore - Awakener’s Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37300",
+    "hostname": "Early Access Hardcore - Blacksmith’s Whetstone",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37301",
+    "hostname": "Early Access Hardcore - Blessed Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37302",
+    "hostname": "Early Access Hardcore - Cartographer’s Chisel",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37293",
+    "hostname": "Early Access Hardcore - Chaos Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37303",
+    "hostname": "Early Access Hardcore - Chromatic Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37304",
+    "hostname": "Early Access Hardcore - Crusader’s Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37291",
+    "hostname": "Early Access Hardcore - Divine Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37331",
+    "hostname": "Early Access Hardcore - Eldritch Ichor",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37305",
+    "hostname": "Early Access Hardcore - Elevated Sextant",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37292",
+    "hostname": "Early Access Hardcore - Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37336",
+    "hostname": "Early Access Hardcore - Exceptional Eldritch Ember",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37332",
+    "hostname": "Early Access Hardcore - Exceptional Eldritch Ichor",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37306",
+    "hostname": "Early Access Hardcore - Gemcutter’s Prism",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37307",
+    "hostname": "Early Access Hardcore - Glassblower’s Bauble",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37335",
+    "hostname": "Early Access Hardcore - Grand Eldritch Ember",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37334",
+    "hostname": "Early Access Hardcore - Greater Eldritch Ember",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37330",
+    "hostname": "Early Access Hardcore - Greater Eldritch Ichor",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37308",
+    "hostname": "Early Access Hardcore - Hinekora's Lock",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37309",
+    "hostname": "Early Access Hardcore - Jeweller’s Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37333",
+    "hostname": "Early Access Hardcore - Lesser Eldritch Ember",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37329",
+    "hostname": "Early Access Hardcore - Lesser Eldritch Ichor",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37295",
+    "hostname": "Early Access Hardcore - Mirror of Kalandra",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37310",
+    "hostname": "Early Access Hardcore - Orb of Alchemy",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37311",
+    "hostname": "Early Access Hardcore - Orb of Annulment",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37312",
+    "hostname": "Early Access Hardcore - Orb of Augmentation",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37313",
+    "hostname": "Early Access Hardcore - Orb of Chance",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37314",
+    "hostname": "Early Access Hardcore - Orb of Conflict",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37315",
+    "hostname": "Early Access Hardcore - Orb of Dominance",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37294",
+    "hostname": "Early Access Hardcore - Orb of Fusing",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37316",
+    "hostname": "Early Access Hardcore - Orb of Regret",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37317",
+    "hostname": "Early Access Hardcore - Orb of Transmutation",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37318",
+    "hostname": "Early Access Hardcore - Orb of Unmaking",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37319",
+    "hostname": "Early Access Hardcore - Portal Scroll",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37339",
+    "hostname": "Early Access Hardcore - Primal Crystallised Lifeforce",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37320",
+    "hostname": "Early Access Hardcore - Redeemer’s Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37321",
+    "hostname": "Early Access Hardcore - Regal Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37340",
+    "hostname": "Early Access Hardcore - Sacred Crystallised Lifeforce",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37322",
+    "hostname": "Early Access Hardcore - Scroll of Wisdom",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37323",
+    "hostname": "Early Access Hardcore - Stacked Deck",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37324",
+    "hostname": "Early Access Hardcore - Tailoring Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37325",
+    "hostname": "Early Access Hardcore - Tempering Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37326",
+    "hostname": "Early Access Hardcore - Vaal Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37327",
+    "hostname": "Early Access Hardcore - Veiled Chaos Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37338",
+    "hostname": "Early Access Hardcore - Vivid Crystallised Lifeforce",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37328",
+    "hostname": "Early Access Hardcore - Warlord’s Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37337",
+    "hostname": "Early Access Hardcore - Wild Crystallised Lifeforce",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37246",
+    "hostname": "Early Access Standard - Ancient Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37247",
+    "hostname": "Early Access Standard - Armourer’s Scrap",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37248",
+    "hostname": "Early Access Standard - Awakened Sextant",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37249",
+    "hostname": "Early Access Standard - Awakener’s Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37250",
+    "hostname": "Early Access Standard - Blacksmith’s Whetstone",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37251",
+    "hostname": "Early Access Standard - Blessed Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37252",
+    "hostname": "Early Access Standard - Cartographer’s Chisel",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37243",
+    "hostname": "Early Access Standard - Chaos Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37253",
+    "hostname": "Early Access Standard - Chromatic Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37254",
+    "hostname": "Early Access Standard - Crusader’s Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37241",
+    "hostname": "Early Access Standard - Divine Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37281",
+    "hostname": "Early Access Standard - Eldritch Ichor",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37255",
+    "hostname": "Early Access Standard - Elevated Sextant",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37242",
+    "hostname": "Early Access Standard - Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37286",
+    "hostname": "Early Access Standard - Exceptional Eldritch Ember",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37282",
+    "hostname": "Early Access Standard - Exceptional Eldritch Ichor",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37256",
+    "hostname": "Early Access Standard - Gemcutter’s Prism",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37257",
+    "hostname": "Early Access Standard - Glassblower’s Bauble",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37285",
+    "hostname": "Early Access Standard - Grand Eldritch Ember",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37284",
+    "hostname": "Early Access Standard - Greater Eldritch Ember",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37280",
+    "hostname": "Early Access Standard - Greater Eldritch Ichor",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37258",
+    "hostname": "Early Access Standard - Hinekora's Lock",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37259",
+    "hostname": "Early Access Standard - Jeweller’s Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37283",
+    "hostname": "Early Access Standard - Lesser Eldritch Ember",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37279",
+    "hostname": "Early Access Standard - Lesser Eldritch Ichor",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37245",
+    "hostname": "Early Access Standard - Mirror of Kalandra",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37260",
+    "hostname": "Early Access Standard - Orb of Alchemy",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37261",
+    "hostname": "Early Access Standard - Orb of Annulment",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37262",
+    "hostname": "Early Access Standard - Orb of Augmentation",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37263",
+    "hostname": "Early Access Standard - Orb of Chance",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37264",
+    "hostname": "Early Access Standard - Orb of Conflict",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37265",
+    "hostname": "Early Access Standard - Orb of Dominance",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37244",
+    "hostname": "Early Access Standard - Orb of Fusing",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37266",
+    "hostname": "Early Access Standard - Orb of Regret",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37267",
+    "hostname": "Early Access Standard - Orb of Transmutation",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37268",
+    "hostname": "Early Access Standard - Orb of Unmaking",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37269",
+    "hostname": "Early Access Standard - Portal Scroll",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37289",
+    "hostname": "Early Access Standard - Primal Crystallised Lifeforce",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37270",
+    "hostname": "Early Access Standard - Redeemer’s Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37271",
+    "hostname": "Early Access Standard - Regal Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37290",
+    "hostname": "Early Access Standard - Sacred Crystallised Lifeforce",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37272",
+    "hostname": "Early Access Standard - Scroll of Wisdom",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37273",
+    "hostname": "Early Access Standard - Stacked Deck",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37274",
+    "hostname": "Early Access Standard - Tailoring Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37275",
+    "hostname": "Early Access Standard - Tempering Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37276",
+    "hostname": "Early Access Standard - Vaal Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37277",
+    "hostname": "Early Access Standard - Veiled Chaos Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37288",
+    "hostname": "Early Access Standard - Vivid Crystallised Lifeforce",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37278",
+    "hostname": "Early Access Standard - Warlord’s Exalted Orb",
+    "language": ""
+}, {
+    "gameid": "565",
+    "hostid": "37287",
+    "hostname": "Early Access Standard - Wild Crystallised Lifeforce",
+    "language": ""
 }]
+
 
 const fs = require('fs');
 

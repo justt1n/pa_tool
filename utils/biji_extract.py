@@ -22,6 +22,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
+import constants
 from model.crawl_model import BijOfferItem, extract_integers_from_string
 from model.sheet_model import BIJ
 from utils.selenium_util import SeleniumUtil
@@ -96,27 +97,26 @@ def bij_lowest_price(
         BIJ_HOST_DATA: dict,
         selenium: SeleniumUtil,
         data: BIJ) -> BijOfferItem:
-    retries_time = int(os.getenv('RETRIES_TIME'))
+    retries_time = constants.RETRIES_TIME
     data.BIJ_NAME = get_hostname_by_host_id(BIJ_HOST_DATA, data.BIJ_NAME)
     data.BIJ_NAME = str(data.BIJ_NAME) + " "
     selenium.get("https://www.bijiaqi.com/")
-    wait = WebDriverWait(selenium.driver, float(os.getenv('TIMEOUT')))
+    wait = WebDriverWait(selenium.driver, constants.TIMEOUT)
     input_field = wait.until(EC.element_to_be_clickable((By.ID, 'speedhostname')))
     input_field.send_keys(data.BIJ_NAME)
     input_field.send_keys(Keys.BACKSPACE)
     input_field.send_keys(Keys.ENTER)
     time.sleep(1)
-    retries = retries_time
     table = None
-    while retries > 0:
+    while retries_time > 0:
         try:
             table = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'td table.tb.bijia.limit')))
             more_row = selenium.driver.find_element(By.XPATH, "//tr[@class='more']")
             selenium.driver.execute_script("arguments[0].click();", more_row)
             break
         except StaleElementReferenceException:
-            retries -= 1
-            if retries == 0:
+            retries_time -= 1
+            if retries_time == 0:
                 raise
             time.sleep(0.25)
 
@@ -162,7 +162,7 @@ def bij_lowest_price(
     ans = list()
     for result in results:
         if result.type in data.BIJ_DELIVERY_METHOD:
-            if data.BIJ_STOCKMIN >= result.min_gold and data.BIJ_STOCKMAX <= result.max_gold:
+            if data.BIJ_STOCKMIN >= result.min_gold and result.max_gold <= data.BIJ_STOCKMAX:
                 ans = result
                 break
     return ans
