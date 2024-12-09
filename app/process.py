@@ -3,6 +3,7 @@ from typing import Any
 
 import gspread
 
+from decorator.retry import retry
 from model.crawl_model import G2GOfferItem, OfferItem, DeliveryTime, FUNOfferItem
 from model.enums import StockType
 from model.payload import PriceInfo, Row
@@ -93,6 +94,7 @@ def identify_stock(
     return StockType.stock_fake
 
 
+@retry(delay=0.25)
 def calculate_price_stock_fake(
         gsheet: GSheet,
         row: Row,

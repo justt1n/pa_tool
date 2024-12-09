@@ -7,7 +7,7 @@ T = TypeVar("T", bound=Exception)
 
 
 def retry(
-    retries: int = 3,
+    retries: int = 20,
     delay: float = 0.25,
     exception: Type[T] = StaleElementReferenceException,
 ):
