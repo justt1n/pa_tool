@@ -9,6 +9,9 @@ sheet2 = pd.read_excel(file_path, sheet_name=0)  # Item Categories table
 # Join the tables on the 'Game' column
 joined_data = pd.merge(sheet1, sheet2, on='Game', how='inner')
 
+# Add an 'id' column
+joined_data.insert(0, 'id', range(1, len(joined_data) + 1))
+
 # Display the first few rows of the result
 print(joined_data)
 

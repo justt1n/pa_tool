@@ -1,6 +1,9 @@
-import openpyxl
+import os
 from typing import List, Dict
 
+import openpyxl
+
+from constants import TEMPLATE_FOLDER
 from model.payload import PriceInfo
 
 
@@ -46,3 +49,8 @@ def create_row_to_write(item: PriceInfo) -> Dict[str, any]:
     }
 
 
+def load_template(template_name):
+    template_path = os.path.join(TEMPLATE_FOLDER, template_name)
+    with open(template_path, 'r') as file:
+        template_content = file.read()
+    return template_content

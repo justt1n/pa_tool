@@ -121,4 +121,5 @@ if __name__ == "__main__":
     gsheet = GSheet(constants.KEY_PATH)
     # normal_browser = SeleniumUtil(mode=1)
     headless_browser = SeleniumUtil(mode=2)
-    process(BIJ_HOST_DATA, gsheet, headless_browser)
+    while True:
+        process(BIJ_HOST_DATA, gsheet, headless_browser)
