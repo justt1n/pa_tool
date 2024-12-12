@@ -1,3 +1,5 @@
+import os
+
 KEY_PATH = "key.json"
 DATA_PATH = "storage/output.json"
 RETRIES_TIME = 20
@@ -12,3 +14,5 @@ REFRESH_TIME = 10
 LOG_FILE = "function_calls.log"
 LOG_LEVEL = "INFO"
 LOG_FORMAT = "%(asctime)s - %(message)s"
+
+TEMPLATE_FOLDER = os.path.join(os.sep, "storage", "pa_template")
