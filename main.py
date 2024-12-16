@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 
 from dotenv import load_dotenv
+from gspread.utils import a1_to_rowcol
 
 import constants
 from app.process import calculate_price_change, is_change_price, get_row_run_index
@@ -13,7 +14,6 @@ from utils.ggsheet import GSheet, Sheet
 from utils.logger import setup_logging
 from utils.pa_extract import extract_offer_items
 from utils.selenium_util import SeleniumUtil
-from gspread.utils import a1_to_rowcol
 
 ### SETUP ###
 load_dotenv("settings.env")
@@ -58,30 +58,31 @@ def process(
                 gsheet, row, offer_items, BIJ_HOST_DATA, browser
             )
             print(f"Price change:\n{item_info.model_dump(mode="json")}")
-        log_str = ""
-        log_str += get_update_str(item_info, stock_fake_items)
-        log_str += get_top_pa_offers_str(sorted_offer_items)
-        write_to_log_cell(worksheet, index, log_str)
-        _current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        write_to_log_cell(worksheet, index, _current_time, log_type="time")
+            log_str = ""
+            log_str += get_update_str(offer_items[0], item_info, stock_fake_items)
+            log_str += get_top_pa_offers_str(sorted_offer_items, offer_items[0])
+            write_to_log_cell(worksheet, index, log_str)
+            _current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            write_to_log_cell(worksheet, index, _current_time, log_type="time")
         print("Next row...")
 
 
 ### LOG FUNC ###
 def get_top_pa_offers_str(
         sorted_offer_items: list[OfferItem]
-) -> str:
+        , offer_item: OfferItem) -> str:
     _str = "Top 3 PA offers:\n"
     for i, item in enumerate(sorted_offer_items[:3]):
-        _str += f"{i + 1}: {item.seller.name}: {item.price}\n"
+        _str += f"{i + 1}: {item.seller.name}: {item.price} ({round(item.price/offer_item.quantity, 4)})\n"
     return _str
 
 
-def get_update_str(item_info: PriceInfo, stock_fake_items: list) -> str:
+def get_update_str(offer_item: OfferItem, item_info: PriceInfo, stock_fake_items: list) -> str:
     if item_info is None:
         return "No update\n"
     _current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    _str = f"Cập nhật thành công {item_info.adjusted_price} lúc {_current_time} "
+    _str = f"Cập nhật thành công {item_info.adjusted_price} lúc {_current_time}\n"
+    _str += f"Đơn giá cập nhật: {round(item_info.adjusted_price / offer_item.quantity, 4)}\n"
     _str += f"PriceMax = {item_info.price_mac}, PriceMin = {item_info.price_min}, "
     _str += f"{item_info.stock_type}, "
     if stock_fake_items is None:
@@ -109,7 +110,6 @@ def write_to_log_cell(
         if log_type == "time":
             r, c = a1_to_rowcol(f"D{row_index}")
         worksheet.update_cell(r, c, log_str)
-        print(f"Log updated at row: {row_index}")
     except Exception as e:
         print(f"Error writing to log cell: {e}")
 
