@@ -68,7 +68,7 @@ def __extract_server(
 
     return f"{offer_title_lv1} - {offer_title_lv2}"
 
-
+@retry(20, delay=0.25, exception=PACrawlerError)
 def __extract_seller_feedback_count(
     soup: BeautifulSoup,
 ) -> int:
