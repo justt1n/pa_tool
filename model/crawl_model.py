@@ -6,8 +6,8 @@ from .sheet_model import G2G, FUN
 
 
 class Seller(BaseModel):
-    name: str
-    feedback_count: int
+    name: str | None
+    feedback_count: int | None
 
 
 class TimeUnit(Enum):
@@ -56,7 +56,7 @@ class DeliveryTime(BaseModel):
 class OfferItem(BaseModel):
     offer_id: str
     server: str
-    seller: Seller
+    seller: Seller | None
     delivery_time: DeliveryTime
     min_unit: int
     min_stock: int

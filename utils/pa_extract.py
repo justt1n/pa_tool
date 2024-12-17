@@ -68,7 +68,7 @@ def __extract_server(
 
     return f"{offer_title_lv1} - {offer_title_lv2}"
 
-@retry(20, delay=0.25, exception=PACrawlerError)
+@retry(10, delay=0.5, exception=PACrawlerError)
 def __extract_seller_feedback_count(
     soup: BeautifulSoup,
 ) -> int:
@@ -77,7 +77,6 @@ def __extract_seller_feedback_count(
             feedback_tag = grid_item.select_one(".txt-gold")
             if feedback_tag:
                 return int(feedback_tag.get_text(strip=True).replace(",", ""))
-    raise PACrawlerError("Can't extract feedback count")
 
 
 def __extract_seller(
@@ -151,7 +150,7 @@ def __extract_min_unit_and_min_stock(
     raise PACrawlerError("Can't extract min_unit and min_stock")
 
 
-@retry(10, delay=0.25, exception=PACrawlerError)
+@retry(10, delay=0.5, exception=PACrawlerError)
 def extract_offer_items(
     url: str,
 ) -> list[OfferItem]:

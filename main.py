@@ -8,8 +8,10 @@ from gspread.utils import a1_to_rowcol
 
 import constants
 from app.process import calculate_price_change, is_change_price, get_row_run_index
+from decorator.retry import retry
 from model.crawl_model import OfferItem
 from model.payload import Row, PriceInfo
+from utils.exceptions import PACrawlerError
 from utils.ggsheet import GSheet, Sheet
 from utils.logger import setup_logging
 from utils.pa_extract import extract_offer_items
@@ -32,7 +34,7 @@ def read_file_with_encoding(file_path, encoding='utf-8'):
         print(f"Error decoding file: {e}")
         return None
 
-
+@retry(10, delay=30, exception=PACrawlerError)
 def process(
         BIJ_HOST_DATA: dict,
         gsheet: GSheet,
@@ -73,6 +75,7 @@ def process(
             _current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
             write_to_log_cell(worksheet, index, _current_time, log_type="time")
         print("Next row...")
+    raise PACrawlerError("Limit reached, retrying after 30s...")
 
 
 ### LOG FUNC ###

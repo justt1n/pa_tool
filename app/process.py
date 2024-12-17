@@ -40,7 +40,10 @@ def is_valid_offer_item(
             or offer_item.delivery_time > product_delivery_time
     ):
         return False
-    if offer_item.seller.feedback_count < product.FEEDBACK:
+    if not offer_item.seller.feedback_count:
+        print("Can't get feedback count")
+    elif offer_item.seller.feedback_count < product.FEEDBACK:
+        print(f"Feedback count: {offer_item.seller.feedback_count} for seller {offer_item.seller.name}, ignore")
         return False
     if offer_item.min_unit is None or offer_item.min_unit > product.MIN_UNIT:
         return False
@@ -117,7 +120,9 @@ def calculate_price_stock_fake(
                       * quantity
                       * row.g2g.G2G_PROFIT, 4)
                 , g2g_min_offer_item.seller_name)
-            print(f"G2G min price: {g2g_min_price}")
+            print(f"\nG2G min price: {g2g_min_price}")
+        else:
+            print("No valid G2G offer items")
 
     fun_min_price = None
     if row.fun.FUN_CHECK == 1:
@@ -147,7 +152,9 @@ def calculate_price_stock_fake(
                       * row.fun.FUN_DISCOUNTFEE
                       * quantity, 4)
                 , fun_min_offer_item.seller)
-            print(f"FUN min price: {fun_min_price}")
+            print(f"\nFUN min price: {fun_min_price}")
+        else:
+            print("No valid FUN offer items")
 
     bij_min_price = None
     if row.bij.BIJ_CHECK == 1:
@@ -159,7 +166,9 @@ def calculate_price_stock_fake(
                       * quantity
                       * row.bij.HESONHANDONGIA3, 4)
                 , bij_min_offer_item.username)
-            print(f"BIJ min price: {bij_min_price}")
+            print(f"\nBIJ min price: {bij_min_price}")
+        else:
+            print("No valid BIJ offer items")
 
     return min(
         [i for i in [g2g_min_price, fun_min_price, bij_min_price] if i is not None],
