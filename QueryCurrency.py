@@ -8,7 +8,7 @@ def query_by_game(db_path: str, game_name: str):
     cursor = conn.cursor()
 
     # Define the query
-    query = "SELECT * FROM game_data WHERE Game LIKE ?"
+    query = "SELECT * FROM game_data WHERE LOWER(Game) LIKE LOWER(?)"
 
     # Execute the query
     cursor.execute(query, (f"%{game_name}%",))
