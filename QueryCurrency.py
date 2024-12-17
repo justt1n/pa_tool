@@ -8,10 +8,10 @@ def query_by_game(db_path: str, game_name: str):
     cursor = conn.cursor()
 
     # Define the query
-    query = "SELECT * FROM game_data WHERE Game = ?"
+    query = "SELECT * FROM game_data WHERE Game LIKE ?"
 
     # Execute the query
-    cursor.execute(query, (game_name,))
+    cursor.execute(query, (f"%{game_name}%",))
 
     # Fetch all results
     results = cursor.fetchall()
