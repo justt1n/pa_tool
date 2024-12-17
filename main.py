@@ -39,11 +39,19 @@ def process(
         browser: SeleniumUtil
 ):
     print("process")
-    sheet = Sheet.from_sheet_id(
-        gsheet=gsheet,
-        sheet_id=os.getenv("SPREADSHEET_ID"),  # type: ignore
-    )
-    worksheet = sheet.open_worksheet(os.getenv("SHEET_NAME"))  # type: ignore
+    try:
+        sheet = Sheet.from_sheet_id(
+            gsheet=gsheet,
+            sheet_id=os.getenv("SPREADSHEET_ID"),  # type: ignore
+        )
+    except Exception as e:
+        print(f"Error getting sheet: {e}")
+        return
+    try:
+        worksheet = sheet.open_worksheet(os.getenv("SHEET_NAME"))  # type: ignore
+    except Exception as e:
+        print(f"Error getting worksheet: {e}")
+        return
     row_indexes = get_row_run_index(worksheet=worksheet)
     for index in row_indexes:
         print(f"Row: {index}")
@@ -57,7 +65,7 @@ def process(
             [item_info, stock_fake_items] = calculate_price_change(
                 gsheet, row, offer_items, BIJ_HOST_DATA, browser
             )
-            print(f"Price change:\n{item_info.model_dump(mode="json")}")
+            print(f"Price change:\n{item_info.model_dump(mode='json')}")
             log_str = ""
             log_str += get_update_str(offer_items[0], item_info, stock_fake_items)
             log_str += get_top_pa_offers_str(sorted_offer_items, offer_items[0])
