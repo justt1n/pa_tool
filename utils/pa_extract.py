@@ -13,7 +13,7 @@ def __get_soup(
     url: str,
 ) -> BeautifulSoup:
     res = requests.get(url=url)
-    res.raise_for_status()
+    # res.raise_for_status()
     return BeautifulSoup(res.text, "html.parser")
 
 
