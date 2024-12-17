@@ -151,7 +151,7 @@ def __extract_min_unit_and_min_stock(
     raise PACrawlerError("Can't extract min_unit and min_stock")
 
 
-@retry(3, delay=0.25, exception=PACrawlerError)
+@retry(10, delay=0.25, exception=PACrawlerError)
 def extract_offer_items(
     url: str,
 ) -> list[OfferItem]:
