@@ -31,7 +31,6 @@ class CurrencyTemplate(BaseModel):
         arbitrary_types_allowed = True
 
 
-
 class ItemTemplate(BaseModel):
     game: str
     server: str
