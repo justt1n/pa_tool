@@ -2,9 +2,62 @@ import os
 from typing import List, Dict
 
 import openpyxl
+from pydantic import BaseModel
 
 from constants import TEMPLATE_FOLDER
-from model.payload import PriceInfo
+
+
+class CurrencyTemplate(BaseModel):
+    action: str = "Sell"
+    game: str
+    server: str
+    faction: str
+    currency_per_unit: float
+    total_units: float
+    minimum_unit_per_order: float
+    price_currency: str = "USD"
+    price_per_unit: float
+    ValueForDiscount: str
+    discount: str
+    title: str
+    duration: int
+    delivery_guarantee: int
+    delivery_method: str = "Face to Face"
+    delivery_character: str = ""
+    delivery_instructions: str = ""
+    description: str
+
+    class Config:
+        arbitrary_types_allowed = True
+
+
+
+class ItemTemplate(BaseModel):
+    game: str
+    server: str
+    faction: str
+    item_category1: str
+    item_category2: str
+    item_category3: str
+    item_per_unit: float
+    unit_price: float
+    min_unit_per_order: float
+    price_currency: str = "USD"
+    ValueForDiscount: float
+    discount: float
+    offer_duration: int
+    delivery_guarantee: int
+    delivery_info: str
+    cover_image: str
+    title: str
+    description: str
+
+    class Config:
+        arbitrary_types_allowed = True
+
+
+def currency_templates_to_dicts(templates: List[CurrencyTemplate]) -> List[Dict[str, any]]:
+    return [template.dict() for template in templates]
 
 
 def read_xlsx_file(file_path: str) -> List[Dict[str, any]]:
@@ -36,17 +89,6 @@ def write_xlsx_file(file_path: str, data: List[Dict[str, any]]):
 
     workbook.save(file_path)
     return True
-
-
-def create_row_to_write(item: PriceInfo) -> Dict[str, any]:
-    return {
-        "name": item.name,
-        "price": item.price,
-        "stock": item.stock,
-        "delivery_time": item.delivery_time,
-        "min_unit": item.min_unit,
-        "seller": item.seller,
-    }
 
 
 def load_template(template_name):

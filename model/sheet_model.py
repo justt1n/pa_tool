@@ -197,3 +197,10 @@ class BIJ(BaseGSheetModel):
     BIJ_STOCKMIN: Annotated[int, "BW"]
     BIJ_STOCKMAX: Annotated[int, "BX"]
     HESONHANDONGIA3: Annotated[float | None, "BY"] = None
+
+
+class ExtraInfor(BaseGSheetModel):
+    MIN_UNIT_PER_ORDER: Annotated[int, "BZ"]
+    VALUE_FOR_DISCOUNT: Annotated[str | None, "CA"] = None
+    DISCOUNT: Annotated[str | None, "CB"] = None
+    DELIVERY_GUARANTEE: Annotated[int, "CC"]
