@@ -101,6 +101,8 @@ class StockInfo(BaseGSheetModel):
     STOCK_LIMIT2: Annotated[int, "AN"]
     STOCK_MAX: Annotated[int | None, "AO"] = None
     STOCK_FAKE: Annotated[int | None, "AP"] = None
+    _stock1: int | None = None
+    _stock2: int | None = None
 
     def stock_1(
         self,
@@ -110,6 +112,7 @@ class StockInfo(BaseGSheetModel):
         worksheet = sheet.open_worksheet(self.SHEET_STOCK)
         cell_value = worksheet.batch_get([self.CELL_STOCK])[0]
         try:
+            self._stock1 = int(cell_value.first())  # type: ignore
             return int(cell_value.first())  # type: ignore
         except Exception as e:
             print(e)
@@ -123,10 +126,14 @@ class StockInfo(BaseGSheetModel):
         worksheet = sheet.open_worksheet(self.SHEET_STOCK2)
         cell_value = worksheet.batch_get([self.CELL_STOCK2])[0]
         try:
+            self._stock2 = int(cell_value.first())  # type: ignore
             return int(cell_value.first())  # type: ignore
         except Exception as e:
             print(e)
             return 0
+
+    def cal_stock(self) -> int:
+        return max(self._stock1, self._stock2, 100000)
 
 
 class G2G(BaseGSheetModel):
@@ -197,3 +204,10 @@ class BIJ(BaseGSheetModel):
     BIJ_STOCKMIN: Annotated[int, "BW"]
     BIJ_STOCKMAX: Annotated[int, "BX"]
     HESONHANDONGIA3: Annotated[float | None, "BY"] = None
+
+
+class ExtraInfor(BaseGSheetModel):
+    MIN_UNIT_PER_ORDER: Annotated[int, "BZ"]
+    VALUE_FOR_DISCOUNT: Annotated[str | None, "CA"] = None
+    DISCOUNT: Annotated[str | None, "CB"] = None
+    DELIVERY_GUARANTEE: Annotated[int, "CC"]

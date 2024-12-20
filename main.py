@@ -7,10 +7,12 @@ from dotenv import load_dotenv
 from gspread.utils import a1_to_rowcol
 
 import constants
+from QueryCurrency import query_currency
 from app.process import calculate_price_change, is_change_price, get_row_run_index
 from decorator.retry import retry
 from model.crawl_model import OfferItem
 from model.payload import Row, PriceInfo
+from utils.excel_util import CurrencyTemplate
 from utils.exceptions import PACrawlerError
 from utils.ggsheet import GSheet, Sheet
 from utils.logger import setup_logging
@@ -55,6 +57,10 @@ def process(
         print(f"Error getting worksheet: {e}")
         return
     row_indexes = get_row_run_index(worksheet=worksheet)
+
+    currency_template = []
+    item_template = []
+
     for index in row_indexes:
         print(f"Row: {index}")
         row = Row.from_row_index(worksheet, index)
@@ -67,10 +73,32 @@ def process(
             [item_info, stock_fake_items] = calculate_price_change(
                 gsheet, row, offer_items, BIJ_HOST_DATA, browser
             )
+
+            if "C" in row.product.Product_link:
+                currency_info = query_currency("storage/joined_data.db", row.product.Product_link)
+                currency_template.append(
+                    CurrencyTemplate(
+                        game=currency_info.Game,
+                        server=currency_info.Server,
+                        faction=currency_info.Faction,
+                        currency_per_unit=sorted_offer_items[0].quantity,
+                        total_units=row.stock_info.cal_stock(),
+                        minimum_unit_per_order=row.extra.MIN_UNIT_PER_ORDER,
+                        price_per_unit=round(item_info.adjusted_price/sorted_offer_items[0].quantity, 4),
+                        ValueForDiscount=row.extra.ValueForDiscount,
+                        discount=row.extra.DISCOUNT,
+                        title=row.product.TITLE,
+                        duration=row.product.DURATION,
+                        delivery_guarantee=row.extra.DELIVERY_GUARANTEE,
+                        description=row.product.DESCRIPTION,
+                    )
+                )
+
+
             print(f"Price change:\n{item_info.model_dump(mode='json')}")
             log_str = ""
-            log_str += get_update_str(offer_items[0], item_info, stock_fake_items)
-            log_str += get_top_pa_offers_str(sorted_offer_items, offer_items[0])
+            log_str += get_update_str(sorted_offer_items[0], item_info, stock_fake_items)
+            log_str += get_top_pa_offers_str(sorted_offer_items, sorted_offer_items[0])
             write_to_log_cell(worksheet, index, log_str)
             _current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
             write_to_log_cell(worksheet, index, _current_time, log_type="time")
