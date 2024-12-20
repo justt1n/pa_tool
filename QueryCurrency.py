@@ -18,10 +18,10 @@ def query_currency(db_path: str, game_id: str) -> CurrencyQueryItem:
     cursor = conn.cursor()
 
     # Define the query
-    query = "SELECT * FROM joined_table WHERE LOWER(Game) = LOWER(?)"
+    query = "SELECT * FROM game_data WHERE LOWER(ID) = LOWER(?)"
 
     # Execute the query
-    cursor.execute(query, game_id)
+    cursor.execute(query, (game_id,))
 
     # Fetch the first result
     result = cursor.fetchone()

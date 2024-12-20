@@ -21,10 +21,10 @@ def query_item(db_path: str, game_id: str) -> ItemQueryItem:
     cursor = conn.cursor()
 
     # Define the query
-    query = "SELECT * FROM joined_table WHERE LOWER(Game) = LOWER(?)"
+    query = "SELECT * FROM joined_table WHERE LOWER(ID) = LOWER(?)"
 
     # Execute the query
-    cursor.execute(query, game_id)
+    cursor.execute(query, (game_id,))
 
     # Fetch the first result
     result = cursor.fetchone()
@@ -42,7 +42,7 @@ def query_by_game(db_path: str, game_name: str):
     cursor = conn.cursor()
 
     # Define the query
-    query = "SELECT * FROM joined_table WHERE LOWER(Game) LIKE LOWER(?)"
+    query = "SELECT * FROM joined_table WHERE LOWER(ID) LIKE LOWER(?)"
 
     # Execute the query
     cursor.execute(query, (f"%{game_name}%",))

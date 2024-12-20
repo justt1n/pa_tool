@@ -101,8 +101,8 @@ class StockInfo(BaseGSheetModel):
     STOCK_LIMIT2: Annotated[int, "AN"]
     STOCK_MAX: Annotated[int | None, "AO"] = None
     STOCK_FAKE: Annotated[int | None, "AP"] = None
-    _stock1: int | None = None
-    _stock2: int | None = None
+    _stock1: int | None = 0
+    _stock2: int | None = 0
 
     def stock_1(
         self,
@@ -133,8 +133,11 @@ class StockInfo(BaseGSheetModel):
             return 0
 
     def cal_stock(self) -> int:
-        return max(self._stock1, self._stock2, 100000)
-
+        if self._stock1 < self.STOCK_LIMIT:
+            if self._stock2 < self.STOCK_LIMIT2:
+                return self.STOCK_FAKE
+            return self._stock2
+        return self._stock1
 
 class G2G(BaseGSheetModel):
     G2G_CHECK: Annotated[int, "AQ"]
@@ -163,7 +166,9 @@ class G2G(BaseGSheetModel):
         )
         query_values = worksheet.batch_get([self.G2G_CELL_BLACKLIST])[0]
         blacklist = []
-        for value in query_values:
+        if query_values[0] is None:
+            return blacklist
+        for value in query_values[0]:
             blacklist.append(value[0])
         return blacklist
 
@@ -208,6 +213,6 @@ class BIJ(BaseGSheetModel):
 
 class ExtraInfor(BaseGSheetModel):
     MIN_UNIT_PER_ORDER: Annotated[int, "BZ"]
-    VALUE_FOR_DISCOUNT: Annotated[str | None, "CA"] = None
-    DISCOUNT: Annotated[str | None, "CB"] = None
+    VALUE_FOR_DISCOUNT: Annotated[str | None, "CA"] = ""
+    DISCOUNT: Annotated[str | None, "CB"] = ""
     DELIVERY_GUARANTEE: Annotated[int, "CC"]
