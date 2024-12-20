@@ -57,11 +57,11 @@ class ItemTemplate(BaseModel):
 
 
 def currency_templates_to_dicts(templates: List[CurrencyTemplate]) -> List[Dict[str, any]]:
-    return [template.dict() for template in templates]
+    return [template.model_dump(mode="json") for template in templates]
 
 
 def item_templates_to_dicts(templates: List[ItemTemplate]) -> List[Dict[str, any]]:
-    return [template.dict() for template in templates]
+    return [template.model_dump(mode="json") for template in templates]
 
 
 def load_template(template_name: str) -> str:
