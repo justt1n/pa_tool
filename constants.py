@@ -15,4 +15,4 @@ LOG_FILE = "function_calls.log"
 LOG_LEVEL = "INFO"
 LOG_FORMAT = "%(asctime)s - %(message)s"
 
-TEMPLATE_FOLDER = os.path.join(os.sep, "storage", "pa_template")
+TEMPLATE_FOLDER = os.path.join(os.path.dirname(__file__), "storage", "pa_template")

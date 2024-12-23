@@ -1,6 +1,36 @@
-import sqlite3
-import pandas as pd
 import os
+import sqlite3
+
+import pandas as pd
+from pydantic import BaseModel
+
+
+class CurrencyQueryItem(BaseModel):
+    ID: str
+    Game: str
+    Server: str
+    Faction: str
+
+
+def query_currency(db_path: str, game_id: str) -> CurrencyQueryItem:
+    # Connect to the SQLite database
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    # Define the query
+    query = "SELECT * FROM game_data WHERE LOWER(ID) = LOWER(?)"
+
+    # Execute the query
+    cursor.execute(query, (game_id,))
+
+    # Fetch the first result
+    result = cursor.fetchone()
+
+    # Close the connection
+    conn.close()
+
+    return CurrencyQueryItem(ID=result[0], Game=result[1], Server=result[2], Faction=result[3])
+
 
 def query_by_game(db_path: str, game_name: str):
     # Connect to the SQLite database
@@ -24,6 +54,7 @@ def query_by_game(db_path: str, game_name: str):
 
     return col_names, results
 
+
 def export_to_excel(file_name: str, col_names: list, data: list):
     # Define the file path in /storage directory
     storage_path = 'storage/'
@@ -45,6 +76,7 @@ def export_to_excel(file_name: str, col_names: list, data: list):
     df.to_excel(file_path, index=False)
 
     print(f"Data successfully exported to '{file_path}'.")
+
 
 def main():
     db_path = 'storage/joined_data.db'
@@ -69,6 +101,7 @@ def main():
                 export_to_excel(file_name, col_names, results)
         else:
             print(f"No results found for the game '{game_name}'.")
+
 
 if __name__ == "__main__":
     main()
