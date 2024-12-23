@@ -132,9 +132,10 @@ def process(
         print("Next row...")
     currency_template = currency_templates_to_dicts(currency_template)
     item_template = item_templates_to_dicts(item_template)
-    create_file_from_template("currency_template.xlsx", "storage/pa_template/new_currency_template.xlsx",
+    create_file_from_template("currency_template.xlsx", "storage/output/new_currency_file.xlsx",
                               currency_template)
-    create_file_from_template("item_template.xlsx", "storage/pa_template/new_item_template.xlsx", item_template)
+    create_file_from_template("item_template.xlsx", "storage/output/new_item_file.xlsx", item_template)
+    print("Create file successfully, check storage/output folder")
     raise PACrawlerError("Limit reached, retrying after 30s...")
 
 
@@ -201,5 +202,5 @@ if __name__ == "__main__":
     gsheet = GSheet(constants.KEY_PATH)
     # normal_browser = SeleniumUtil(mode=1)
     headless_browser = SeleniumUtil(mode=2)
-    # while True:
-    process(BIJ_HOST_DATA, gsheet, headless_browser)
+    while True:
+        process(BIJ_HOST_DATA, gsheet, headless_browser)
