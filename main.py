@@ -67,7 +67,11 @@ def process(
 
     for index in row_indexes:
         print(f"Row: {index}")
-        row = Row.from_row_index(worksheet, index)
+        try:
+            row = Row.from_row_index(worksheet, index)
+        except Exception as e:
+            print(f"Error getting row: {e}")
+            continue
         if not isinstance(row, Row):
             continue
         offer_items = extract_offer_items(row.product.PRODUCT_COMPARE)
@@ -147,7 +151,6 @@ def correct_extra_data(extra: ExtraInfor) -> ExtraInfor:
     return extra
 
 
-
 ### LOG FUNC ###
 def get_top_pa_offers_str(
         sorted_offer_items: list[OfferItem]
@@ -159,22 +162,29 @@ def get_top_pa_offers_str(
 
 
 def get_update_str(offer_item: OfferItem, item_info: PriceInfo, stock_fake_items: list) -> str:
+    quantity = offer_item.quantity
     if item_info is None:
         return "No update\n"
     _current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     _str = f"Cập nhật thành công {item_info.adjusted_price} lúc {_current_time}\n"
-    _str += f"Đơn giá cập nhật: {round(item_info.adjusted_price / offer_item.quantity, 4)}\n"
+    _str += f"Đơn giá cập nhật: {round(item_info.adjusted_price / quantity, 4)}\n"
     _str += f"PriceMax = {item_info.price_mac}, PriceMin = {item_info.price_min}, "
     _str += f"{item_info.stock_type}, "
     if stock_fake_items is None:
         return _str + "\n"
     if stock_fake_items:
         if stock_fake_items[0] is not None:
-            _str += f"Min G2G: {stock_fake_items[0][1]}={stock_fake_items[0][0]}, "
+            _str += f"Min G2G: {stock_fake_items[0][1]} = {stock_fake_items[0][0] * quantity}, "
+        else:
+            _str += "Min G2G: no matching seller"
         if stock_fake_items[1] is not None:
-            _str += f"Min FUN: {stock_fake_items[1][1]}={stock_fake_items[1][0]}, "
+            _str += f"Min FUN: {stock_fake_items[1][1]} = {stock_fake_items[1][0] * quantity}, "
+        else:
+            _str += "Min FUN: no matching seller"
         if stock_fake_items[2] is not None:
-            _str += f"Min BIJ: {stock_fake_items[2][1]}={stock_fake_items[2][0]}, "
+            _str += f"Min BIJ: {stock_fake_items[2][1]} = {stock_fake_items[2][0] * quantity}, "
+        else:
+            _str += "Min BIJ: no matching seller"
     return _str + "\n"
 
 
