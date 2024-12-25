@@ -4,6 +4,7 @@ from typing import Any
 import gspread
 
 from decorator.retry import retry
+from main import getCNYRate
 from model.crawl_model import G2GOfferItem, OfferItem, DeliveryTime, FUNOfferItem
 from model.enums import StockType
 from model.payload import PriceInfo, Row
@@ -157,6 +158,7 @@ def calculate_price_stock_fake(
             print("No valid FUN offer items")
 
     bij_min_price = None
+    CNY_RATE = getCNYRate(gsheet)
     if row.bij.BIJ_CHECK == 1:
         bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij)
         if bij_min_offer_item:
@@ -164,7 +166,8 @@ def calculate_price_stock_fake(
                 round(bij_min_offer_item.money
                       * row.bij.BIJ_PROFIT
                       * quantity
-                      * row.bij.HESONHANDONGIA3, 4)
+                      * row.bij.HESONHANDONGIA3
+                      * CNY_RATE, 4)
                 , bij_min_offer_item.username)
             print(f"\nBIJ min price: {bij_min_price}")
         else:
