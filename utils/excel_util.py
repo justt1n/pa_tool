@@ -72,7 +72,7 @@ def load_template(template_name: str) -> str:
 
 
 def write_template_to_file(file_path: str, template_content: str):
-    with open(file_path, 'w') as file:
+    with open(file_path, 'w', encoding='utf-8') as file:
         file.write(template_content)
 
 
