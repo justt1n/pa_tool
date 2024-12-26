@@ -4,7 +4,7 @@ from typing import Any
 import gspread
 
 from decorator.retry import retry
-from main import getCNYRate
+from utils.utils import getCNYRate
 from model.crawl_model import G2GOfferItem, OfferItem, DeliveryTime, FUNOfferItem
 from model.enums import StockType
 from model.payload import PriceInfo, Row
