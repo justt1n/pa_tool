@@ -4,7 +4,6 @@ from typing import Any
 import gspread
 
 from decorator.retry import retry
-from utils.utils import getCNYRate
 from model.crawl_model import G2GOfferItem, OfferItem, DeliveryTime, FUNOfferItem
 from model.enums import StockType
 from model.payload import PriceInfo, Row
@@ -16,6 +15,7 @@ from utils.ggsheet import (
     GSheet,
 )
 from utils.selenium_util import SeleniumUtil
+from utils.utils import getCNYRate
 
 
 def get_row_run_index(
@@ -98,7 +98,7 @@ def identify_stock(
     return StockType.stock_fake
 
 
-@retry(delay=0.25)
+@retry(retries=20, delay=0.25)
 def calculate_price_stock_fake(
         gsheet: GSheet,
         row: Row,
@@ -179,6 +179,7 @@ def calculate_price_stock_fake(
     ), [g2g_min_price, fun_min_price, bij_min_price]
 
 
+@retry(retries=20, delay=0.25, exception=Exception)
 def calculate_price_change(
         gsheet: GSheet,
         row: Row,

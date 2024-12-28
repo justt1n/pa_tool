@@ -89,9 +89,13 @@ def process(
         sorted_offer_items = sorted(offer_items, key=lambda x: x.price)
         item_info, stock_fake_items = None, None
         if is_change_price(row.product, offer_items):
-            [item_info, stock_fake_items] = calculate_price_change(
-                gsheet, row, offer_items, BIJ_HOST_DATA, browser
-            )
+            try:
+                [item_info, stock_fake_items] = calculate_price_change(
+                    gsheet, row, offer_items, BIJ_HOST_DATA, browser
+                )
+            except Exception as e:
+                print(f"Error calculating price change: {e}")
+                continue
             row.extra = correct_extra_data(row.extra)
             final_stock = row.stock_info.cal_stock()
             if "C" in row.product.Product_link:
