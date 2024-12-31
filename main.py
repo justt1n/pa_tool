@@ -9,6 +9,7 @@ from gspread.utils import a1_to_rowcol
 import constants
 from QueryCurrency import query_currency
 from QueryItem import query_item
+from app.login import login
 from app.process import calculate_price_change, is_change_price, get_row_run_index
 from decorator.retry import retry
 from model.crawl_model import OfferItem
@@ -168,6 +169,13 @@ def correct_extra_data(extra: ExtraInfor) -> ExtraInfor:
     return extra
 
 
+def upload_data_to_site(browser: SeleniumUtil):
+    login(browser)
+
+
+
+
+
 ### LOG FUNC ###
 def get_top_pa_offers_str(
         sorted_offer_items: list[OfferItem]
@@ -227,7 +235,8 @@ def write_to_log_cell(
 if __name__ == "__main__":
     BIJ_HOST_DATA = read_file_with_encoding(constants.DATA_PATH, encoding='utf-8')
     gsheet = GSheet(constants.KEY_PATH)
-    # normal_browser = SeleniumUtil(mode=1)
+    normal_browser = SeleniumUtil(mode=1)
     headless_browser = SeleniumUtil(mode=2)
-    while True:
-        process(BIJ_HOST_DATA, gsheet, headless_browser)
+    # while True:
+    process(BIJ_HOST_DATA, gsheet, headless_browser)
+    upload_data_to_site(normal_browser)

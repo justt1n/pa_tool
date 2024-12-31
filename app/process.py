@@ -74,6 +74,9 @@ def is_change_price(
         product: Product,
         offer_items: list[OfferItem],
 ) -> bool:
+    if product.CHECK == 0:
+        return False
+
     if is_offer_items_contain_my_name():
         return False
 

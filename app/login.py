@@ -1,7 +1,8 @@
 import os
 import time
 from selenium.webdriver.common.by import By
-
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from utils.selenium_util import SeleniumUtil
 
 def login(
@@ -37,6 +38,21 @@ def login(
     browser.get(
         "https://me.playerauctions.com/member/batchoffer/?menutype=offer&menusubtype=currencybulkoffertool"
     )
+
+    file_path = os.path.abspath("storage/output/new_currency_file.xlsx")
+
+    file_input = WebDriverWait(browser.driver, 10).until(
+        EC.presence_of_element_located((By.ID, "FileUpload1"))
+    )
+    # Upload the file using the absolute path
+    file_input.send_keys(file_path)
+
+    # Optionally, you can click the "BROWSE FILES" button if needed
+    browse_button = browser.driver.find_element(By.ID, "ckAgreePa")
+    browse_button.click()
+    browser.click_by_inner_text("UPLOAD")
+    browse_button.click()
+
 
 if __name__ == "__main__":
     browser = SeleniumUtil()

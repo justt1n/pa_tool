@@ -56,6 +56,15 @@ class ItemTemplate(BaseModel):
         arbitrary_types_allowed = True
 
 
+def load_template(template_name: str) -> pd.DataFrame:
+    template_path = os.path.join(TEMPLATE_FOLDER, template_name)
+    return pd.read_excel(template_path)
+
+
+def write_template_to_file(file_path: str, template_df: pd.DataFrame):
+    template_df.to_excel(file_path, index=False, sheet_name="offer details")
+
+
 def currency_templates_to_dicts(templates: List[CurrencyTemplate]) -> List[Dict[str, any]]:
     return [template.model_dump(mode="json") for template in templates]
 
@@ -64,21 +73,19 @@ def item_templates_to_dicts(templates: List[ItemTemplate]) -> List[Dict[str, any
     return [template.model_dump(mode="json") for template in templates]
 
 
-def load_template(template_name: str) -> str:
-    template_path = os.path.join(TEMPLATE_FOLDER, template_name)
-    with codecs.open(template_path, 'r', encoding='utf-8', errors='ignore') as file:
-        template_content = file.read()
-    return template_content
-
-
-def write_template_to_file(file_path: str, template_content: str):
-    with open(file_path, 'w', encoding='utf-8') as file:
-        file.write(template_content)
-
-
 def write_data_to_xlsx(file_path: str, data: List[Dict[str, any]]):
-    df = pd.DataFrame(data)
-    df.to_excel(file_path, index=False)
+    # Read the first line of the existing file
+    first_line = None
+    if os.path.exists(file_path):
+        df_existing = pd.read_excel(file_path, nrows=0)  # Read only the header
+        if not df_existing.columns.empty:
+            first_line = df_existing.columns.tolist()  # Get the header as a list
+
+    # Create DataFrame using only the values from the dictionary
+    df_new = pd.DataFrame([list(d.values()) for d in data], columns=first_line)
+
+    # Write the new content to the file with the specified sheet name
+    df_new.to_excel(file_path, index=False, sheet_name="offer details")
 
 
 def create_file_from_template(template_name: str, new_file_path: str, data: List[Dict[str, any]]):
@@ -128,4 +135,4 @@ def sample_usage():
     item_data = item_templates_to_dicts(item_templates)
 
     create_file_from_template("currency_template.xlsx", "storage/pa_template/new_currency_template.xlsx", currency_data)
-    create_file_from_template("item_template.xlsx", "storage/pa_template/new_item_template.xlsx", item_data)
+    # create_file_from_template("item_template.xlsx", "storage/pa_template/new_item_template.xlsx", item_data)
