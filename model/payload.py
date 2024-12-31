@@ -128,8 +128,7 @@ class Row:
                 ),  # type: ignore
             )
         except Exception as e:
-            print(f"Missing or failed to parse row {row_index}: {e}")
-            return None
+            raise Exception(f"Error getting row: {e}")
 
 
 class PriceInfo(BaseModel):

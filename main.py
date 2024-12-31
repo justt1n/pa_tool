@@ -82,6 +82,8 @@ def process(
             row = Row.from_row_index(worksheet, index)
         except Exception as e:
             print(f"Error getting row: {e}")
+            _current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            write_to_log_cell(worksheet, index, _current_time, log_type="time")
             continue
         if not isinstance(row, Row):
             continue
@@ -189,17 +191,17 @@ def get_update_str(offer_item: OfferItem, item_info: PriceInfo, stock_fake_items
         return _str + "\n"
     if stock_fake_items:
         if stock_fake_items[0] is not None:
-            _str += f"Min G2G: {stock_fake_items[0][1]} = {stock_fake_items[0][0]} ({stock_fake_items[0][0] / quantity}), "
+            _str += f"\nMin G2G: {stock_fake_items[0][1]} = {stock_fake_items[0][0]} ({stock_fake_items[0][0] / quantity}), \n"
         else:
-            _str += "Min G2G: no matching seller"
+            _str += "\nMin G2G: no matching seller\n"
         if stock_fake_items[1] is not None:
-            _str += f"Min FUN: {stock_fake_items[1][1]} = {stock_fake_items[1][0]} ({stock_fake_items[1][0] / quantity}), "
+            _str += f"Min FUN: {stock_fake_items[1][1]} = {stock_fake_items[1][0]} ({stock_fake_items[1][0] / quantity}), \n"
         else:
-            _str += "Min FUN: no matching seller"
+            _str += "Min FUN: no matching seller\n"
         if stock_fake_items[2] is not None:
-            _str += f"Min BIJ: {stock_fake_items[2][1]} = {stock_fake_items[2][0]} ({stock_fake_items[2][0] / quantity}), "
+            _str += f"Min BIJ: {stock_fake_items[2][1]} = {stock_fake_items[2][0]} ({stock_fake_items[2][0] / quantity}), \n"
         else:
-            _str += "Min BIJ: no matching seller"
+            _str += "Min BIJ: no matching seller\n"
     return _str + "\n"
 
 

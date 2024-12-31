@@ -1,7 +1,10 @@
+from datetime import datetime
+
 import gspread.urls
 import gspread.utils
 import gspread
 from typing import Type, Any, TypeVar
+
 from model.sheet_model import BaseGSheetModel
 from pydantic import BaseModel, ValidationError
 
@@ -31,9 +34,8 @@ def query_model_from_worksheet(
             _model = model.model_validate(
                 model_dict,
             )
-        except ValidationError:
-            print(f"Validate error for {model} in row_index: {index}")
-            continue
+        except ValidationError as e:
+            raise ValidationError(f"Validate error for {model} in row_index: {index}") from e
 
         _model.row_index = index
         model_list.append(_model)
@@ -89,9 +91,7 @@ def query_multi_model_from_worksheet(
             _model.row_index = row_index
             result_model.append(_model)
         except ValidationError as e:
-            print(e)
-            print(f"Validate error on row : {row_index}")
-            return []
+            raise ValidationError(f"Validate error for {model} in row_index: {i}") from e
     return result_model
 
 
