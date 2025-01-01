@@ -111,7 +111,7 @@ def process(
                         currency_per_unit=sorted_offer_items[0].quantity,
                         total_units=final_stock,
                         minimum_unit_per_order=row.extra.MIN_UNIT_PER_ORDER,
-                        price_per_unit=round(item_info.adjusted_price, 4),
+                        price_per_unit=round(item_info.adjusted_price * sorted_offer_items[0].quantity, 4),
                         ValueForDiscount=row.extra.VALUE_FOR_DISCOUNT,
                         discount=row.extra.DISCOUNT,
                         title=row.product.TITLE,
@@ -191,7 +191,7 @@ def get_update_str(offer_item: OfferItem, item_info: PriceInfo, stock_fake_items
     if item_info is None:
         return "No update\n"
     _current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    _str = f"Cập nhật thành công {round(item_info.adjusted_price / quantity, 4)} lúc {_current_time}\n"
+    _str = f"Cập nhật thành công {round(item_info.adjusted_price, 4)} lúc {_current_time}\n"
     _str += f"{item_info.stock_type}, "
     if stock_fake_items is None:
         _str += f"PriceMax = {item_info.price_mac / quantity}, PriceMin = {item_info.price_min / quantity}, \n"
@@ -199,15 +199,15 @@ def get_update_str(offer_item: OfferItem, item_info: PriceInfo, stock_fake_items
     if stock_fake_items:
         _str += f"PriceMax = stock fake, PriceMin = stock fake, \n"
         if stock_fake_items[0] is not None:
-            _str += f"\nMin G2G: {stock_fake_items[0][1]} = {stock_fake_items[0][0] / quantity}, \n"
+            _str += f"\nMin G2G: {stock_fake_items[0][1]} = {stock_fake_items[0][0]}, \n"
         else:
             _str += "\nMin G2G: no matching seller\n"
         if stock_fake_items[1] is not None:
-            _str += f"Min FUN: {stock_fake_items[1][1]} = {stock_fake_items[1][0] / quantity}, \n"
+            _str += f"Min FUN: {stock_fake_items[1][1]} = {stock_fake_items[1][0]}, \n"
         else:
             _str += "Min FUN: no matching seller\n"
         if stock_fake_items[2] is not None:
-            _str += f"Min BIJ: {stock_fake_items[2][1]} = {stock_fake_items[2][0] / quantity}, \n"
+            _str += f"Min BIJ: {stock_fake_items[2][1]} = {stock_fake_items[2][0]}, \n"
         else:
             _str += "Min BIJ: no matching seller\n"
     return _str + "\n"
@@ -235,7 +235,7 @@ def write_to_log_cell(
 if __name__ == "__main__":
     BIJ_HOST_DATA = read_file_with_encoding(constants.DATA_PATH, encoding='utf-8')
     gsheet = GSheet(constants.KEY_PATH)
-    normal_browser = SeleniumUtil(mode=1)
+    # normal_browser = SeleniumUtil(mode=1)
     headless_browser = SeleniumUtil(mode=2)
     while True:
         process(BIJ_HOST_DATA, gsheet, headless_browser)

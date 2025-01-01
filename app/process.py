@@ -121,7 +121,6 @@ def calculate_price_stock_fake(
             g2g_min_offer_item = G2GOfferItem.min_offer_item(filtered_g2g_offer_items)
             g2g_min_price = (
                 round(g2g_min_offer_item.price_per_unit
-                      * quantity
                       * row.g2g.G2G_PROFIT, 4)
                 , g2g_min_offer_item.seller_name)
             print(f"\nG2G min price: {g2g_min_price}")
@@ -154,7 +153,7 @@ def calculate_price_stock_fake(
                 round(fun_min_offer_item.price
                       * row.fun.FUN_PROFIT
                       * row.fun.FUN_DISCOUNTFEE
-                      * quantity, 4)
+                      , 4)
                 , fun_min_offer_item.seller)
             print(f"\nFUN min price: {fun_min_price}")
         else:
@@ -200,14 +199,15 @@ def calculate_price_change(
             offer_items,
         )
     )
+    min_offer_item.price = round(min_offer_item.price / min_offer_item.quantity, 4)
     stock_fake_items = None
     if stock_type is StockType.stock_1:
-        product_min_price = row.product.min_price_stock_1(gsheet) * min_offer_item.quantity
-        product_max_price = row.product.max_price_stock_1(gsheet) * min_offer_item.quantity
+        product_min_price = row.product.min_price_stock_1(gsheet)
+        product_max_price = row.product.max_price_stock_1(gsheet)
 
     elif stock_type is StockType.stock_2:
-        product_min_price = row.product.min_price_stock_2(gsheet) * min_offer_item.quantity
-        product_max_price = row.product.max_price_stock_2(gsheet) * min_offer_item.quantity
+        product_min_price = row.product.min_price_stock_2(gsheet)
+        product_max_price = row.product.max_price_stock_2(gsheet)
 
     elif stock_type is StockType.stock_fake:
         (stock_fake_price, stock_fake_items) = calculate_price_stock_fake(

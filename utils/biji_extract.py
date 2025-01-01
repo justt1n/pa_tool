@@ -162,7 +162,7 @@ def bij_lowest_price(
     ans = list()
     for result in results:
         if result.type in data.BIJ_DELIVERY_METHOD:
-            if data.BIJ_STOCKMIN >= result.min_gold and result.max_gold <= data.BIJ_STOCKMAX:
+            if result.min_gold >= data.BIJ_STOCKMIN and result.max_gold <= data.BIJ_STOCKMAX:
                 ans = result
                 break
     return ans
