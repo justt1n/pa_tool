@@ -216,12 +216,13 @@ def calculate_price_change(
         )
         if stock_fake_price is None:
             return None
-        if stock_fake_price[0] < min_offer_item.price:
-            product_min_price = stock_fake_price[0]
-            product_max_price = min_offer_item.price
-        else:
-            product_min_price = stock_fake_price[0]
-            product_max_price = stock_fake_price[0]
+        return PriceInfo(
+            price_min=round(stock_fake_price[0], 4),
+            price_mac=round(stock_fake_price[0], 4),
+            adjusted_price=round(stock_fake_price[0], 4),
+            offer_item=min_offer_item,
+            stock_type=stock_type,
+        ), stock_fake_items
 
     range_adjust = None
     if min_offer_item.price < product_min_price:  # type: ignore
