@@ -197,10 +197,10 @@ def get_update_str(offer_item: OfferItem, item_info: PriceInfo, stock_fake_items
     _str = f"Cập nhật thành công {round(item_info.adjusted_price, 4)} lúc {_current_time}\n"
     _str += f"{item_info.stock_type}, "
     if stock_fake_items is None:
-        _str += f"PriceMax = {item_info.price_mac}, PriceMin = {item_info.price_min}, \n"
+        _str += f"PriceMin = {item_info.price_min}, PriceMax = {item_info.price_mac},\n"
         return _str + "\n"
     if stock_fake_items:
-        _str += f"PriceMax = stock fake, PriceMin = stock fake, \n"
+        _str += f"PriceMin = stock fake, PriceMax = stock fake, \n"
         if stock_fake_items[0] is not None:
             _str += f"\nMin G2G: {stock_fake_items[0][1]} = {stock_fake_items[0][0]}, \n"
         else:
