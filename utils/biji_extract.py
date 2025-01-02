@@ -96,7 +96,8 @@ def get_hostname_by_host_id(data, hostid):
 def bij_lowest_price(
         BIJ_HOST_DATA: dict,
         selenium: SeleniumUtil,
-        data: BIJ) -> BijOfferItem:
+        data: BIJ,
+        black_list) -> BijOfferItem:
     retries_time = constants.RETRIES_TIME
     data.BIJ_NAME = get_hostname_by_host_id(BIJ_HOST_DATA, data.BIJ_NAME)
     data.BIJ_NAME = str(data.BIJ_NAME) + " "
@@ -158,10 +159,9 @@ def bij_lowest_price(
             filter=row[7]
         )
         results.append(result)
-
     ans = list()
     for result in results:
-        if result.type in data.BIJ_DELIVERY_METHOD:
+        if result.type in data.BIJ_DELIVERY_METHOD and result.username not in black_list:
             if result.min_gold >= data.BIJ_STOCKMIN and result.max_gold <= data.BIJ_STOCKMAX:
                 ans = result
                 break

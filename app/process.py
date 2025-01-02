@@ -20,7 +20,7 @@ from utils.utils import getCNYRate
 
 def get_row_run_index(
         worksheet: gspread.worksheet.Worksheet,
-        col_check_index: int = 1,
+        col_check_index: int = 2,
         value_check: Any = "1",
 ) -> list[int]:
     row_indexes: list[int] = []
@@ -161,8 +161,9 @@ def calculate_price_stock_fake(
 
     bij_min_price = None
     CNY_RATE = getCNYRate(gsheet)
+    _black_list = row.bij.get_blacklist(gsheet)
     if row.bij.BIJ_CHECK == 1:
-        bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij)
+        bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij, black_list=_black_list)
         if bij_min_offer_item:
             bij_min_price = (
                 round(bij_min_offer_item.money

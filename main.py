@@ -225,9 +225,11 @@ def write_to_log_cell(
     try:
         r, c = None, None
         if log_type == "log":
-            r, c = a1_to_rowcol(f"C{row_index}")
-        if log_type == "time":
             r, c = a1_to_rowcol(f"D{row_index}")
+        if log_type == "time":
+            r, c = a1_to_rowcol(f"E{row_index}")
+        if log_type == "error":
+            r, c = a1_to_rowcol(f"CH{row_index}")
         worksheet.update_cell(r, c, log_str)
     except Exception as e:
         print(f"Error writing to log cell: {e}")
@@ -241,6 +243,15 @@ if __name__ == "__main__":
     # normal_browser = SeleniumUtil(mode=1)
     headless_browser = SeleniumUtil(mode=2)
     while True:
-        process(BIJ_HOST_DATA, gsheet, headless_browser)
-        # upload_data_to_site(normal_browser)
+        try:
+            process(BIJ_HOST_DATA, gsheet, headless_browser)
+            # upload_data_to_site(normal_browser)
+        except Exception as e:
+            _str_error = f"Error: {e}"
+            sheet = Sheet.from_sheet_id(
+                gsheet=gsheet,
+                sheet_id=os.getenv("SPREADSHEET_ID"),  # type: ignore
+            )
+            worksheet = sheet.open_worksheet(os.getenv("SHEET_NAME"))  # type: ignore
+            write_to_log_cell(worksheet, 1, _str_error, log_type="error")
         print("Done")
