@@ -165,11 +165,7 @@ class G2G(BaseGSheetModel):
             worksheet_name=self.G2G_SHEET_BLACKLIST,
         )
         query_values = worksheet.batch_get([self.G2G_CELL_BLACKLIST])[0]
-        blacklist = []
-        if query_values[0] is None:
-            return blacklist
-        for value in query_values[0]:
-            blacklist.append(value[0])
+        blacklist = [item for sublist in query_values for item in sublist]
         return blacklist
 
 
