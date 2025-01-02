@@ -98,6 +98,7 @@ def bij_lowest_price(
         selenium: SeleniumUtil,
         data: BIJ,
         black_list) -> BijOfferItem:
+    # print("herer")
     retries_time = constants.RETRIES_TIME
     data.BIJ_NAME = get_hostname_by_host_id(BIJ_HOST_DATA, data.BIJ_NAME)
     data.BIJ_NAME = str(data.BIJ_NAME) + " "

@@ -161,6 +161,7 @@ def calculate_price_stock_fake(
 
     bij_min_price = None
     CNY_RATE = getCNYRate(gsheet)
+    # print("HEre")
     _black_list = row.bij.get_blacklist(gsheet)
     if row.bij.BIJ_CHECK == 1:
         bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij, black_list=_black_list)
