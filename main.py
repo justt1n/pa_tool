@@ -240,12 +240,12 @@ def write_to_log_cell(
 if __name__ == "__main__":
     BIJ_HOST_DATA = read_file_with_encoding(constants.DATA_PATH, encoding='utf-8')
     gsheet = GSheet(constants.KEY_PATH)
-    # normal_browser = SeleniumUtil(mode=1)
+    normal_browser = SeleniumUtil(mode=1)
     headless_browser = SeleniumUtil(mode=2)
     while True:
         try:
             process(BIJ_HOST_DATA, gsheet, headless_browser)
-            # upload_data_to_site(normal_browser)
+            upload_data_to_site(normal_browser)
         except Exception as e:
             _str_error = f"Error: {e}"
             sheet = Sheet.from_sheet_id(
