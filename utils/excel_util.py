@@ -84,6 +84,10 @@ def write_data_to_xlsx(file_path: str, data: List[Dict[str, any]]):
     # Create DataFrame using only the values from the dictionary
     df_new = pd.DataFrame([list(d.values()) for d in data], columns=first_line)
 
+    # Keep only the first value in the "Description" column
+    if "Description" in df_new.columns:
+        df_new.loc[1:, "Description"] = ""
+
     # Write the new content to the file with the specified sheet name
     df_new.to_excel(file_path, index=False, sheet_name="offer details")
 
