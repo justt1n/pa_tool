@@ -167,3 +167,5 @@ cython_debug/
 # Browser user data
 **/user_data/*
 !**/user_data/.gitkeep
+/storage/output
+/extensions
