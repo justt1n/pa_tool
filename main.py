@@ -146,7 +146,10 @@ def process(
 
             print(f"Price change:\n{item_info.model_dump(mode='json')}")
             log_str = ""
-            log_str += get_update_str(sorted_offer_items[0], item_info, stock_fake_items)
+            for offer_item in offer_items:
+                if not offer_item.seller.canGetFeedback:
+                    log_str += f"Can't get feedback from {offer_item.seller.name}\n"
+            log_str += get_update_str(sorted_offer_items[0], item_info, stock_fake_items, row)
             log_str += get_top_pa_offers_str(sorted_offer_items, sorted_offer_items[0])
             write_to_log_cell(worksheet, index, log_str)
             _current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -162,8 +165,8 @@ def process(
     try:
         normal_browser = SeleniumUtil(mode=1)
         upload_data_to_site(normal_browser)
-    except Exception as e:
-        raise PACrawlerError(f"Error uploading data to site: {e}")
+    except Exception as _e:
+        raise PACrawlerError(f"Error uploading data to site: {_e}")
 
 
 def correct_extra_data(extra: ExtraInfor) -> ExtraInfor:
@@ -176,9 +179,6 @@ def correct_extra_data(extra: ExtraInfor) -> ExtraInfor:
 
 def upload_data_to_site(browser: SeleniumUtil):
     login(browser)
-
-
-
 
 
 ### LOG FUNC ###
@@ -200,7 +200,15 @@ def get_update_str(offer_item: OfferItem, item_info: PriceInfo, stock_fake_items
         return "No update\n"
     _current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     _str = f"Cập nhật thành công {round(item_info.adjusted_price, 4)} lúc {_current_time}\n"
-    _str += f"{item_info.stock_type}, "
+    _str += f"{item_info.stock_type}: TODO \n"
+
+    if item_info.stock_type is "stock_1":
+        _str += f"Stocktype=stock_1: {item_info.stock_num_info.stock_1}\n"
+    elif item_info.stock_type is "stock_2":
+        _str += f"Stocktype=stock_2: {item_info.stock_num_info.stock_2}\n"
+    else:
+        _str += f"Stocktype=stock_fake: {item_info.stock_num_info.stock_fake}\n"
+
     if stock_fake_items is None:
         _str += f"PriceMin = {item_info.price_min}, PriceMax = {item_info.price_mac},\n"
         return _str + "\n"

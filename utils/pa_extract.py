@@ -8,9 +8,9 @@ from decorator.retry import retry
 from requests import HTTPError
 
 
-@retry(retries=10, delay=1.5, exception=HTTPError)
+@retry(retries=5, delay=1.5, exception=HTTPError)
 def __get_soup(
-    url: str,
+        url: str,
 ) -> BeautifulSoup:
     res = requests.get(url=url)
     # res.raise_for_status()
@@ -42,7 +42,7 @@ def __extract_offer_items_from_soup(soup: BeautifulSoup) -> list[OfferItem]:
 
 
 def __extract_offer_id(
-    tag: Tag,
+        tag: Tag,
 ) -> str:
     offer_id_tag = tag.select_one(".offerid")
     if offer_id_tag:
@@ -51,7 +51,7 @@ def __extract_offer_id(
 
 
 def __extract_server(
-    tag: Tag,
+        tag: Tag,
 ) -> str:
     offer_title_lv1_tag = tag.select_one(".offer-title-lv1")
     offer_title_lv2_tag = tag.select_one(".offer-title-lv2")
@@ -68,9 +68,10 @@ def __extract_server(
 
     return f"{offer_title_lv1} - {offer_title_lv2}"
 
-@retry(10, delay=0.5, exception=PACrawlerError)
+
+@retry(5, delay=0.5, exception=PACrawlerError)
 def __extract_seller_feedback_count(
-    soup: BeautifulSoup,
+        soup: BeautifulSoup,
 ) -> int:
     for grid_item in soup.select(".user-content-grid-item"):
         if "Total feedback" in grid_item.get_text(separator=" ", strip=True):
@@ -80,23 +81,29 @@ def __extract_seller_feedback_count(
 
 
 def __extract_seller(
-    tag: Tag,
+        tag: Tag,
 ) -> Seller:
+    canGetFeedback = True
     offer_seller_name_tag = tag.select_one(".username")
     name = offer_seller_name_tag.get_text(strip=True) if offer_seller_name_tag else ""
     if name == "":
         raise PACrawlerError("Can't extract seller name")
     seller_soup = __get_soup(f"https://www.playerauctions.com/store/{name}/")
-    feedback_count = __extract_seller_feedback_count(seller_soup)
-    # feedback_count = 0
+    try:
+        feedback_count = __extract_seller_feedback_count(seller_soup)
+    except PACrawlerError:
+        feedback_count = 0
+        canGetFeedback = False
+        print("Can't get feedback count then set to 0")
     return Seller(
         name=name,
         feedback_count=feedback_count,
+        canGetFeedback=canGetFeedback,
     )
 
 
 def __extract_delivery_time(
-    tag: Tag,
+        tag: Tag,
 ) -> DeliveryTime:
     delivery_text_tag = tag.select_one(".OLP-delivery-text")
     if delivery_text_tag:
@@ -110,7 +117,7 @@ def __extract_delivery_time(
 
 
 def __extract_price(
-    tag: Tag,
+        tag: Tag,
 ) -> float:
     price_tag = tag.select_one(".offer-price-tag")
     if price_tag:
@@ -121,7 +128,7 @@ def __extract_price(
 
 
 def __extract_quantity(
-    tag: Tag,
+        tag: Tag,
 ) -> int:
     quan_tag = tag.select_one(".OLP-input-number")
     if quan_tag:
@@ -131,7 +138,7 @@ def __extract_quantity(
 
 
 def __extract_min_unit_and_min_stock(
-    soup: BeautifulSoup,
+        soup: BeautifulSoup,
 ) -> dict:
     for script_tag in soup.select("script"):
         if "varoffersModel" in script_tag.text.replace(" ", ""):
@@ -142,7 +149,7 @@ def __extract_min_unit_and_min_stock(
                 res_dict[str(offer_model["id"])] = {
                     "min_unit": offer_model["currencyPerUnit"],
                     "min_stock": offer_model["currencyPerUnit"]
-                    * offer_model["minValue"],
+                                 * offer_model["minValue"],
                 }
 
             return res_dict
@@ -152,7 +159,7 @@ def __extract_min_unit_and_min_stock(
 
 @retry(10, delay=0.5, exception=PACrawlerError)
 def extract_offer_items(
-    url: str,
+        url: str,
 ) -> list[OfferItem]:
     return __extract_offer_items_from_soup(
         __get_soup(url),

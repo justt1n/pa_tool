@@ -4,7 +4,7 @@ from typing import Optional
 import gspread
 from pydantic import BaseModel
 
-from model.crawl_model import OfferItem
+from model.crawl_model import OfferItem, StockNumInfo
 from model.enums import StockType
 from utils.sheet_operator import query_multi_model_from_worksheet
 from .sheet_model import Product, StockInfo, G2G, FUN, BIJ, ExtraInfor
@@ -138,3 +138,4 @@ class PriceInfo(BaseModel):
     range_adjust: float | None = None
     offer_item: OfferItem
     stock_type: StockType
+    stock_num_info: StockNumInfo
