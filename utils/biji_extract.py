@@ -103,67 +103,70 @@ def bij_lowest_price(
     data.BIJ_NAME = get_hostname_by_host_id(BIJ_HOST_DATA, data.BIJ_NAME)
     data.BIJ_NAME = str(data.BIJ_NAME) + " "
     selenium.get("https://www.bijiaqi.com/")
-    wait = WebDriverWait(selenium.driver, constants.TIMEOUT)
-    input_field = wait.until(EC.element_to_be_clickable((By.ID, 'speedhostname')))
-    input_field.send_keys(data.BIJ_NAME)
-    input_field.send_keys(Keys.BACKSPACE)
-    input_field.send_keys(Keys.ENTER)
-    time.sleep(1)
-    table = None
-    while retries_time > 0:
-        try:
-            table = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'td table.tb.bijia.limit')))
-            more_row = selenium.driver.find_element(By.XPATH, "//tr[@class='more']")
-            selenium.driver.execute_script("arguments[0].click();", more_row)
-            break
-        except StaleElementReferenceException:
-            retries_time -= 1
-            if retries_time == 0:
-                raise
-            time.sleep(0.25)
-
-    data_array = []
-
-    for row in find_elements_with_retries(table, By.TAG_NAME, 'tr', retries=retries_time):
-        row_data = []
-        for cell in get_row_elements_with_retries(row, retries=retries_time):
-            cell_text = get_cell_text(cell, retries=retries_time)
-            if cell_text == " ":
-                continue
-            elif cell_text == "卖给他":
-                link_element = find_link_element(cell, retries=retries_time)
-                row_data.append(get_link_attribute(link_element, attribute='href', retries=retries_time))
-            else:
-                row_data.append(cell_text)
-        data_array.append(row_data)
-
-    data_array = data_array[3:-2]
-    results = list()
-    for row in data_array:
-        gold = extract_integers_from_string(row[2])
-        if len(gold) == 2:
-            min_gold = gold[0]
-            max_gold = gold[1]
-        else:
-            min_gold = 0
-            max_gold = 0
-        result = BijOfferItem(
-            username=str(row[0]),
-            money=float(row[1]),
-            gold=gold,
-            min_gold=min_gold,
-            max_gold=max_gold,
-            dept=row[3],
-            time=row[4],
-            link=row[5],
-            type=row[6],
-            filter=row[7]
-        )
-        results.append(result)
-    ans = list()
-    for result in results:
-        if result.type in data.BIJ_DELIVERY_METHOD and result.username not in black_list:
-            if result.min_gold >= data.BIJ_STOCKMIN and result.max_gold <= data.BIJ_STOCKMAX:
-                ans = result
+    try:
+        wait = WebDriverWait(selenium.driver, constants.TIMEOUT)
+        input_field = wait.until(EC.element_to_be_clickable((By.ID, 'speedhostname')))
+        input_field.send_keys(data.BIJ_NAME)
+        input_field.send_keys(Keys.BACKSPACE)
+        input_field.send_keys(Keys.ENTER)
+        time.sleep(1)
+        table = None
+        while retries_time > 0:
+            try:
+                table = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'td table.tb.bijia.limit')))
+                more_row = selenium.driver.find_element(By.XPATH, "//tr[@class='more']")
+                selenium.driver.execute_script("arguments[0].click();", more_row)
                 break
-    return ans
+            except StaleElementReferenceException:
+                retries_time -= 1
+                if retries_time == 0:
+                    raise
+                time.sleep(0.25)
+
+        data_array = []
+
+        for row in find_elements_with_retries(table, By.TAG_NAME, 'tr', retries=retries_time):
+            row_data = []
+            for cell in get_row_elements_with_retries(row, retries=retries_time):
+                cell_text = get_cell_text(cell, retries=retries_time)
+                if cell_text == " ":
+                    continue
+                elif cell_text == "卖给他":
+                    link_element = find_link_element(cell, retries=retries_time)
+                    row_data.append(get_link_attribute(link_element, attribute='href', retries=retries_time))
+                else:
+                    row_data.append(cell_text)
+            data_array.append(row_data)
+
+        data_array = data_array[3:-2]
+        results = list()
+        for row in data_array:
+            gold = extract_integers_from_string(row[2])
+            if len(gold) == 2:
+                min_gold = gold[0]
+                max_gold = gold[1]
+            else:
+                min_gold = 0
+                max_gold = 0
+            result = BijOfferItem(
+                username=str(row[0]),
+                money=float(row[1]),
+                gold=gold,
+                min_gold=min_gold,
+                max_gold=max_gold,
+                dept=row[3],
+                time=row[4],
+                link=row[5],
+                type=row[6],
+                filter=row[7]
+            )
+            results.append(result)
+        ans = list()
+        for result in results:
+            if result.type in data.BIJ_DELIVERY_METHOD and result.username not in black_list:
+                if result.min_gold >= data.BIJ_STOCKMIN and result.max_gold <= data.BIJ_STOCKMAX:
+                    ans = result
+                    break
+        return ans
+    except Exception as e:
+        raise RuntimeError(f"Error getting BIJ lowest price: {e}")
