@@ -179,12 +179,13 @@ class FUN(BaseGSheetModel):
     FUN_FILTER22: Annotated[str | None, "BJ"] = None
     FUN_FILTER23: Annotated[str | None, "BK"] = None
     FUN_FILTER24: Annotated[str | None, "BL"] = None
-    PRICE2: Annotated[str | None, "BM"] = None
-    FACTION2: Annotated[str | None, "BN"] = None
-    FUN_STOCK: Annotated[int, "BO"]
-    FUN_IDSHEET_BLACKLIST: Annotated[str, "BP"]
-    FUN_SHEET_BLACKLIST: Annotated[str, "BQ"]
-    FUN_CELL_BLACKLIST: Annotated[str, "BR"]
+    FUN_QUYDOIDONVI: Annotated[float, "BM"] = None
+    PRICE2: Annotated[str | None, "BN"] = None
+    FACTION2: Annotated[str | None, "BO"] = None
+    FUN_STOCK: Annotated[int, "BP"]
+    FUN_IDSHEET_BLACKLIST: Annotated[str, "BQ"]
+    FUN_SHEET_BLACKLIST: Annotated[str, "BR"]
+    FUN_CELL_BLACKLIST: Annotated[str, "BS"]
 
     def get_blacklist(self, gsheet: GSheet) -> list[str]:
         sheet = Sheet.from_sheet_id(gsheet, self.FUN_IDSHEET_BLACKLIST)
@@ -195,17 +196,17 @@ class FUN(BaseGSheetModel):
 
 
 class BIJ(BaseGSheetModel):
-    BIJ_CHECK: Annotated[int, "BS"]
-    BIJ_PROFIT: Annotated[float, "BT"]
-    BIJ_NAME: Annotated[str, "BU"]
-    BIJ_SERVER: Annotated[str, "BV"]
-    BIJ_DELIVERY_METHOD: Annotated[str, "BW"]
-    BIJ_STOCKMIN: Annotated[int, "BX"]
-    BIJ_STOCKMAX: Annotated[int, "BY"]
-    HESONHANDONGIA3: Annotated[float | None, "BZ"] = None
-    BIJ_IDSHEET_BLACKLIST: Annotated[str | None, "CA"] = None
-    BIJ_SHEET_BLACKLIST: Annotated[str | None, "CB"] = None
-    BIJ_CELL_BLACKLIST: Annotated[str | None, "CC"] = None
+    BIJ_CHECK: Annotated[int, "BT"]
+    BIJ_PROFIT: Annotated[float, "BU"]
+    BIJ_NAME: Annotated[str, "BV"]
+    BIJ_SERVER: Annotated[str, "BW"]
+    BIJ_DELIVERY_METHOD: Annotated[str, "BX"]
+    BIJ_STOCKMIN: Annotated[int, "BY"]
+    BIJ_STOCKMAX: Annotated[int, "BZ"]
+    HESONHANDONGIA3: Annotated[float | None, "CA"] = None
+    BIJ_IDSHEET_BLACKLIST: Annotated[str | None, "CB"] = None
+    BIJ_SHEET_BLACKLIST: Annotated[str | None, "CC"] = None
+    BIJ_CELL_BLACKLIST: Annotated[str | None, "CD"] = None
 
     def get_blacklist(self, gsheet: GSheet) -> list[str]:
         sheet = Sheet.from_sheet_id(gsheet, self.BIJ_IDSHEET_BLACKLIST)
@@ -216,7 +217,7 @@ class BIJ(BaseGSheetModel):
 
 
 class ExtraInfor(BaseGSheetModel):
-    MIN_UNIT_PER_ORDER: Annotated[int, "CD"]
-    VALUE_FOR_DISCOUNT: Annotated[str | None, "CE"] = ""
-    DISCOUNT: Annotated[str | None, "CF"] = ""
-    DELIVERY_GUARANTEE: Annotated[int, "CG"]
+    MIN_UNIT_PER_ORDER: Annotated[int, "CE"]
+    VALUE_FOR_DISCOUNT: Annotated[str | None, "CF"] = ""
+    DISCOUNT: Annotated[str | None, "CG"] = ""
+    DELIVERY_GUARANTEE: Annotated[int, "CH"]

@@ -160,6 +160,7 @@ def calculate_price_stock_fake(
                 round(fun_min_offer_item.price
                       * row.fun.FUN_PROFIT
                       * row.fun.FUN_DISCOUNTFEE
+                      * row.fun.FUN_QUYDOIDONVI
                       , 4)
                 , fun_min_offer_item.seller)
             print(f"\nFUN min price: {fun_min_price}")
