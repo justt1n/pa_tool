@@ -8,6 +8,13 @@ from .sheet_model import G2G, FUN
 class Seller(BaseModel):
     name: str | None
     feedback_count: int | None
+    canGetFeedback: bool | None
+
+
+class StockNumInfo(BaseModel):
+    stock_1: int
+    stock_2: int
+    stock_fake: int
 
 
 class TimeUnit(Enum):

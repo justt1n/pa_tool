@@ -9,7 +9,7 @@ from .exceptions import FUNCrawlerError
 from model.crawl_model import FUNOfferItem
 
 
-@retry(retries=10, delay=1.5, exception=HTTPError)
+@retry(retries=3, delay=1.5, exception=HTTPError)
 def __get_soup(
     url: str,
 ) -> BeautifulSoup:
@@ -107,7 +107,7 @@ def __extract_fun_offer_items_from_soup(
     return fun_offer_items
 
 
-@retry(20, 0.5, HTTPError)
+@retry(10, 0.25, HTTPError)
 def fun_extract_offer_items(
     url: str,
     filters: list[str],

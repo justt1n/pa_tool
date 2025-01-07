@@ -179,7 +179,7 @@ class FUN(BaseGSheetModel):
     FUN_FILTER22: Annotated[str | None, "BJ"] = None
     FUN_FILTER23: Annotated[str | None, "BK"] = None
     FUN_FILTER24: Annotated[str | None, "BL"] = None
-    PRICE2: Annotated[str | None, "BM"] = None
+    FUN_HESONHANDONGIA: Annotated[float | None, "BM"] = None
     FACTION2: Annotated[str | None, "BN"] = None
     FUN_STOCK: Annotated[int, "BO"]
     FUN_IDSHEET_BLACKLIST: Annotated[str, "BP"]

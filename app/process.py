@@ -4,7 +4,7 @@ from typing import Any
 import gspread
 
 from decorator.retry import retry
-from model.crawl_model import G2GOfferItem, OfferItem, DeliveryTime, FUNOfferItem
+from model.crawl_model import G2GOfferItem, OfferItem, DeliveryTime, FUNOfferItem, StockNumInfo
 from model.enums import StockType
 from model.payload import PriceInfo, Row
 from model.sheet_model import G2G, Product, StockInfo
@@ -93,15 +93,26 @@ def is_change_price(
 def identify_stock(
         gsheet: GSheet,
         stock_info: StockInfo,
-) -> StockType:
-    if stock_info.stock_1(gsheet) >= stock_info.STOCK_LIMIT:
-        return StockType.stock_1
-    if stock_info.stock_2(gsheet) >= stock_info.STOCK_LIMIT2:
-        return StockType.stock_2
-    return StockType.stock_fake
+) -> [StockType, StockNumInfo]:
+    stock_1 = stock_info.stock_1(gsheet)
+    stock_2 = stock_info.stock_2(gsheet)
+    stock_fake = stock_info.STOCK_FAKE
+
+    stock_num_info = StockNumInfo(
+        stock_1=stock_1,
+        stock_2=stock_2,
+        stock_fake=stock_fake,
+    )
+
+    stock_type = StockType.stock_fake
+    if stock_1 >= stock_info.STOCK_LIMIT:
+        stock_type = StockType.stock_1
+    if stock_2 >= stock_info.STOCK_LIMIT2:
+        stock_type = StockType.stock_2
+    return stock_type, stock_num_info
 
 
-@retry(retries=20, delay=0.25)
+@retry(retries=5, delay=0.5)
 def calculate_price_stock_fake(
         gsheet: GSheet,
         row: Row,
@@ -153,6 +164,7 @@ def calculate_price_stock_fake(
                 round(fun_min_offer_item.price
                       * row.fun.FUN_PROFIT
                       * row.fun.FUN_DISCOUNTFEE
+                      * row.fun.FUN_HESONHANDONGIA
                       , 4)
                 , fun_min_offer_item.seller)
             print(f"\nFUN min price: {fun_min_price}")
@@ -182,15 +194,15 @@ def calculate_price_stock_fake(
     ), [g2g_min_price, fun_min_price, bij_min_price]
 
 
-@retry(retries=20, delay=0.25, exception=Exception)
+@retry(retries=5, delay=0.5, exception=Exception)
 def calculate_price_change(
         gsheet: GSheet,
         row: Row,
         offer_items: list[OfferItem],
         BIJ_HOST_DATA: dict,
         selenium: SeleniumUtil,
-) -> tuple[PriceInfo, list] | None:
-    stock_type = identify_stock(
+) -> None | tuple[PriceInfo, list[tuple[float, str] | None]] | tuple[PriceInfo, None]:
+    stock_type, stock_num_info = identify_stock(
         gsheet,
         row.stock_info,
     )
@@ -223,6 +235,7 @@ def calculate_price_change(
             adjusted_price=round(stock_fake_price[0], 4),
             offer_item=min_offer_item,
             stock_type=stock_type,
+            stock_num_info=stock_num_info,
         ), stock_fake_items
 
     range_adjust = None
@@ -245,6 +258,7 @@ def calculate_price_change(
         offer_item=min_offer_item,
         stock_type=stock_type,
         range_adjust=range_adjust,
+        stock_num_info=stock_num_info,
     ), stock_fake_items
 
 
