@@ -184,15 +184,9 @@ class G2G(BaseGSheetModel):
         self,
         gsheet: GSheet,
     ) -> list[str]:
-        sheet = Sheet.from_sheet_id(
-            gsheet,
-            self.G2G_IDSHEET_BLACKLIST,
-        )
-        worksheet = sheet.open_worksheet(
-            worksheet_name=self.G2G_SHEET_BLACKLIST,
-        )
-        query_values = worksheet.batch_get([self.G2G_CELL_BLACKLIST])[0]
-        blacklist = [item for sublist in query_values for item in sublist]
+        sheet_manager = StockManager(self.G2G_IDSHEET_BLACKLIST)
+        blacklist = sheet_manager.get_multiple_str_cells(f"'{self.G2G_SHEET_BLACKLIST}'!{self.G2G_CELL_BLACKLIST}")
+        # blacklist = [item for sublist in query_values for item in sublist]
         return blacklist
 
 
@@ -214,10 +208,8 @@ class FUN(BaseGSheetModel):
     FUN_CELL_BLACKLIST: Annotated[str, "BR"]
 
     def get_blacklist(self, gsheet: GSheet) -> list[str]:
-        sheet = Sheet.from_sheet_id(gsheet, self.FUN_IDSHEET_BLACKLIST)
-        worksheet = sheet.open_worksheet(self.FUN_SHEET_BLACKLIST)
-        query_values = worksheet.batch_get([self.FUN_CELL_BLACKLIST])[0]
-        blacklist = [item for sublist in query_values for item in sublist]
+        sheet_manager = StockManager(self.FUN_IDSHEET_BLACKLIST)
+        blacklist = sheet_manager.get_multiple_str_cells(f"'{self.FUN_SHEET_BLACKLIST}'!{self.FUN_CELL_BLACKLIST}")
         return blacklist
 
 
@@ -235,10 +227,8 @@ class BIJ(BaseGSheetModel):
     BIJ_CELL_BLACKLIST: Annotated[str | None, "CC"] = None
 
     def get_blacklist(self, gsheet: GSheet) -> list[str]:
-        sheet = Sheet.from_sheet_id(gsheet, self.BIJ_IDSHEET_BLACKLIST)
-        worksheet = sheet.open_worksheet(self.BIJ_SHEET_BLACKLIST)
-        query_values = worksheet.batch_get([self.BIJ_CELL_BLACKLIST])[0]
-        blacklist = [item for sublist in query_values for item in sublist]
+        sheet_manager = StockManager(self.BIJ_IDSHEET_BLACKLIST)
+        blacklist = sheet_manager.get_multiple_str_cells(f"'{self.BIJ_SHEET_BLACKLIST}'!{self.BIJ_CELL_BLACKLIST}")
         return blacklist
 
 

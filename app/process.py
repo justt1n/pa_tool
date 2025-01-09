@@ -16,7 +16,7 @@ from utils.ggsheet import (
     GSheet,
 )
 from utils.selenium_util import SeleniumUtil
-from utils.utils import getCNYRate
+from utils.common_utils import getCNYRate
 
 
 def get_row_run_index(

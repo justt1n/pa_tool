@@ -1,6 +1,6 @@
 import os
 
-from google_api import StockManager
+from utils.google_api import StockManager
 
 
 def getCNYRate(gs) -> float:
