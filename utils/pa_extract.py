@@ -2,6 +2,8 @@ import requests
 
 import execjs
 from bs4 import BeautifulSoup, Tag
+
+from decorator.time_execution import time_execution
 from model.crawl_model import Seller, DeliveryTime, TimeUnit, OfferItem
 from .exceptions import PACrawlerError
 from decorator.retry import retry
@@ -17,6 +19,7 @@ def __get_soup(
     return BeautifulSoup(res.text, "html.parser")
 
 
+@time_execution
 def __extract_offer_items_from_soup(soup: BeautifulSoup) -> list[OfferItem]:
     offer_items = []
     offers_model = __extract_min_unit_and_min_stock(soup)
@@ -88,16 +91,16 @@ def __extract_seller(
     name = offer_seller_name_tag.get_text(strip=True) if offer_seller_name_tag else ""
     if name == "":
         raise PACrawlerError("Can't extract seller name")
-    seller_soup = __get_soup(f"https://www.playerauctions.com/store/{name}/")
-    try:
-        feedback_count = __extract_seller_feedback_count(seller_soup)
-    except PACrawlerError:
-        feedback_count = 0
-        canGetFeedback = False
-        print("Can't get feedback count then set to 0")
+    # seller_soup = __get_soup(f"https://www.playerauctions.com/store/{name}/")
+    # try:
+    #     feedback_count = __extract_seller_feedback_count(seller_soup)
+    # except PACrawlerError:
+    #     feedback_count = 0
+    #     canGetFeedback = False
+    #     print("Can't get feedback count then set to 0")
     return Seller(
         name=name,
-        feedback_count=feedback_count,
+        feedback_count=0,
         canGetFeedback=canGetFeedback,
     )
 
@@ -157,6 +160,7 @@ def __extract_min_unit_and_min_stock(
     raise PACrawlerError("Can't extract min_unit and min_stock")
 
 
+@time_execution
 @retry(5, delay=0.25, exception=PACrawlerError)
 def extract_offer_items(
         url: str,
