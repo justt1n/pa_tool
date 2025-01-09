@@ -42,7 +42,7 @@ def is_valid_offer_item(
     ):
         return False
     if not offer_item.seller.feedback_count:
-        print("Can't get feedback count")
+        offer_item.seller.feedback_count = 0
     elif offer_item.seller.feedback_count < product.FEEDBACK:
         print(f"Feedback count: {offer_item.seller.feedback_count} for seller {offer_item.seller.name}, ignore")
         return False

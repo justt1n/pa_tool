@@ -51,6 +51,7 @@ def login(
     browse_button = browser.driver.find_element(By.ID, "ckAgreePa")
     browse_button.click()
     browser.click_by_inner_text("UPLOAD")
+    time.sleep(60)
 
 
 if __name__ == "__main__":
