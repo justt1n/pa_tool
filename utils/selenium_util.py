@@ -55,7 +55,7 @@ class SeleniumUtil:
     def get(self, url):
         self.driver.get(url)
 
-    @retry(retries=10, delay=1.5, exception=WebDriverException)
+    @retry(retries=10, delay=1.2, exception=WebDriverException)
     def click_by_inner_text(self, text):
         element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, f"//*[contains(text(), '{text}')]"))

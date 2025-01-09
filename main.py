@@ -53,7 +53,7 @@ def read_file_with_encoding(file_path, encoding='utf-8'):
 #         return 1
 
 
-@retry(10, delay=30, exception=PACrawlerError)
+@retry(10, delay=15, exception=PACrawlerError)
 def process(
         BIJ_HOST_DATA: dict,
         gsheet: GSheet,

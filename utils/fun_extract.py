@@ -9,7 +9,7 @@ from .exceptions import FUNCrawlerError
 from model.crawl_model import FUNOfferItem
 
 
-@retry(retries=3, delay=1.5, exception=HTTPError)
+@retry(retries=3, delay=1.2, exception=HTTPError)
 def __get_soup(
     url: str,
 ) -> BeautifulSoup:

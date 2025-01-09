@@ -10,7 +10,7 @@ from .exceptions import G2GCrawlerError
 import re
 
 
-@retry(retries=10, delay=1.5, exception=HTTPError)
+@retry(retries=5, delay=1.2, exception=HTTPError)
 def __get_soup(
         url: str,
 ) -> BeautifulSoup:
@@ -120,7 +120,7 @@ def __g2g_extract_price_per_unit(
     raise G2GCrawlerError("Can't extract Price per unit")
 
 
-@retry(retries=20, delay=0.5, exception=HTTPError)
+@retry(retries=10, delay=0.25, exception=HTTPError)
 def g2g_extract_offer_items(
         url: str,
 ) -> list[G2GOfferItem]:
