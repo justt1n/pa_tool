@@ -110,10 +110,10 @@ def process(
                         game=_currency_info.Game,
                         server=_currency_info.Server,
                         faction=_currency_info.Faction,
-                        currency_per_unit=sorted_offer_items[0].quantity,
-                        total_units=final_stock,
+                        currency_per_unit=row.extra.CURRENCY_PER_UNIT,
+                        total_units=min(final_stock, 10000),
                         minimum_unit_per_order=row.extra.MIN_UNIT_PER_ORDER,
-                        price_per_unit=round(item_info.adjusted_price * sorted_offer_items[0].quantity, 4),
+                        price_per_unit=float(f"{item_info.adjusted_price:.3f}"),
                         ValueForDiscount=row.extra.VALUE_FOR_DISCOUNT,
                         discount=row.extra.DISCOUNT,
                         title=row.product.TITLE,
@@ -132,8 +132,8 @@ def process(
                         item_category1=_item_info.item_category1,
                         item_category2=_item_info.item_category2,
                         item_category3=_item_info.item_category3,
-                        item_per_unit=sorted_offer_items[0].quantity,
-                        unit_price=round(item_info.adjusted_price / sorted_offer_items[0].quantity, 4),
+                        item_per_unit=row.extra.CURRENCY_PER_UNIT,
+                        unit_price=float(f"{item_info.adjusted_price:.3f}"),
                         min_unit_per_order=row.extra.MIN_UNIT_PER_ORDER,
                         ValueForDiscount=row.extra.VALUE_FOR_DISCOUNT,
                         discount=row.extra.DISCOUNT,
@@ -162,7 +162,8 @@ def process(
             write_to_log_cell(worksheet, index, _current_time, log_type="time")
         print("Next row...")
     currency_template = currency_templates_to_dicts(currency_template)
-    item_template = item_templates_to_dicts(item_template)
+    if len(item_template) > 0:
+        item_template = item_templates_to_dicts(item_template)
     create_file_from_template("currency_template.xlsx", "storage/output/new_currency_file.xlsx",
                               currency_template)
     create_file_from_template("item_template.xlsx", "storage/output/new_item_file.xlsx", item_template)
