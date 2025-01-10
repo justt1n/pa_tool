@@ -1,7 +1,10 @@
 from pydantic import BaseModel
 from pydantic.fields import FieldInfo
 from typing import Annotated, cast
+
+from decorator.time_execution import time_execution
 from utils.ggsheet import GSheet, Sheet
+from utils.google_api import StockManager
 
 
 class BaseGSheetModel(BaseModel):
@@ -56,38 +59,46 @@ class Product(BaseGSheetModel):
         self,
         gsheet: GSheet,
     ) -> float:
-        sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MIN)
-        worksheet = sheet.open_worksheet(self.SHEET_MIN)
-        cell_value = worksheet.batch_get([self.CELL_MIN])[0]
+        sheet_manager = StockManager(self.IDSHEET_MIN)
+        cell_value = sheet_manager.get_stock(f"'{self.SHEET_MIN}'!{self.CELL_MIN}")
+        # sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MIN)
+        # worksheet = sheet.open_worksheet(self.SHEET_MIN)
+        # cell_value = worksheet.batch_get([self.CELL_MIN])[0]
 
-        return float(cell_value.first())  # type: ignore
+        return float(cell_value)  # type: ignore
 
     def max_price_stock_1(
         self,
         gsheet: GSheet,
     ) -> float:
-        sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MAX)
-        worksheet = sheet.open_worksheet(self.SHEET_MAX)
-        cell_value = worksheet.batch_get([self.CELL_MAX])[0]
-        return float(cell_value.first())  # type: ignore
+        sheet_manager = StockManager(self.IDSHEET_MAX)
+        cell_value = sheet_manager.get_stock(f"'{self.SHEET_MAX}'!{self.CELL_MAX}")
+        # sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MAX)
+        # worksheet = sheet.open_worksheet(self.SHEET_MAX)
+        # cell_value = worksheet.batch_get([self.CELL_MAX])[0]
+        return float(cell_value)  # type: ignore
 
     def min_price_stock_2(
         self,
         gsheet: GSheet,
     ) -> float:
-        sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MIN2)
-        worksheet = sheet.open_worksheet(self.SHEET_MIN2)
-        cell_value = worksheet.batch_get([self.CELL_MIN2])[0]
-        return float(cell_value.first())  # type: ignore
+        sheet_manager = StockManager(self.IDSHEET_MIN2)
+        cell_value = sheet_manager.get_stock(f"'{self.SHEET_MIN2}'!{self.CELL_MIN2}")
+        # sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MIN2)
+        # worksheet = sheet.open_worksheet(self.SHEET_MIN2)
+        # cell_value = worksheet.batch_get([self.CELL_MIN2])[0]
+        return float(cell_value)  # type: ignore
 
     def max_price_stock_2(
         self,
         gsheet: GSheet,
     ) -> float:
-        sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MAX2)
-        worksheet = sheet.open_worksheet(self.SHEET_MAX2)
-        cell_value = worksheet.batch_get([self.CELL_MAX2])[0]
-        return float(cell_value.first())  # type: ignore
+        sheet_manager = StockManager(self.IDSHEET_MAX2)
+        cell_value = sheet_manager.get_stock(f"'{self.SHEET_MAX2}'!{self.CELL_MAX2}")
+        # sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MAX2)
+        # worksheet = sheet.open_worksheet(self.SHEET_MAX2)
+        # cell_value = worksheet.batch_get([self.CELL_MAX2])[0]
+        return float(cell_value)  # type: ignore
 
 
 class StockInfo(BaseGSheetModel):
@@ -108,12 +119,11 @@ class StockInfo(BaseGSheetModel):
         self,
         gsheet: GSheet,
     ) -> int:
-        sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_STOCK)
-        worksheet = sheet.open_worksheet(self.SHEET_STOCK)
-        cell_value = worksheet.batch_get([self.CELL_STOCK])[0]
+        stock_mng = StockManager(self.IDSHEET_STOCK)
+        stock1 = stock_mng.get_stock(f"'{self.SHEET_STOCK}'!{self.CELL_STOCK}")
         try:
-            self._stock1 = int(cell_value.first())  # type: ignore
-            return int(cell_value.first())  # type: ignore
+            self._stock1 = stock1  # type: ignore
+            return stock1  # type: ignore
         except Exception as e:
             print(e)
             raise Exception("Error getting stock 1")
@@ -122,19 +132,34 @@ class StockInfo(BaseGSheetModel):
         self,
         gsheet: GSheet,
     ) -> int:
-        sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_STOCK2)
-        worksheet = sheet.open_worksheet(self.SHEET_STOCK2)
-        cell_value = worksheet.batch_get([self.CELL_STOCK2])[0]
+        stock_mng = StockManager(self.IDSHEET_STOCK)
+        stock2 = stock_mng.get_stock(f"'{self.SHEET_STOCK}'!{self.CELL_STOCK}")
         try:
-            self._stock2 = int(cell_value.first())  # type: ignore
-            return int(cell_value.first())  # type: ignore
+            self._stock2 = stock2  # type: ignore
+            return stock2  # type: ignore
         except Exception as e:
             print(e)
             raise Exception("Error getting stock 2")
 
+    def get_stocks(self):
+        if self.IDSHEET_STOCK == self.IDSHEET_STOCK2:
+            stock_manager = StockManager(self.IDSHEET_STOCK)
+            cell1 = f"'{self.SHEET_STOCK}'!{self.CELL_STOCK}"
+            cell2 = f"'{self.SHEET_STOCK}'!{self.CELL_STOCK2}"
+            stock1, stock2 = stock_manager.get_multiple_cells([cell1, cell2])
+        else:
+            stock_mng = StockManager(self.IDSHEET_STOCK)
+            stock1 = stock_mng.get_stock(f"'{self.SHEET_STOCK}'!{self.CELL_STOCK}")
+            stock_mng = StockManager(self.IDSHEET_STOCK2)
+            stock2 = stock_mng.get_stock(f"'{self.SHEET_STOCK2}'!{self.CELL_STOCK2}")
+        self._stock1 = stock1
+        self._stock2 = stock2
+        return stock1, stock2
+
+
     def cal_stock(self) -> int:
-        if self._stock1 < self.STOCK_LIMIT:
-            if self._stock2 < self.STOCK_LIMIT2:
+        if self._stock1 == 0 or self._stock1 < self.STOCK_LIMIT:
+            if self._stock2 == 0 or self._stock2 < self.STOCK_LIMIT2:
                 return self.STOCK_FAKE
             return self._stock2
         return self._stock1
@@ -157,15 +182,9 @@ class G2G(BaseGSheetModel):
         self,
         gsheet: GSheet,
     ) -> list[str]:
-        sheet = Sheet.from_sheet_id(
-            gsheet,
-            self.G2G_IDSHEET_BLACKLIST,
-        )
-        worksheet = sheet.open_worksheet(
-            worksheet_name=self.G2G_SHEET_BLACKLIST,
-        )
-        query_values = worksheet.batch_get([self.G2G_CELL_BLACKLIST])[0]
-        blacklist = [item for sublist in query_values for item in sublist]
+        sheet_manager = StockManager(self.G2G_IDSHEET_BLACKLIST)
+        blacklist = sheet_manager.get_multiple_str_cells(f"'{self.G2G_SHEET_BLACKLIST}'!{self.G2G_CELL_BLACKLIST}")
+        # blacklist = [item for sublist in query_values for item in sublist]
         return blacklist
 
 
@@ -187,10 +206,8 @@ class FUN(BaseGSheetModel):
     FUN_CELL_BLACKLIST: Annotated[str, "BR"]
 
     def get_blacklist(self, gsheet: GSheet) -> list[str]:
-        sheet = Sheet.from_sheet_id(gsheet, self.FUN_IDSHEET_BLACKLIST)
-        worksheet = sheet.open_worksheet(self.FUN_SHEET_BLACKLIST)
-        query_values = worksheet.batch_get([self.FUN_CELL_BLACKLIST])[0]
-        blacklist = [item for sublist in query_values for item in sublist]
+        sheet_manager = StockManager(self.FUN_IDSHEET_BLACKLIST)
+        blacklist = sheet_manager.get_multiple_str_cells(f"'{self.FUN_SHEET_BLACKLIST}'!{self.FUN_CELL_BLACKLIST}")
         return blacklist
 
 
@@ -208,10 +225,8 @@ class BIJ(BaseGSheetModel):
     BIJ_CELL_BLACKLIST: Annotated[str | None, "CC"] = None
 
     def get_blacklist(self, gsheet: GSheet) -> list[str]:
-        sheet = Sheet.from_sheet_id(gsheet, self.BIJ_IDSHEET_BLACKLIST)
-        worksheet = sheet.open_worksheet(self.BIJ_SHEET_BLACKLIST)
-        query_values = worksheet.batch_get([self.BIJ_CELL_BLACKLIST])[0]
-        blacklist = [item for sublist in query_values for item in sublist]
+        sheet_manager = StockManager(self.BIJ_IDSHEET_BLACKLIST)
+        blacklist = sheet_manager.get_multiple_str_cells(f"'{self.BIJ_SHEET_BLACKLIST}'!{self.BIJ_CELL_BLACKLIST}")
         return blacklist
 
 

@@ -2,6 +2,8 @@ import requests
 
 import execjs
 from bs4 import BeautifulSoup, Tag
+
+from decorator.time_execution import time_execution
 from model.crawl_model import Seller, DeliveryTime, TimeUnit, OfferItem
 from .exceptions import PACrawlerError
 from decorator.retry import retry
@@ -88,16 +90,16 @@ def __extract_seller(
     name = offer_seller_name_tag.get_text(strip=True) if offer_seller_name_tag else ""
     if name == "":
         raise PACrawlerError("Can't extract seller name")
-    seller_soup = __get_soup(f"https://www.playerauctions.com/store/{name}/")
-    try:
-        feedback_count = __extract_seller_feedback_count(seller_soup)
-    except PACrawlerError:
-        feedback_count = 0
-        canGetFeedback = False
-        print("Can't get feedback count then set to 0")
+    # seller_soup = __get_soup(f"https://www.playerauctions.com/store/{name}/")
+    # try:
+    #     feedback_count = __extract_seller_feedback_count(seller_soup)
+    # except PACrawlerError:
+    #     feedback_count = 0
+    #     canGetFeedback = False
+    #     print("Can't get feedback count then set to 0")
     return Seller(
         name=name,
-        feedback_count=feedback_count,
+        feedback_count=0,
         canGetFeedback=canGetFeedback,
     )
 

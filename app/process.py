@@ -4,6 +4,7 @@ from typing import Any
 import gspread
 
 from decorator.retry import retry
+from decorator.time_execution import time_execution
 from model.crawl_model import G2GOfferItem, OfferItem, DeliveryTime, FUNOfferItem, StockNumInfo
 from model.enums import StockType
 from model.payload import PriceInfo, Row
@@ -15,7 +16,7 @@ from utils.ggsheet import (
     GSheet,
 )
 from utils.selenium_util import SeleniumUtil
-from utils.utils import getCNYRate
+from utils.common_utils import getCNYRate
 
 
 def get_row_run_index(
@@ -41,11 +42,11 @@ def is_valid_offer_item(
             or offer_item.delivery_time > product_delivery_time
     ):
         return False
-    if not offer_item.seller.feedback_count:
-        offer_item.seller.feedback_count = 0
-    elif offer_item.seller.feedback_count < product.FEEDBACK:
-        print(f"Feedback count: {offer_item.seller.feedback_count} for seller {offer_item.seller.name}, ignore")
-        return False
+    # if not offer_item.seller.feedback_count:
+    #     offer_item.seller.feedback_count = 0
+    # elif offer_item.seller.feedback_count < product.FEEDBACK:
+    #     print(f"Feedback count: {offer_item.seller.feedback_count} for seller {offer_item.seller.name}, ignore")
+    #     return False
     if offer_item.min_unit is None or offer_item.min_unit > product.MIN_UNIT:
         return False
     if offer_item.min_stock is None or offer_item.min_stock < product.MINSTOCK:
@@ -94,8 +95,8 @@ def identify_stock(
         gsheet: GSheet,
         stock_info: StockInfo,
 ) -> [StockType, StockNumInfo]:
-    stock_1 = stock_info.stock_1(gsheet)
-    stock_2 = stock_info.stock_2(gsheet)
+    stock_1, stock_2 = stock_info.get_stocks()
+
     stock_fake = stock_info.STOCK_FAKE
 
     stock_num_info = StockNumInfo(
@@ -172,7 +173,7 @@ def calculate_price_stock_fake(
             print("No valid FUN offer items")
 
     bij_min_price = None
-    CNY_RATE = getCNYRate(gsheet)
+    CNY_RATE = getCNYRate()
     # print("HEre")
     _black_list = row.bij.get_blacklist(gsheet)
     if row.bij.BIJ_CHECK == 1:
@@ -195,11 +196,13 @@ def calculate_price_stock_fake(
             print("No valid BIJ offer items")
 
     return min(
-        [i for i in [g2g_min_price, fun_min_price, bij_min_price] if i is not None],
+        [i for i in [g2g_min_price, fun_min_price, bij_min_price] if i is not None and i[0] > 0],
         key=lambda x: x[0]
     ), [g2g_min_price, fun_min_price, bij_min_price]
 
 
+@time_execution
+#TODO
 @retry(retries=5, delay=0.5, exception=Exception)
 def calculate_price_change(
         gsheet: GSheet,
