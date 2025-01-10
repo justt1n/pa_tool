@@ -1,3 +1,5 @@
+import time
+
 from googleapiclient.discovery import build
 from google.oauth2.service_account import Credentials
 
@@ -8,6 +10,7 @@ class StockManager:
     def __init__(self, spreadsheet_id: str):
         self.credentials_file = "key.json"
         self.spreadsheet_id = spreadsheet_id
+        time.sleep(8)
         self.service = self._initialize_service()
 
     def _initialize_service(self):
@@ -17,7 +20,6 @@ class StockManager:
         )
         return build('sheets', 'v4', credentials=credentials)
 
-    @time_execution
     def get_stock(self, range_name: str) -> int:
         try:
             result = (
@@ -37,7 +39,6 @@ class StockManager:
             print(f"Error retrieving stock from range {range_name}: {e}")
             raise Exception(f"Error getting stock from {range_name}")
 
-    @time_execution
     def get_multiple_cells(self, ranges: list[str]) -> list[int]:
         try:
             # Make a batch request for multiple ranges
@@ -61,7 +62,6 @@ class StockManager:
             print(f"Error retrieving values from ranges {ranges}: {e}")
             raise Exception(f"Error getting values from ranges {ranges}")
 
-    @time_execution
     def get_multiple_str_cells(self, range_str: str) -> list[str]:
         try:
             # Make a request for the single range

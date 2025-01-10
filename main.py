@@ -12,6 +12,7 @@ from QueryItem import query_item
 from app.login import login
 from app.process import calculate_price_change, is_change_price, get_row_run_index
 from decorator.retry import retry
+from decorator.time_execution import time_execution
 from model.crawl_model import OfferItem
 from model.enums import StockType
 from model.payload import Row, PriceInfo
@@ -52,7 +53,7 @@ def read_file_with_encoding(file_path, encoding='utf-8'):
 #         print(f"Error reading CNY rate: {e}")
 #         return 1
 
-
+@time_execution
 @retry(10, delay=15, exception=PACrawlerError)
 def process(
         BIJ_HOST_DATA: dict,

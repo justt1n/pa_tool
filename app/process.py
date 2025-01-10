@@ -71,7 +71,6 @@ def is_offer_items_contain_my_name() -> bool:
     return False
 
 
-@time_execution
 def is_change_price(
         product: Product,
         offer_items: list[OfferItem],
@@ -92,7 +91,6 @@ def is_change_price(
     return True
 
 
-@time_execution
 def identify_stock(
         gsheet: GSheet,
         stock_info: StockInfo,
@@ -115,7 +113,6 @@ def identify_stock(
     return stock_type, stock_num_info
 
 
-@time_execution
 @retry(retries=5, delay=0.25)
 def calculate_price_stock_fake(
         gsheet: GSheet,

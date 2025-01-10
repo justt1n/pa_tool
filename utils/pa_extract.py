@@ -19,7 +19,6 @@ def __get_soup(
     return BeautifulSoup(res.text, "html.parser")
 
 
-@time_execution
 def __extract_offer_items_from_soup(soup: BeautifulSoup) -> list[OfferItem]:
     offer_items = []
     offers_model = __extract_min_unit_and_min_stock(soup)
@@ -160,7 +159,6 @@ def __extract_min_unit_and_min_stock(
     raise PACrawlerError("Can't extract min_unit and min_stock")
 
 
-@time_execution
 @retry(5, delay=0.25, exception=PACrawlerError)
 def extract_offer_items(
         url: str,

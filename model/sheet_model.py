@@ -55,7 +55,6 @@ class Product(BaseGSheetModel):
     SHEET_MAX2: Annotated[str, "AF"]
     CELL_MAX2: Annotated[str, "AG"]
 
-    @time_execution
     def min_price_stock_1(
         self,
         gsheet: GSheet,
@@ -68,7 +67,6 @@ class Product(BaseGSheetModel):
 
         return float(cell_value)  # type: ignore
 
-    @time_execution
     def max_price_stock_1(
         self,
         gsheet: GSheet,
@@ -160,8 +158,8 @@ class StockInfo(BaseGSheetModel):
 
 
     def cal_stock(self) -> int:
-        if self._stock1 < self.STOCK_LIMIT:
-            if self._stock2 < self.STOCK_LIMIT2:
+        if self._stock1 == 0 or self._stock1 < self.STOCK_LIMIT:
+            if self._stock2 == 0 or self._stock2 < self.STOCK_LIMIT2:
                 return self.STOCK_FAKE
             return self._stock2
         return self._stock1
