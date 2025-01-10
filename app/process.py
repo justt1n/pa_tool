@@ -173,7 +173,7 @@ def calculate_price_stock_fake(
             print("No valid FUN offer items")
 
     bij_min_price = None
-    CNY_RATE = getCNYRate(gsheet)
+    CNY_RATE = getCNYRate()
     # print("HEre")
     _black_list = row.bij.get_blacklist(gsheet)
     if row.bij.BIJ_CHECK == 1:
@@ -196,7 +196,7 @@ def calculate_price_stock_fake(
             print("No valid BIJ offer items")
 
     return min(
-        [i for i in [g2g_min_price, fun_min_price, bij_min_price] if i is not None],
+        [i for i in [g2g_min_price, fun_min_price, bij_min_price] if i is not None and i[0] > 0],
         key=lambda x: x[0]
     ), [g2g_min_price, fun_min_price, bij_min_price]
 

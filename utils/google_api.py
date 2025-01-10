@@ -20,7 +20,7 @@ class StockManager:
         )
         return build('sheets', 'v4', credentials=credentials)
 
-    def get_stock(self, range_name: str) -> int:
+    def get_stock(self, range_name: str) -> float:
         try:
             result = (
                 self.service.spreadsheets()
@@ -30,7 +30,7 @@ class StockManager:
             )
             cell_value = result.get('values', [[]])[0][0]
             # Convert to integer after handling float-like values
-            stock_value = int(float(cell_value))
+            stock_value = float(cell_value)
             return stock_value
         except ValueError as ve:
             print(f"ValueError for range {range_name}: {cell_value} is not a valid integer.")
