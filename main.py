@@ -248,7 +248,7 @@ def write_to_log_cell(
         if log_type == "time":
             r, c = a1_to_rowcol(f"E{row_index}")
         if log_type == "error":
-            r, c = a1_to_rowcol(f"CH{row_index}")
+            r, c = a1_to_rowcol(f"CI{row_index}")
         worksheet.update_cell(r, c, log_str)
     except Exception as e:
         print(f"Error writing to log cell: {e}")
