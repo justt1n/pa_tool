@@ -123,77 +123,34 @@ def calculate_price_stock_fake(
 ):
     g2g_min_price = None
     if row.g2g.G2G_CHECK == 1:
-        g2g_offer_items = g2g_extract_offer_items(row.g2g.G2G_PRODUCT_COMPARE)
-        filtered_g2g_offer_items = G2GOfferItem.filter_valid_g2g_offer_item(
-            g2g=row.g2g,
-            g2g_blacklist=row.g2g.get_blacklist(gsheet),
-            g2g_offer_items=g2g_offer_items,
-        )
-        if filtered_g2g_offer_items:
-            g2g_min_offer_item = G2GOfferItem.min_offer_item(filtered_g2g_offer_items)
-            g2g_min_price = (
-                round(g2g_min_offer_item.price_per_unit
-                      * row.g2g.G2G_PROFIT, 4)
-                , g2g_min_offer_item.seller_name)
+        try:
+            g2g_min_price = (round(row.g2g.get_g2g_price()
+                                   * row.g2g.G2G_PROFIT
+                                   * row.g2g.G2G_QUYDOIDONVI, 4), "Get directly from sheet")
             print(f"\nG2G min price: {g2g_min_price}")
-        else:
-            print("No valid G2G offer items")
+        except Exception as e:
+            raise Exception(f"Error getting G2G price: {e}")
 
     fun_min_price = None
     if row.fun.FUN_CHECK == 1:
-        fun_offer_items = fun_extract_offer_items(
-            row.fun.FUN_PRODUCT_COMPARE,
-            [
-                i
-                for i in [
-                row.fun.FUN_FILTER21,
-                row.fun.FUN_FILTER22,
-                row.fun.FUN_FILTER23,
-                row.fun.FUN_FILTER24,
-            ]
-                if i is not None
-            ],
-        )
-        filtered_fun_offer_items = FUNOfferItem.filter_valid_fun_offer_items(
-            fun=row.fun,
-            fun_offer_items=fun_offer_items,
-            fun_blacklist=row.fun.get_blacklist(gsheet),
-        )
-        if filtered_fun_offer_items:
-            fun_min_offer_item = FUNOfferItem.min_offer_item(filtered_fun_offer_items)
-            fun_min_price = (
-                round(fun_min_offer_item.price
-                      * row.fun.FUN_PROFIT
-                      * row.fun.FUN_DISCOUNTFEE
-                      * row.fun.FUN_HESONHANDONGIA
-                      , 4)
-                , fun_min_offer_item.seller)
-            print(f"\nFUN min price: {fun_min_price}")
-        else:
-            print("No valid FUN offer items")
+        try:
+            fun_min_price = (round(row.fun.get_fun_price()
+                                   * row.fun.FUN_PROFIT
+                                   * row.fun.FUN_DISCOUNTFEE
+                                   * row.fun.FUN_QUYDOIDONVI, 4), "Get directly from sheet")
+        except Exception as e:
+            raise Exception(f"Error getting FUN price: {e}")
 
     bij_min_price = None
     CNY_RATE = getCNYRate()
-    # print("HEre")
-    _black_list = row.bij.get_blacklist(gsheet)
     if row.bij.BIJ_CHECK == 1:
         try:
-            bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij, black_list=_black_list)
+            bij_min_price = (round(row.bij.get_bij_price()
+                                    * row.bij.BIJ_PROFIT
+                                    * row.bij.BIJ_QUYDOIDONVI
+                                    * CNY_RATE, 4), "Get directly from sheet")
         except Exception as e:
-            print("Renew browser")
-            headless_browser = SeleniumUtil(mode=2)
-            bij_min_offer_item = bij_lowest_price(hostdata, headless_browser, row.bij, black_list=_black_list)
-
-        if bij_min_offer_item:
-            bij_min_price = (
-                round(bij_min_offer_item.money
-                      * row.bij.BIJ_PROFIT
-                      * row.bij.HESONHANDONGIA3
-                      * CNY_RATE, 4)
-                , bij_min_offer_item.username)
-            print(f"\nBIJ min price: {bij_min_price}")
-        else:
-            print("No valid BIJ offer items")
+            raise Exception(f"Error getting BIJ price: {e}")
 
     return min(
         [i for i in [g2g_min_price, fun_min_price, bij_min_price] if i is not None and i[0] > 0],
@@ -279,6 +236,6 @@ def g2g_lowest_price(
     filtered_g2g_offer_items = G2GOfferItem.filter_valid_g2g_offer_item(
         g2g,
         g2g_offer_items,
-        g2g.get_blacklist(gsheet),
+        g2g.get_g2g_price(),
     )
     return G2GOfferItem.min_offer_item(filtered_g2g_offer_items)

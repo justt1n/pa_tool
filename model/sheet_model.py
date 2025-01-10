@@ -47,13 +47,12 @@ class Product(BaseGSheetModel):
     CELL_MIN2: Annotated[str, "X"]
     DELIVERY0: Annotated[str, "Y"]
     DELIVERY1: Annotated[str, "Z"]
-    STOCKREAD: Annotated[int, "AA"]
-    IDSHEET_MAX: Annotated[str, "AB"]
-    SHEET_MAX: Annotated[str, "AC"]
-    CELL_MAX: Annotated[str, "AD"]
-    IDSHEET_MAX2: Annotated[str, "AE"]
-    SHEET_MAX2: Annotated[str, "AF"]
-    CELL_MAX2: Annotated[str, "AG"]
+    IDSHEET_MAX: Annotated[str, "AA"]
+    SHEET_MAX: Annotated[str, "AB"]
+    CELL_MAX: Annotated[str, "AC"]
+    IDSHEET_MAX2: Annotated[str, "AD"]
+    SHEET_MAX2: Annotated[str, "AE"]
+    CELL_MAX2: Annotated[str, "AF"]
 
     def min_price_stock_1(
         self,
@@ -102,16 +101,15 @@ class Product(BaseGSheetModel):
 
 
 class StockInfo(BaseGSheetModel):
-    IDSHEET_STOCK: Annotated[str, "AH"]
-    SHEET_STOCK: Annotated[str, "AI"]
-    CELL_STOCK: Annotated[str, "AJ"]
-    IDSHEET_STOCK2: Annotated[str, "AK"]
-    SHEET_STOCK2: Annotated[str, "AL"]
-    CELL_STOCK2: Annotated[str, "AM"]
-    STOCK_LIMIT: Annotated[int, "AN"]
-    STOCK_LIMIT2: Annotated[int, "AO"]
-    STOCK_MAX: Annotated[int | None, "AP"] = None
-    STOCK_FAKE: Annotated[int | None, "AQ"] = None
+    IDSHEET_STOCK: Annotated[str, "AG"]
+    SHEET_STOCK: Annotated[str, "AH"]
+    CELL_STOCK: Annotated[str, "AI"]
+    IDSHEET_STOCK2: Annotated[str, "AJ"]
+    SHEET_STOCK2: Annotated[str, "AK"]
+    CELL_STOCK2: Annotated[str, "AL"]
+    STOCK_LIMIT: Annotated[int, "AM"]
+    STOCK_LIMIT2: Annotated[int, "AN"]
+    STOCK_FAKE: Annotated[int | None, "AO"] = None
     _stock1: int | None = 0
     _stock2: int | None = 0
 
@@ -165,73 +163,59 @@ class StockInfo(BaseGSheetModel):
         return self._stock1
 
 class G2G(BaseGSheetModel):
-    G2G_CHECK: Annotated[int, "AR"]
-    G2G_PROFIT: Annotated[float, "AS"]
-    G2G_PRODUCT_COMPARE: Annotated[str, "AT"]
-    G2G_DELIVERY_TIME: Annotated[int, "AU"]
-    G2G_STOCK: Annotated[int, "AV"]
-    G2G_MINUNIT: Annotated[int, "AW"]
-    G2G_QUYDOIDONVI: Annotated[float, "AX"]
-    EXCEPTION1: Annotated[str | None, "AY"] = None
-    SELLERNAME1: Annotated[str | None, "AZ"] = None
-    G2G_IDSHEET_BLACKLIST: Annotated[str, "BA"]
-    G2G_SHEET_BLACKLIST: Annotated[str, "BB"]
-    G2G_CELL_BLACKLIST: Annotated[str, "BC"]
+    G2G_CHECK: Annotated[int, "AP"]
+    G2G_PROFIT: Annotated[float, "AQ"]
+    G2G_PRODUCT_COMPARE: Annotated[str, "AR"]
+    G2G_IDSHEET_PRICESS: Annotated[str, "AS"]
+    G2G_SHEET_PRICESS: Annotated[str, "AT"]
+    G2G_CELL_PRICESS: Annotated[str, "AU"]
+    G2G_QUYDOIDONVI: Annotated[float, "AV"]
 
-    def get_blacklist(
-        self,
-        gsheet: GSheet,
-    ) -> list[str]:
-        sheet_manager = StockManager(self.G2G_IDSHEET_BLACKLIST)
-        blacklist = sheet_manager.get_multiple_str_cells(f"'{self.G2G_SHEET_BLACKLIST}'!{self.G2G_CELL_BLACKLIST}")
-        # blacklist = [item for sublist in query_values for item in sublist]
+    def get_g2g_price(
+            self
+    ) -> float:
+        sheet_manager = StockManager(self.G2G_IDSHEET_PRICESS)
+        blacklist = sheet_manager.get_stock(f"'{self.G2G_SHEET_PRICESS}'!{self.G2G_CELL_PRICESS}")
         return blacklist
 
 
 class FUN(BaseGSheetModel):
-    FUN_CHECK: Annotated[int, "BD"]
-    FUN_PROFIT: Annotated[float, "BE"]
-    FUN_DISCOUNTFEE: Annotated[float, "BF"]
-    FUN_PRODUCT_COMPARE: Annotated[str, "BG"]
-    NAME2: Annotated[str | None, "BH"] = None
-    FUN_FILTER21: Annotated[str | None, "BI"] = None
-    FUN_FILTER22: Annotated[str | None, "BJ"] = None
-    FUN_FILTER23: Annotated[str | None, "BK"] = None
-    FUN_FILTER24: Annotated[str | None, "BL"] = None
-    FUN_HESONHANDONGIA: Annotated[float | None, "BM"] = None
-    FACTION2: Annotated[str | None, "BN"] = None
-    FUN_STOCK: Annotated[int, "BO"]
-    FUN_IDSHEET_BLACKLIST: Annotated[str, "BP"]
-    FUN_SHEET_BLACKLIST: Annotated[str, "BQ"]
-    FUN_CELL_BLACKLIST: Annotated[str, "BR"]
+    FUN_CHECK: Annotated[int, "AW"]
+    FUN_PROFIT: Annotated[float, "AX"]
+    FUN_DISCOUNTFEE: Annotated[float, "AY"]
+    FUN_PRODUCT_COMPARE: Annotated[str, "AZ"]
+    FUN_IDSHEET_PRICESS: Annotated[str, "BA"]
+    FUN_SHEET_PRICESS: Annotated[str, "BB"]
+    FUN_CELL_PRICESS: Annotated[str, "BC"]
+    FUN_QUYDOIDONVI: Annotated[float | None, "BD"] = None
 
-    def get_blacklist(self, gsheet: GSheet) -> list[str]:
-        sheet_manager = StockManager(self.FUN_IDSHEET_BLACKLIST)
-        blacklist = sheet_manager.get_multiple_str_cells(f"'{self.FUN_SHEET_BLACKLIST}'!{self.FUN_CELL_BLACKLIST}")
+
+    def get_fun_price(self) -> float:
+        sheet_manager = StockManager(self.FUN_IDSHEET_PRICESS)
+        blacklist = sheet_manager.get_stock(f"'{self.FUN_SHEET_PRICESS}'!{self.FUN_CELL_PRICESS}")
         return blacklist
 
 
 class BIJ(BaseGSheetModel):
-    BIJ_CHECK: Annotated[int, "BS"]
-    BIJ_PROFIT: Annotated[float, "BT"]
-    BIJ_NAME: Annotated[str, "BU"]
-    BIJ_SERVER: Annotated[str, "BV"]
-    BIJ_DELIVERY_METHOD: Annotated[str, "BW"]
-    BIJ_STOCKMIN: Annotated[int, "BX"]
-    BIJ_STOCKMAX: Annotated[int, "BY"]
-    HESONHANDONGIA3: Annotated[float | None, "BZ"] = None
-    BIJ_IDSHEET_BLACKLIST: Annotated[str | None, "CA"] = None
-    BIJ_SHEET_BLACKLIST: Annotated[str | None, "CB"] = None
-    BIJ_CELL_BLACKLIST: Annotated[str | None, "CC"] = None
+    BIJ_CHECK: Annotated[int, "BE"]
+    BIJ_PROFIT: Annotated[float, "BF"]
+    # BIJ_NAME: Annotated[str, "BG"]
+    # BIJ_SERVER: Annotated[str, "BH"]
+    BIJ_PRODUCT_COMPARE: Annotated[str, "BG"]
+    BIJ_IDSHEET_PRICESS: Annotated[str | None, "BH"] = None
+    BIJ_SHEET_PRICESS: Annotated[str | None, "BI"] = None
+    BIJ_CELL_PRICESS: Annotated[str | None, "BJ"] = None
+    BIJ_QUYDOIDONVI: Annotated[float | None, "BK"] = None
 
-    def get_blacklist(self, gsheet: GSheet) -> list[str]:
-        sheet_manager = StockManager(self.BIJ_IDSHEET_BLACKLIST)
-        blacklist = sheet_manager.get_multiple_str_cells(f"'{self.BIJ_SHEET_BLACKLIST}'!{self.BIJ_CELL_BLACKLIST}")
-        return blacklist
+
+    def get_bij_price(self) -> float:
+        sheet_manager = StockManager(self.BIJ_IDSHEET_PRICESS)
+        blacklist = sheet_manager.get_stock(f"'{self.BIJ_SHEET_PRICESS}'!{self.BIJ_CELL_PRICESS}")
+        return float(blacklist)
 
 
 class ExtraInfor(BaseGSheetModel):
-    MIN_UNIT_PER_ORDER: Annotated[int, "CD"]
-    VALUE_FOR_DISCOUNT: Annotated[str | None, "CE"] = ""
-    DISCOUNT: Annotated[str | None, "CF"] = ""
-    DELIVERY_GUARANTEE: Annotated[int, "CG"]
+    MIN_UNIT_PER_ORDER: Annotated[int, "BL"]
+    VALUE_FOR_DISCOUNT: Annotated[str | None, "BM"] = ""
+    DISCOUNT: Annotated[str | None, "BN"] = ""
+    DELIVERY_GUARANTEE: Annotated[int, "BO"]
