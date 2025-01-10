@@ -90,11 +90,10 @@ def write_data_to_xlsx(file_path: str, data: List[Dict[str, any]]):
     #filter row with Price Per Unit == 0
     try:
         df_new = df_new[df_new["Price Per Unit"] != 0]
+        # filer Total Units > 10000 then set Total Units = 10000
+        df_new.loc[df_new["Total Units"] > 10000, "Total Units"] = 10000
     except KeyError:
         pass
-    #filer Total Units > 10000 then set Total Units = 10000
-    df_new.loc[df_new["Total Units"] > 10000, "Total Units"] = 10000
-
 
     # Write the new content to the file with the specified sheet name
     df_new.to_excel(file_path, index=False, sheet_name="offer details")
