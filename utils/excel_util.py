@@ -88,7 +88,10 @@ def write_data_to_xlsx(file_path: str, data: List[Dict[str, any]]):
     if "Description" in df_new.columns:
         df_new.loc[1:, "Description"] = ""
     #filter row with Price Per Unit == 0
-    df_new = df_new[df_new["Price Per Unit"] != 0]
+    try:
+        df_new = df_new[df_new["Price Per Unit"] != 0]
+    except KeyError:
+        pass
     #filer Total Units > 10000 then set Total Units = 10000
     df_new.loc[df_new["Total Units"] > 10000, "Total Units"] = 10000
 
