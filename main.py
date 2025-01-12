@@ -107,7 +107,7 @@ def process(
                 _id_list = row.extra.get_game_list()
                 for _id in _id_list:
                     if "C" in _id:
-                        _currency_info = query_currency("storage/joined_data.db", row.product.Product_link)
+                        _currency_info = query_currency("storage/joined_data.db", _id)
                         currency_template.append(
                             CurrencyTemplate(
                                 game=_currency_info.Game,
@@ -126,7 +126,7 @@ def process(
                             )
                         )
                     else:
-                        _item_info = query_item("storage/joined_data.db", row.product.Product_link)
+                        _item_info = query_item("storage/joined_data.db", _id)
                         item_template.append(
                             ItemTemplate(
                                 game=_item_info.game,
