@@ -174,13 +174,16 @@ def calculate_price_stock_fake(
     # print("HEre")
     _black_list = row.bij.get_blacklist(gsheet)
     if row.bij.BIJ_CHECK == 1:
-        try:
-            bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij, black_list=_black_list)
-        except Exception as e:
-            print("Renew browser")
-            headless_browser = SeleniumUtil(mode=2)
-            bij_min_offer_item = bij_lowest_price(hostdata, headless_browser, row.bij, black_list=_black_list)
-
+        bij_min_offer_item = None
+        for attempt in range(2):
+            try:
+                bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij, black_list=_black_list)
+                break  # Exit the loop if successful
+            except Exception as e:
+                print("Renew browser")
+                selenium = SeleniumUtil(mode=2)
+                if attempt == 1:
+                    print("Error when getting BIJ", e)
         if bij_min_offer_item:
             bij_min_price = (
                 round(bij_min_offer_item.money

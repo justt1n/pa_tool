@@ -6,6 +6,7 @@ import pandas as pd
 from pydantic import BaseModel
 
 from constants import TEMPLATE_FOLDER
+from decorator.retry import retry
 
 
 class CurrencyTemplate(BaseModel):
@@ -73,6 +74,7 @@ def item_templates_to_dicts(templates: List[ItemTemplate]) -> List[Dict[str, any
     return [template.model_dump(mode="json") for template in templates]
 
 
+@retry(3, 0.1, Exception)
 def write_data_to_xlsx(file_path: str, data: List[Dict[str, any]]):
     # Read the first line of the existing file
     first_line = None
