@@ -207,7 +207,9 @@ def process(
             write_to_log_cell(worksheet, index, _current_time, log_type="time")
         print("Next row...")
     currency_template = currency_templates_to_dicts(currency_template)
+    is_have_item = False
     if len(item_template) > 0:
+        is_have_item = True
         item_template = item_templates_to_dicts(item_template)
     create_file_from_template("currency_template.xlsx", "storage/output/new_currency_file.xlsx",
                               currency_template)
@@ -216,7 +218,7 @@ def process(
 
     try:
         normal_browser = SeleniumUtil(mode=1)
-        upload_data_to_site(normal_browser)
+        upload_data_to_site(normal_browser, is_have_item)
     except Exception as _e:
         raise PACrawlerError(f"Error uploading data to site: {_e}")
 
@@ -229,8 +231,8 @@ def correct_extra_data(extra: ExtraInfor) -> ExtraInfor:
     return extra
 
 
-def upload_data_to_site(browser: SeleniumUtil):
-    login(browser)
+def upload_data_to_site(browser: SeleniumUtil, isHaveItem: bool = False):
+    login(browser, isHaveItem)
 
 
 ### LOG FUNC ###
