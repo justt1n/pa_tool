@@ -62,6 +62,22 @@ class StockManager:
             print(f"Error retrieving values from ranges {ranges}: {e}")
             raise Exception(f"Error getting values from ranges {ranges}")
 
+    def get_cell_stock(self, range_name: str) -> float:
+        try:
+            result = (
+                self.service.spreadsheets()
+                .values()
+                .get(spreadsheetId=self.spreadsheet_id, range=range_name)
+                .execute()
+            )
+            cell_value = result.get('values', [[]])[0][0]
+            # Convert to integer after handling float-like values
+            stock_value = float(cell_value)
+            return stock_value
+        except Exception as e:
+            print(f"Error retrieving stock from range {range_name}: {e}")
+            return -1
+
     def get_multiple_str_cells(self, range_str: str) -> list[str]:
         try:
             # Make a request for the single range
