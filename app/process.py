@@ -241,9 +241,8 @@ def calculate_price_change(
         if stock_fake_price is None:
             return None
         range_adjust = None
-        stock_fake_min_price = int(row.product.get_stock_fake_min_price())
-        stock_fake_max_price = int(row.product.get_stock_fake_max_price())
-        range_adjust = None
+        stock_fake_min_price = float(row.product.get_stock_fake_min_price())
+        stock_fake_max_price = float(row.product.get_stock_fake_max_price())
         if int(stock_fake_min_price) == -1 and int(stock_fake_max_price) == -1:
             closest_offer_item = min(offer_items, key=lambda item: abs(item.price - stock_fake_price[0]))
             range_adjust = random.uniform(
