@@ -110,7 +110,7 @@ def identify_stock(
     return stock_type, stock_num_info
 
 
-@retry(retries=5, delay=0.25)
+@retry(retries=2, delay=0.1)
 def calculate_price_stock_fake(
         gsheet: GSheet,
         row: Row,
