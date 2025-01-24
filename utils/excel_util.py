@@ -132,6 +132,7 @@ def write_data_to_xlsx(file_path: str, data: List[Dict[str, any]]):
             grouped = df_new.groupby("game")
         for game, group in grouped:
             # Reset the index for each group
+            game = str(game).replace(" / ", "_").replace(" ", "_")
             group.reset_index(drop=True, inplace=True)
 
             # Save each group to a separate Excel file
@@ -233,4 +234,4 @@ def sample_usage():
     print(list_files_in_output("storage/pa_template/item"))
 
 
-sample_usage()
+# sample_usage()
