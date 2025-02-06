@@ -195,17 +195,17 @@ class StockInfo(BaseGSheetModel):
 
 class G2G(BaseGSheetModel):
     G2G_CHECK: Annotated[int, "AU"]
-    G2G_PROFIT: Annotated[float, "AV"]
-    G2G_PRODUCT_COMPARE: Annotated[str, "AW"]
-    G2G_DELIVERY_TIME: Annotated[int, "AX"]
-    G2G_STOCK: Annotated[int, "AY"]
-    G2G_MINUNIT: Annotated[int, "AZ"]
-    G2G_QUYDOIDONVI: Annotated[float, "BA"]
+    G2G_PROFIT: Annotated[float | None, "AV"] = None
+    G2G_PRODUCT_COMPARE: Annotated[str | None, "AW"] = None
+    G2G_DELIVERY_TIME: Annotated[int | None, "AX"] = None
+    G2G_STOCK: Annotated[int | None, "AY"] = None
+    G2G_MINUNIT: Annotated[int | None, "AZ"] = None
+    G2G_QUYDOIDONVI: Annotated[float | None, "BA"] = None
     EXCEPTION1: Annotated[str | None, "BB"] = None
     SELLERNAME1: Annotated[str | None, "BC"] = None
-    G2G_IDSHEET_BLACKLIST: Annotated[str, "BD"]
-    G2G_SHEET_BLACKLIST: Annotated[str, "BE"]
-    G2G_CELL_BLACKLIST: Annotated[str, "BF"]
+    G2G_IDSHEET_BLACKLIST: Annotated[str | None, "BD"] = None
+    G2G_SHEET_BLACKLIST: Annotated[str | None, "BE"] = None
+    G2G_CELL_BLACKLIST: Annotated[str | None, "BF"] = None
 
     def get_blacklist(
             self,
