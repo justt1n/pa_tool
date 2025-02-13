@@ -20,7 +20,7 @@ class StockManager:
         )
         return build('sheets', 'v4', credentials=credentials)
 
-    def get_stock(self, range_name: str) -> float:
+    def get_cell_float_value(self, range_name: str) -> float:
         try:
             result = (
                 self.service.spreadsheets()
@@ -56,10 +56,8 @@ class StockManager:
                 cell_values.append(int(float(cell)))  # Handle float-like strings like '0.'
             return cell_values
         except ValueError as ve:
-            print(f"ValueError while parsing cell values: {ve}")
             raise Exception(f"Invalid stock value in ranges {ranges}")
         except Exception as e:
-            print(f"Error retrieving values from ranges {ranges}: {e}")
             raise Exception(f"Error getting values from ranges {ranges}")
 
     def get_cell_stock(self, range_name: str) -> float:

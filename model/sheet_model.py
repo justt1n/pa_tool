@@ -48,63 +48,70 @@ class Product(BaseGSheetModel):
     DELIVERY0: Annotated[str, "Y"]
     DELIVERY1: Annotated[str, "Z"]
     STOCKREAD: Annotated[int, "AA"]
-    IDSHEET_MAX: Annotated[str, "AB"]
-    SHEET_MAX: Annotated[str, "AC"]
-    CELL_MAX: Annotated[str, "AD"]
-    IDSHEET_MAX2: Annotated[str, "AE"]
-    SHEET_MAX2: Annotated[str, "AF"]
-    CELL_MAX2: Annotated[str, "AG"]
-    IDSHEET_MAX_STOCKFAKE: Annotated[str, "CO"]
-    SHEET_MAX_STOCKFAKE: Annotated[str, "CP"]
-    CELL_MAX_STOCKFAKE: Annotated[str, "CQ"]
-    IDSHEET_MIN_STOCKFAKE: Annotated[str, "CR"]
-    SHEET_MIN_STOCKFAKE: Annotated[str, "CS"]
-    CELL_MIN_STOCKFAKE: Annotated[str, "CT"]
+    IDSHEET_MAX: Annotated[str | None, "AB"] = ''
+    SHEET_MAX: Annotated[str | None, "AC"] = ''
+    CELL_MAX: Annotated[str | None, "AD"] = ''
+    IDSHEET_MAX2: Annotated[str | None, "AE"] = ''
+    SHEET_MAX2: Annotated[str | None, "AF"] = ''
+    CELL_MAX2: Annotated[str | None, "AG"] = ''
+    IDSHEET_MAX_STOCKFAKE: Annotated[str | None, "CO"] = ''
+    SHEET_MAX_STOCKFAKE: Annotated[str | None, "CP"] = ''
+    CELL_MAX_STOCKFAKE: Annotated[str | None, "CQ"] = ''
+    IDSHEET_MIN_STOCKFAKE: Annotated[str | None, "CR"] = ''
+    SHEET_MIN_STOCKFAKE: Annotated[str | None, "CS"] = ''
+    CELL_MIN_STOCKFAKE: Annotated[str | None, "CT"] = ''
 
     def min_price_stock_1(
             self,
             gsheet: GSheet,
     ) -> float:
-        sheet_manager = StockManager(self.IDSHEET_MIN)
-        cell_value = sheet_manager.get_stock(f"'{self.SHEET_MIN}'!{self.CELL_MIN}")
-        # sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MIN)
-        # worksheet = sheet.open_worksheet(self.SHEET_MIN)
-        # cell_value = worksheet.batch_get([self.CELL_MIN])[0]
+        try:
+            sheet_manager = StockManager(self.IDSHEET_MIN)
+            cell_value = sheet_manager.get_cell_float_value(f"'{self.SHEET_MIN}'!{self.CELL_MIN}")
+            # sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MIN)
+            # worksheet = sheet.open_worksheet(self.SHEET_MIN)
+            # cell_value = worksheet.batch_get([self.CELL_MIN])[0]
 
-        return float(cell_value)  # type: ignore
+            return float(cell_value)  # type: ignore
+        except Exception as e:
+            print("No min price stock 1")
+            return 0
 
     def max_price_stock_1(
             self,
             gsheet: GSheet,
     ) -> float:
-        sheet_manager = StockManager(self.IDSHEET_MAX)
-        cell_value = sheet_manager.get_stock(f"'{self.SHEET_MAX}'!{self.CELL_MAX}")
-        # sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MAX)
-        # worksheet = sheet.open_worksheet(self.SHEET_MAX)
-        # cell_value = worksheet.batch_get([self.CELL_MAX])[0]
-        return float(cell_value)  # type: ignore
+        try:
+            sheet_manager = StockManager(self.IDSHEET_MAX)
+            cell_value = sheet_manager.get_cell_float_value(f"'{self.SHEET_MAX}'!{self.CELL_MAX}")
+            return float(cell_value)  # type: ignore
+        except Exception as e:
+            print("No max price stock 1")
+            return 999999
 
     def min_price_stock_2(
             self,
             gsheet: GSheet,
     ) -> float:
-        sheet_manager = StockManager(self.IDSHEET_MIN2)
-        cell_value = sheet_manager.get_stock(f"'{self.SHEET_MIN2}'!{self.CELL_MIN2}")
-        # sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MIN2)
-        # worksheet = sheet.open_worksheet(self.SHEET_MIN2)
-        # cell_value = worksheet.batch_get([self.CELL_MIN2])[0]
-        return float(cell_value)  # type: ignore
+        try:
+            sheet_manager = StockManager(self.IDSHEET_MIN2)
+            cell_value = sheet_manager.get_cell_float_value(f"'{self.SHEET_MIN2}'!{self.CELL_MIN2}")
+            return float(cell_value)  # type: ignore
+        except Exception as e:
+            print("No min price stock 2")
+            return 0
 
     def max_price_stock_2(
             self,
             gsheet: GSheet,
     ) -> float:
-        sheet_manager = StockManager(self.IDSHEET_MAX2)
-        cell_value = sheet_manager.get_stock(f"'{self.SHEET_MAX2}'!{self.CELL_MAX2}")
-        # sheet = Sheet.from_sheet_id(gsheet, self.IDSHEET_MAX2)
-        # worksheet = sheet.open_worksheet(self.SHEET_MAX2)
-        # cell_value = worksheet.batch_get([self.CELL_MAX2])[0]
-        return float(cell_value)  # type: ignore
+        try:
+            sheet_manager = StockManager(self.IDSHEET_MAX2)
+            cell_value = sheet_manager.get_cell_float_value(f"'{self.SHEET_MAX2}'!{self.CELL_MAX2}")
+            return float(cell_value)  # type: ignore
+        except Exception as e:
+            print("No max price stock 2")
+            return 999999
 
     def get_stock_fake_min_price(self):
         sheet_manager = StockManager(self.IDSHEET_MIN_STOCKFAKE)
@@ -121,11 +128,11 @@ class StockInfo(BaseGSheetModel):
     IDSHEET_STOCK: Annotated[str, "AH"]
     SHEET_STOCK: Annotated[str, "AI"]
     CELL_STOCK: Annotated[str, "AJ"]
-    IDSHEET_STOCK2: Annotated[str, "AK"]
-    SHEET_STOCK2: Annotated[str, "AL"]
-    CELL_STOCK2: Annotated[str, "AM"]
+    IDSHEET_STOCK2: Annotated[str | None, "AK"] = ''
+    SHEET_STOCK2: Annotated[str | None, "AL"] = ''
+    CELL_STOCK2: Annotated[str | None, "AM"] = ''
     STOCK_LIMIT: Annotated[int, "AN"]
-    STOCK_LIMIT2: Annotated[int, "AO"]
+    STOCK_LIMIT2: Annotated[int | None, "AO"] = ''
     STOCK_MAX: Annotated[int | None, "AP"] = None
     STOCK_FAKE: Annotated[int | None, "AQ"] = None
     PA_IDSHEET_BLACKLIST: Annotated[str | None, "AR"] = ""
@@ -144,43 +151,41 @@ class StockInfo(BaseGSheetModel):
             pass
         return blacklist
 
-    def stock_1(
-            self,
-            gsheet: GSheet,
-    ) -> int:
-        stock_mng = StockManager(self.IDSHEET_STOCK)
-        stock1 = stock_mng.get_stock(f"'{self.SHEET_STOCK}'!{self.CELL_STOCK}")
+    def stock_1(self) -> int:
         try:
+            stock_mng = StockManager(self.IDSHEET_STOCK)
+            stock1 = stock_mng.get_cell_float_value(f"'{self.SHEET_STOCK}'!{self.CELL_STOCK}")
             self._stock1 = stock1  # type: ignore
             return stock1  # type: ignore
         except Exception as e:
-            print(e)
-            raise Exception("Error getting stock 1")
+            self._stock1 = -1
+            print("No Stock 1 or wrong sheet id")
+            return -1
 
-    def stock_2(
-            self,
-            gsheet: GSheet,
-    ) -> int:
-        stock_mng = StockManager(self.IDSHEET_STOCK)
-        stock2 = stock_mng.get_stock(f"'{self.SHEET_STOCK}'!{self.CELL_STOCK}")
+    def stock_2(self) -> int:
         try:
+            stock_mng = StockManager(self.IDSHEET_STOCK2)
+            stock2 = stock_mng.get_cell_float_value(f"'{self.SHEET_STOCK2}'!{self.CELL_STOCK2}")
             self._stock2 = stock2  # type: ignore
             return stock2  # type: ignore
         except Exception as e:
-            print(e)
-            raise Exception("Error getting stock 2")
+            self._stock2 = -1
+            print("No Stock 2 or wrong sheet id")
+            return -1
 
     def get_stocks(self):
         if self.IDSHEET_STOCK == self.IDSHEET_STOCK2:
             stock_manager = StockManager(self.IDSHEET_STOCK)
             cell1 = f"'{self.SHEET_STOCK}'!{self.CELL_STOCK}"
             cell2 = f"'{self.SHEET_STOCK}'!{self.CELL_STOCK2}"
-            stock1, stock2 = stock_manager.get_multiple_cells([cell1, cell2])
+            try:
+                stock1, stock2 = stock_manager.get_multiple_cells([cell1, cell2])
+            except Exception as e:
+                stock1 = self.stock_1()
+                stock2 = self.stock_2()
         else:
-            stock_mng = StockManager(self.IDSHEET_STOCK)
-            stock1 = stock_mng.get_stock(f"'{self.SHEET_STOCK}'!{self.CELL_STOCK}")
-            stock_mng = StockManager(self.IDSHEET_STOCK2)
-            stock2 = stock_mng.get_stock(f"'{self.SHEET_STOCK2}'!{self.CELL_STOCK2}")
+            stock1 = self.stock_1()
+            stock2 = self.stock_2()
         self._stock1 = stock1
         self._stock2 = stock2
         return stock1, stock2

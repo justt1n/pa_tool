@@ -1,3 +1,4 @@
+import copy
 import random
 from typing import Any
 
@@ -103,9 +104,9 @@ def identify_stock(
     )
 
     stock_type = StockType.stock_fake
-    if stock_1 >= stock_info.STOCK_LIMIT:
+    if stock_1 != -1 >= stock_info.STOCK_LIMIT:
         stock_type = StockType.stock_1
-    if stock_2 >= stock_info.STOCK_LIMIT2:
+    if stock_2 != -1 and stock_2 >= stock_info.STOCK_LIMIT2:
         stock_type = StockType.stock_2
     return stock_type, stock_num_info
 
@@ -216,11 +217,11 @@ def calculate_price_change(
         gsheet,
         row.stock_info,
     )
-
+    offer_items_copy = copy.deepcopy(offer_items)
     min_offer_item = OfferItem.min_offer_item(
         filter_valid_offer_items(
             row.product,
-            offer_items,
+            offer_items_copy,
             black_list=black_list
         )
     )
@@ -244,7 +245,8 @@ def calculate_price_change(
         stock_fake_min_price = float(row.product.get_stock_fake_min_price())
         stock_fake_max_price = float(row.product.get_stock_fake_max_price())
         if int(stock_fake_min_price) == -1 and int(stock_fake_max_price) == -1:
-            closest_offer_item = min(offer_items, key=lambda item: abs(item.price - stock_fake_price[0]))
+            valid_offer_items = [item for item in offer_items if item.seller.name not in black_list]
+            closest_offer_item = min(valid_offer_items, key=lambda item: abs(item.price - stock_fake_price[0]))
             range_adjust = random.uniform(
                 row.product.DONGIAGIAM_MIN, row.product.DONGIAGIAM_MAX
             )
