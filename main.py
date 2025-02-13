@@ -142,8 +142,8 @@ def process(
                                 discount=row.extra.DISCOUNT,
                                 offer_duration=row.product.DURATION,
                                 delivery_guarantee=row.extra.DELIVERY_GUARANTEE,
-                                delivery_info=row.extra.DELIVERY_INFO,
-                                cover_image=row.extra.COVER_IMAGE,
+                                delivery_info='',
+                                cover_image='',
                                 title=row.product.TITLE,
                                 description=row.product.DESCRIPTION,
                             )
@@ -184,8 +184,8 @@ def process(
                         discount=row.extra.DISCOUNT,
                         offer_duration=row.product.DURATION,
                         delivery_guarantee=row.extra.DELIVERY_GUARANTEE,
-                        delivery_info=row.extra.DELIVERY_INFO,
-                        cover_image=row.extra.COVER_IMAGE,
+                        delivery_info='',
+                        cover_image='',
                         title=row.product.TITLE,
                         description=row.product.DESCRIPTION,
                     )

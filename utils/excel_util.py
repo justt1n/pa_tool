@@ -43,8 +43,8 @@ class ItemTemplate(BaseModel):
     unit_price: float
     min_unit_per_order: float
     price_currency: str = "USD"
-    ValueForDiscount: float
-    discount: float
+    ValueForDiscount: str
+    discount: str
     offer_duration: int
     delivery_guarantee: int
     delivery_info: str
@@ -134,7 +134,7 @@ def write_data_to_xlsx(file_path: str, data: List[Dict[str, any]]):
             grouped = df_new.groupby("game")
         for game, group in grouped:
             # Reset the index for each group
-            game = str(game).replace(" / ", "_").replace(" ", "_")
+            game = str(game).replace(" / ", "_").replace(" ", "_").replace(":", "_")
             group.reset_index(drop=True, inplace=True)
 
             # Save each group to a separate Excel file
