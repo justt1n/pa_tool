@@ -48,7 +48,7 @@ def login(
     ### upload currency file
     for file in list_files_in_output('storage/output/currency'):
         sendCurrencyFile(_browser, file)
-        print(f"Upload {file}")
+        print(f"Uploaded")
         time.sleep(_time_sleep)
         print(f"Sleeping for {_time_sleep} seconds")
 
@@ -56,7 +56,7 @@ def login(
         ### upload item file
         for file in list_files_in_output('storage/output/item'):
             sendItemFile(_browser, file)
-            print(f"Upload {file}")
+            print(f"Uploaded")
             time.sleep(_time_sleep)
             print(f"Sleeping for {_time_sleep} seconds")
 
@@ -81,8 +81,6 @@ def sendCurrencyFile(_browser: SeleniumUtil, path: str) -> None:
     browse_button = _browser.driver.find_element(By.ID, "ckAgreePa")
     browse_button.click()
     _browser.click_by_inner_text("UPLOAD")
-    time.sleep(15)
-    _browser.close()
 
 
 def sendItemFile(_browser: SeleniumUtil, path: str) -> None:
@@ -102,8 +100,6 @@ def sendItemFile(_browser: SeleniumUtil, path: str) -> None:
     browse_button = _browser.driver.find_element(By.ID, "ckAgreePa")
     browse_button.click()
     _browser.click_by_inner_text("UPLOAD")
-    time.sleep(15)
-    _browser.close()
 
 
 if __name__ == "__main__":
