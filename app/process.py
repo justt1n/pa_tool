@@ -241,7 +241,9 @@ def calculate_price_change(
         )
         if stock_fake_price is None:
             return None
-        range_adjust = None
+        range_adjust = random.uniform(
+            row.product.DONGIAGIAM_MIN, row.product.DONGIAGIAM_MAX
+        )
         stock_fake_min_price = float(row.product.get_stock_fake_min_price())
         stock_fake_max_price = float(row.product.get_stock_fake_max_price())
         if int(stock_fake_min_price) == -1 and int(stock_fake_max_price) == -1:
@@ -254,18 +256,17 @@ def calculate_price_change(
                 closest_offer_item.price - range_adjust,  # type: ignore
                 row.product.DONGIA_LAMTRON,
             )
-        elif stock_fake_price[0] < stock_fake_min_price:  # type: ignore
+        elif stock_fake_min_price != -1 and stock_fake_price[0] < stock_fake_min_price:  # type: ignore
             adjusted_price = stock_fake_min_price
-        elif stock_fake_price[0] > stock_fake_max_price:  # type: ignore
+        elif stock_fake_max_price != -1 and stock_fake_price[0] > stock_fake_max_price:  # type: ignore
             adjusted_price = stock_fake_max_price
         else:
-            range_adjust = random.uniform(
-                row.product.DONGIAGIAM_MIN, row.product.DONGIAGIAM_MAX
-            )
             adjusted_price = round(
-                stock_fake_price[0] - range_adjust,  # type: ignore
+                stock_fake_price[0] + range_adjust,  # type: ignore
                 row.product.DONGIA_LAMTRON,
             )
+        adjusted_price = round(max(adjusted_price, min_offer_item.price - range_adjust, stock_fake_min_price),
+                               row.product.DONGIA_LAMTRON)
         return PriceInfo(
             price_min=round(stock_fake_min_price, 4),
             price_mac=round(stock_fake_max_price, 4),
@@ -275,7 +276,9 @@ def calculate_price_change(
             stock_num_info=stock_num_info,
         ), stock_fake_items
 
-    range_adjust = None
+    range_adjust = random.uniform(
+        row.product.DONGIAGIAM_MIN, row.product.DONGIAGIAM_MAX
+    )
     if min_offer_item.price < product_min_price:  # type: ignore
         adjusted_price = product_min_price
     elif min_offer_item.price > product_max_price:  # type: ignore
@@ -288,6 +291,7 @@ def calculate_price_change(
             min_offer_item.price - range_adjust,  # type: ignore
             row.product.DONGIA_LAMTRON,
         )
+    adjusted_price = max(adjusted_price, min_offer_item.price - range_adjust)
     return PriceInfo(
         price_min=product_min_price,
         price_mac=product_max_price,
