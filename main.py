@@ -114,7 +114,7 @@ def process(
                                 server=_currency_info.Server,
                                 faction=_currency_info.Faction,
                                 currency_per_unit=row.extra.CURRENCY_PER_UNIT,
-                                total_units=min(final_stock, 9999),
+                                total_units=min(final_stock, 10000),
                                 minimum_unit_per_order=row.extra.MIN_UNIT_PER_ORDER,
                                 price_per_unit=float(
                                     f"{item_info.adjusted_price * float(row.extra.CURRENCY_PER_UNIT):.3f}"),
@@ -138,7 +138,7 @@ def process(
                                 item_category3=_item_info.item_category3,
                                 item_per_unit=row.extra.CURRENCY_PER_UNIT,
                                 unit_price=float(
-                                    f"{item_info.adjusted_price * float(row.extra.CURRENCY_PER_UNIT):.3f}"),
+                                    f"{item_info.adjusted_price * float(row.extra.CURRENCY_PER_UNIT):.2f}"),
                                 min_unit_per_order=row.extra.MIN_UNIT_PER_ORDER,
                                 ValueForDiscount=row.extra.VALUE_FOR_DISCOUNT,
                                 discount=row.extra.DISCOUNT,
@@ -158,7 +158,7 @@ def process(
                         server=_currency_info.Server,
                         faction=_currency_info.Faction,
                         currency_per_unit=row.extra.CURRENCY_PER_UNIT,
-                        total_units=min(final_stock, 9999),
+                        total_units=min(final_stock, 10000),
                         minimum_unit_per_order=row.extra.MIN_UNIT_PER_ORDER,
                         price_per_unit=float(f"{item_info.adjusted_price * float(row.extra.CURRENCY_PER_UNIT):.3f}"),
                         ValueForDiscount=row.extra.VALUE_FOR_DISCOUNT,
@@ -180,7 +180,8 @@ def process(
                         item_category2=_item_info.item_category2,
                         item_category3=_item_info.item_category3,
                         item_per_unit=row.extra.CURRENCY_PER_UNIT,
-                        unit_price=float(f"{item_info.adjusted_price * float(row.extra.CURRENCY_PER_UNIT):.3f}"),
+                        unit_price=float(f"{item_info.adjusted_price * float(row.extra.CURRENCY_PER_UNIT):.2f}"),
+                        total_units=min(final_stock, 10000),
                         min_unit_per_order=row.extra.MIN_UNIT_PER_ORDER,
                         ValueForDiscount=row.extra.VALUE_FOR_DISCOUNT,
                         discount=row.extra.DISCOUNT,
@@ -192,7 +193,6 @@ def process(
                         description=row.product.DESCRIPTION,
                     )
                 )
-
             print(f"Price change:\n{item_info.model_dump(mode='json')}")
             log_str = ""
             for offer_item in offer_items:
@@ -320,6 +320,13 @@ if __name__ == "__main__":
     while True:
         try:
             process(BIJ_HOST_DATA, gsheet, headless_browser)
+            try:
+                _time_sleep = float(os.getenv("TIME_SLEEP"))
+            except Exception:
+                _time_sleep = 0
+            print(f"Sleeping for {_time_sleep} seconds")
+            # test_browser = SeleniumUtil(mode=1)
+            # login(test_browser, False)
         except Exception as e:
             _str_error = f"Error: {e}"
             sheet = Sheet.from_sheet_id(

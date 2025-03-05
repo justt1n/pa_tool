@@ -19,7 +19,6 @@ PATH_TO_EXTENSION = pathlib.Path(__file__).parent.parent.joinpath(
 
 
 class SeleniumUtil:
-    @retry(retries=5, delay=1, exception=WebDriverException)
     def __init__(self, mode: int):
         _driver_path = ChromeDriverManager().install()
         _chrome_service = Service(executable_path=_driver_path)
@@ -61,6 +60,7 @@ class SeleniumUtil:
         element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, f"//*[contains(text(), '{text}')]"))
         )
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
         element.click()
 
     def close(self):
