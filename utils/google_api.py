@@ -1,16 +1,14 @@
 import time
 
-from googleapiclient.discovery import build
 from google.oauth2.service_account import Credentials
-
-from decorator.time_execution import time_execution
+from googleapiclient.discovery import build
 
 
 class StockManager:
     def __init__(self, spreadsheet_id: str):
         self.credentials_file = "key.json"
         self.spreadsheet_id = spreadsheet_id
-        time.sleep(2.5)
+        # time.sleep(1)
         self.service = self._initialize_service()
 
     def _initialize_service(self):
@@ -39,6 +37,22 @@ class StockManager:
             print(f"Error retrieving stock from range {range_name}: {e}")
             raise Exception(f"Error getting stock from {range_name}")
 
+    def get_cell_stock(self, range_name: str) -> float:
+        try:
+            result = (
+                self.service.spreadsheets()
+                .values()
+                .get(spreadsheetId=self.spreadsheet_id, range=range_name)
+                .execute()
+            )
+            cell_value = result.get('values', [[]])[0][0]
+            # Convert to integer after handling float-like values
+            stock_value = float(cell_value)
+            return stock_value
+        except Exception as e:
+            print(f"Error retrieving stock from range {range_name}: {e}")
+            return -1
+
     def get_multiple_cells(self, ranges: list[str]) -> list[int]:
         try:
             # Make a batch request for multiple ranges
@@ -56,25 +70,9 @@ class StockManager:
                 cell_values.append(int(float(cell)))  # Handle float-like strings like '0.'
             return cell_values
         except ValueError as ve:
-            raise Exception(f"Invalid stock value in ranges {ranges}")
+            raise Exception(f"Invalid stock value in ranges {ranges}\n{ve}")
         except Exception as e:
-            raise Exception(f"Error getting values from ranges {ranges}")
-
-    def get_cell_stock(self, range_name: str) -> float:
-        try:
-            result = (
-                self.service.spreadsheets()
-                .values()
-                .get(spreadsheetId=self.spreadsheet_id, range=range_name)
-                .execute()
-            )
-            cell_value = result.get('values', [[]])[0][0]
-            # Convert to integer after handling float-like values
-            stock_value = float(cell_value)
-            return stock_value
-        except Exception as e:
-            print(f"Error retrieving stock from range {range_name}: {e}")
-            return -1
+            raise Exception(f"Error getting values from ranges {ranges}{e}")
 
     def get_multiple_str_cells(self, range_str: str) -> list[str]:
         try:
