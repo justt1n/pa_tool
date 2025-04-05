@@ -1,3 +1,4 @@
+import copy
 from dataclasses import dataclass, asdict
 
 import requests
@@ -129,10 +130,17 @@ def get_dd373_listings(url: str) -> List[DD373Product]:
     return [DD373Product.from_html_element(item, domain) for item in goods_list_items]
 
 
-def _filter_valid_offer_item(listOffers: List[DD373Product]):
-    #sort
-    listOffers.sort()
+def _filter_valid_offer_item(listOffers: List[DD373Product]) -> List[DD373Product]:
+    # Make a copy of the list
+    offers_copy = copy.deepcopy(listOffers)
 
+    # Sort by exchange_rate_2
+    sorted_offers = sorted(offers_copy, key=lambda x: float(x.exchange_rate_2.split('=')[1].replace('元', '').strip()))
+
+    # Filter sellers with credit_rating < 5
+    valid_offers = [offer for offer in sorted_offers if offer.credit_rating < 5]
+
+    return valid_offers
 
 
 
