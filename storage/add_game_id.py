@@ -1,62 +1,96 @@
 import sqlite3
 
-
-def add_auto_increment_id(db_path, table_name):
-    """
-    Adds an auto-incrementing 'id' column to an existing SQLite table.
-
-    :param db_path: Path to the SQLite database file.
-    :param table_name: Name of the existing table to modify.
-    """
+def add_auto_increment_id(db_path, table_name, id_prefix="C"):
+    conn = None
     try:
-        # Connect to the SQLite database
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
 
-        # Get the existing table structure
-        cursor.execute(f"PRAGMA table_info({table_name})")
-        columns = cursor.fetchall()
-        column_names = [col[1] for col in columns]
+        cursor.execute(f'PRAGMA table_info("{table_name}")')
+        columns_info = cursor.fetchall()
 
-        # Check if 'id' column already exists
-        if 'id' in column_names:
-            print(f"Table '{table_name}' already has an 'id' column.")
+        if not columns_info:
+            # Table doesn't exist, handle error or return silently
+            if conn: conn.close()
             return
 
-        # Create a new table with an 'id' column added
-        new_table_name = f"{table_name}_new"
-        columns_definition = ", ".join([f"{col[1]} {col[2]}" for col in columns])
+        column_names = [col[1] for col in columns_info]
+        column_names_lower = [name.lower() for name in column_names]
+
+        if 'id' in column_names_lower:
+            if conn: conn.close()
+            return
+
+        new_table_name = f"{table_name}_new_{sqlite3.version_info[0]}"
+
+        column_definitions = []
+        original_column_names_quoted = []
+
+        for col in columns_info:
+            name = col[1]
+            dtype = col[2]
+            not_null = col[3]
+            quoted_name = f'"{name}"'
+            original_column_names_quoted.append(quoted_name)
+            definition = f"{quoted_name} {dtype}"
+            if not_null:
+                definition += " NOT NULL"
+            column_definitions.append(definition)
+
+        columns_definition_sql = ", ".join(column_definitions)
+        original_columns_select_sql = ", ".join(original_column_names_quoted)
+        original_columns_insert_sql = ", ".join(original_column_names_quoted)
+
+
         create_table_sql = f"""
-            CREATE TABLE {new_table_name} (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                {columns_definition}
-            )
+            CREATE TABLE "{new_table_name}" (
+                "id" TEXT PRIMARY KEY,
+                {columns_definition_sql}
+            );
         """
         cursor.execute(create_table_sql)
 
-        # Copy data from the old table to the new table
-        columns_without_types = ", ".join(column_names)
-        cursor.execute(f"""
-            INSERT INTO {new_table_name} ({columns_without_types})
-            SELECT {columns_without_types} FROM {table_name}
-        """)
 
-        # Drop the old table and rename the new table
-        cursor.execute(f"DROP TABLE {table_name}")
-        cursor.execute(f"ALTER TABLE {new_table_name} RENAME TO {table_name}")
+        select_sql = f'SELECT {original_columns_select_sql} FROM "{table_name}";'
+        cursor.execute(select_sql)
+        rows_to_copy = cursor.fetchall()
+
+        placeholders = ", ".join(['?'] * len(original_column_names_quoted))
+        insert_sql_template = f"""
+            INSERT INTO "{new_table_name}" ("id", {original_columns_insert_sql})
+            VALUES (?, {placeholders});
+        """
+
+        row_counter = 1
+        for row_data in rows_to_copy:
+            custom_id = f"{id_prefix}{row_counter}"
+            data_to_insert = (custom_id,) + row_data
+            cursor.execute(insert_sql_template, data_to_insert)
+            row_counter += 1
+
+
+        cursor.execute(f'DROP TABLE "{table_name}";')
+        cursor.execute(f'ALTER TABLE "{new_table_name}" RENAME TO "{table_name}";')
 
         conn.commit()
-        print(f"Auto-incrementing 'id' column added to '{table_name}' successfully.")
 
     except sqlite3.Error as e:
-        print(f"Database error: {e}")
+        # Silently handle error or add minimal logging if needed
+        # print(e) # Optional: uncomment for debugging
+        if conn:
+            try:
+                conn.rollback()
+            except sqlite3.Error:
+                 pass # Ignore rollback error if transaction wasn't active
 
     finally:
-        conn.close()
+        if conn:
+            conn.close()
 
 
 # Example usage
-db_path = "joined_data.db"  # Path to your SQLite database file
-table_name = "joined_data"  # Name of the table to modify
+db_path = "joined_data.db"
+table_name = "game_data"
+custom_prefix = "C" # Define your desired prefix here
 
-add_auto_increment_id(db_path, table_name)
+add_auto_increment_id(db_path, table_name, custom_prefix)
