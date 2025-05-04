@@ -1,6 +1,7 @@
 import copy
 import random
-from typing import Any
+import concurrent.futures
+from typing import Any, Optional, Tuple, List
 
 import gspread
 
@@ -111,96 +112,96 @@ def identify_stock(
     return stock_type, stock_num_info
 
 
-@retry(retries=2, delay=0.1)
-def calculate_price_stock_fake(
-        gsheet: GSheet,
-        row: Row,
-        quantity: int,
-        hostdata: dict,
-        selenium: SeleniumUtil,
-):
-    g2g_min_price = None
-    if row.g2g.G2G_CHECK == 1:
-        g2g_offer_items = g2g_extract_offer_items(row.g2g.G2G_PRODUCT_COMPARE)
-        filtered_g2g_offer_items = G2GOfferItem.filter_valid_g2g_offer_item(
-            g2g=row.g2g,
-            g2g_blacklist=row.g2g.get_blacklist(gsheet),
-            g2g_offer_items=g2g_offer_items,
-        )
-        if filtered_g2g_offer_items:
-            g2g_min_offer_item = G2GOfferItem.min_offer_item(filtered_g2g_offer_items)
-            g2g_min_price = (
-                round(g2g_min_offer_item.price_per_unit
-                      * row.g2g.G2G_PROFIT, 4)
-                , g2g_min_offer_item.seller_name)
-            print(f"\nG2G min price: {g2g_min_price}")
-        else:
-            print("No valid G2G offer items")
-
-    fun_min_price = None
-    if row.fun.FUN_CHECK == 1:
-        fun_offer_items = fun_extract_offer_items(
-            row.fun.FUN_PRODUCT_COMPARE,
-            [
-                i
-                for i in [
-                row.fun.FUN_FILTER21,
-                row.fun.FUN_FILTER22,
-                row.fun.FUN_FILTER23,
-                row.fun.FUN_FILTER24,
-            ]
-                if i is not None
-            ],
-        )
-        filtered_fun_offer_items = FUNOfferItem.filter_valid_fun_offer_items(
-            fun=row.fun,
-            fun_offer_items=fun_offer_items,
-            fun_blacklist=row.fun.get_blacklist(gsheet),
-        )
-        if filtered_fun_offer_items:
-            fun_min_offer_item = FUNOfferItem.min_offer_item(filtered_fun_offer_items)
-            fun_min_price = (
-                round(fun_min_offer_item.price
-                      * row.fun.FUN_PROFIT
-                      * row.fun.FUN_DISCOUNTFEE
-                      * row.fun.FUN_HESONHANDONGIA
-                      , 4)
-                , fun_min_offer_item.seller)
-            print(f"\nFUN min price: {fun_min_price}")
-        else:
-            print("No valid FUN offer items")
-
-    bij_min_price = None
-    CNY_RATE = getCNYRate()
-    # print("HEre")
-    _black_list = row.bij.get_blacklist(gsheet)
-    if row.bij.BIJ_CHECK == 1:
-        bij_min_offer_item = None
-        for attempt in range(2):
-            try:
-                bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij, black_list=_black_list)
-                break  # Exit the loop if successful
-            except Exception as e:
-                print("Renew browser")
-                selenium = SeleniumUtil(mode=2)
-                if attempt == 1:
-                    print("Error when getting BIJ", e)
-        if bij_min_offer_item:
-            bij_min_price = (
-                round(bij_min_offer_item.money
-                      * row.bij.BIJ_PROFIT
-                      * row.bij.HESONHANDONGIA3
-                      * CNY_RATE, 4)
-                , bij_min_offer_item.username)
-            print(f"\nBIJ min price: {bij_min_price}")
-        else:
-            print("No valid BIJ offer items")
-
-    return min(
-        [i for i in [g2g_min_price, fun_min_price, bij_min_price] if i is not None and i[0] > 0],
-        key=lambda x: x[0]
-    ), [g2g_min_price, fun_min_price, bij_min_price]
-
+# @retry(retries=2, delay=0.1)
+# def calculate_price_stock_fake(
+#         gsheet: GSheet,
+#         row: Row,
+#         quantity: int,
+#         hostdata: dict,
+#         selenium: SeleniumUtil,
+# ):
+#     g2g_min_price = None
+#     if row.g2g.G2G_CHECK == 1:
+#         g2g_offer_items = g2g_extract_offer_items(row.g2g.G2G_PRODUCT_COMPARE)
+#         filtered_g2g_offer_items = G2GOfferItem.filter_valid_g2g_offer_item(
+#             g2g=row.g2g,
+#             g2g_blacklist=row.g2g.get_blacklist(gsheet),
+#             g2g_offer_items=g2g_offer_items,
+#         )
+#         if filtered_g2g_offer_items:
+#             g2g_min_offer_item = G2GOfferItem.min_offer_item(filtered_g2g_offer_items)
+#             g2g_min_price = (
+#                 round(g2g_min_offer_item.price_per_unit
+#                       * row.g2g.G2G_PROFIT, 4)
+#                 , g2g_min_offer_item.seller_name)
+#             print(f"\nG2G min price: {g2g_min_price}")
+#         else:
+#             print("No valid G2G offer items")
+#
+#     fun_min_price = None
+#     if row.fun.FUN_CHECK == 1:
+#         fun_offer_items = fun_extract_offer_items(
+#             row.fun.FUN_PRODUCT_COMPARE,
+#             [
+#                 i
+#                 for i in [
+#                 row.fun.FUN_FILTER21,
+#                 row.fun.FUN_FILTER22,
+#                 row.fun.FUN_FILTER23,
+#                 row.fun.FUN_FILTER24,
+#             ]
+#                 if i is not None
+#             ],
+#         )
+#         filtered_fun_offer_items = FUNOfferItem.filter_valid_fun_offer_items(
+#             fun=row.fun,
+#             fun_offer_items=fun_offer_items,
+#             fun_blacklist=row.fun.get_blacklist(gsheet),
+#         )
+#         if filtered_fun_offer_items:
+#             fun_min_offer_item = FUNOfferItem.min_offer_item(filtered_fun_offer_items)
+#             fun_min_price = (
+#                 round(fun_min_offer_item.price
+#                       * row.fun.FUN_PROFIT
+#                       * row.fun.FUN_DISCOUNTFEE
+#                       * row.fun.FUN_HESONHANDONGIA
+#                       , 4)
+#                 , fun_min_offer_item.seller)
+#             print(f"\nFUN min price: {fun_min_price}")
+#         else:
+#             print("No valid FUN offer items")
+#
+#     bij_min_price = None
+#     CNY_RATE = getCNYRate()
+#     # print("HEre")
+#     _black_list = row.bij.get_blacklist(gsheet)
+#     if row.bij.BIJ_CHECK == 1:
+#         bij_min_offer_item = None
+#         for attempt in range(2):
+#             try:
+#                 bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij, black_list=_black_list)
+#                 break  # Exit the loop if successful
+#             except Exception as e:
+#                 print("Renew browser")
+#                 selenium = SeleniumUtil(mode=2)
+#                 if attempt == 1:
+#                     print("Error when getting BIJ", e)
+#         if bij_min_offer_item:
+#             bij_min_price = (
+#                 round(bij_min_offer_item.money
+#                       * row.bij.BIJ_PROFIT
+#                       * row.bij.HESONHANDONGIA3
+#                       * CNY_RATE, 4)
+#                 , bij_min_offer_item.username)
+#             print(f"\nBIJ min price: {bij_min_price}")
+#         else:
+#             print("No valid BIJ offer items")
+#
+#     return min(
+#         [i for i in [g2g_min_price, fun_min_price, bij_min_price] if i is not None and i[0] > 0],
+#         key=lambda x: x[0]
+#     ), [g2g_min_price, fun_min_price, bij_min_price]
+#
 
 @time_execution
 # TODO: this is change price logic
@@ -376,3 +377,177 @@ def get_closest_offer_item(
     adjusted_item.price = (adjusted_item.price / adjusted_item.quantity) - profit
 
     return adjusted_item.price, adjusted_item.seller.name
+
+
+def _process_g2g(row: Row, gsheet: GSheet) -> Optional[Tuple[float, str]]:
+    try:
+        print("Starting G2G fetch...")
+        g2g_offer_items = g2g_extract_offer_items(row.g2g.G2G_PRODUCT_COMPARE)
+        filtered_g2g_offer_items = G2GOfferItem.filter_valid_g2g_offer_item(
+            g2g=row.g2g,
+            g2g_blacklist=row.g2g.get_blacklist(gsheet),
+            g2g_offer_items=g2g_offer_items,
+        )
+        if filtered_g2g_offer_items:
+            g2g_min_offer_item = G2GOfferItem.min_offer_item(filtered_g2g_offer_items)
+            g2g_min_price = (
+                round(g2g_min_offer_item.price_per_unit * row.g2g.G2G_PROFIT, 4),
+                g2g_min_offer_item.seller_name
+            )
+            print(f"G2G min price calculated: {g2g_min_price}")
+            return g2g_min_price
+        else:
+            print("No valid G2G offer items")
+            return None
+    except Exception as e:
+        print(f"Error processing G2G: {e}")
+        return None
+
+
+def _process_fun(row: Row, gsheet: GSheet) -> Optional[Tuple[float, str]]:
+    try:
+        print("Starting FUN fetch...")
+        fun_offer_items = fun_extract_offer_items(
+            row.fun.FUN_PRODUCT_COMPARE,
+            [
+                i
+                for i in [
+                row.fun.FUN_FILTER21, row.fun.FUN_FILTER22,
+                row.fun.FUN_FILTER23, row.fun.FUN_FILTER24,
+            ] if i is not None
+            ],
+        )
+        filtered_fun_offer_items = FUNOfferItem.filter_valid_fun_offer_items(
+            fun=row.fun,
+            fun_offer_items=fun_offer_items,
+            fun_blacklist=row.fun.get_blacklist(gsheet),
+        )
+        if filtered_fun_offer_items:
+            fun_min_offer_item = FUNOfferItem.min_offer_item(filtered_fun_offer_items)
+            fun_min_price = (
+                round(
+                    fun_min_offer_item.price * row.fun.FUN_PROFIT * row.fun.FUN_DISCOUNTFEE * row.fun.FUN_HESONHANDONGIA,
+                    4),
+                fun_min_offer_item.seller
+            )
+            print(f"FUN min price calculated: {fun_min_price}")
+            return fun_min_price
+        else:
+            print("No valid FUN offer items")
+            return None
+    except Exception as e:
+        print(f"Error processing FUN: {e}")
+        return None
+
+
+def _process_bij(row: Row, gsheet: GSheet, hostdata: dict, selenium: SeleniumUtil) -> Optional[Tuple[float, str]]:
+    try:
+        print("Starting BIJ fetch...")
+        CNY_RATE = getCNYRate()
+        _black_list = row.bij.get_blacklist(gsheet)
+        bij_min_offer_item = None
+        for attempt in range(2):
+            try:
+                bij_min_offer_item = bij_lowest_price(hostdata, selenium, row.bij, black_list=_black_list)
+                break
+            except Exception as e:
+                print(f"Attempt {attempt + 1} failed for BIJ. Error: {e}")
+                if attempt == 1:
+                    print("Error when getting BIJ after retries", e)
+                    raise  # Ném lại lỗi sau khi hết số lần thử
+
+        if bij_min_offer_item:
+            bij_min_price = (
+                round(bij_min_offer_item.money * row.bij.BIJ_PROFIT * row.bij.HESONHANDONGIA3 * CNY_RATE, 4),
+                bij_min_offer_item.username
+            )
+            print(f"BIJ min price calculated: {bij_min_price}")
+            return bij_min_price
+        else:
+            print("No valid BIJ offer items")
+            return None
+    except Exception as e:
+        print(f"Error processing BIJ: {e}")
+        return None
+
+
+@retry(retries=2, delay=0.1)
+@time_execution
+def calculate_price_stock_fake(
+        gsheet: GSheet,
+        row: Row,
+        quantity: int,  # Biến này không được sử dụng trong logic gốc? Vẫn giữ lại param.
+        hostdata: dict,
+        selenium: SeleniumUtil,
+) -> Tuple[Optional[Tuple[float, str]], List[Optional[Tuple[float, str]]]]:  # Trả về tuple(min_price, list_all_prices)
+
+    g2g_future = None
+    fun_future = None
+    bij_future = None
+
+    results = {}  # Dictionary để lưu kết quả theo nguồn
+
+    # Sử dụng ThreadPoolExecutor để chạy song song
+    # max_workers=3 để giới hạn số luồng bằng số nguồn dữ liệu
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+        # Submit G2G task
+        if row.g2g.G2G_CHECK == 1:
+            print("Submitting G2G task...")
+            g2g_future = executor.submit(_process_g2g, row, gsheet)
+
+        # Submit FUN task
+        if row.fun.FUN_CHECK == 1:
+            print("Submitting FUN task...")
+            fun_future = executor.submit(_process_fun, row, gsheet)
+
+        # Submit BIJ task
+        if row.bij.BIJ_CHECK == 1:
+            print("Submitting BIJ task...")
+            # Lưu ý rủi ro về thread-safety của 'selenium' khi truyền vào đây
+            bij_future = executor.submit(_process_bij, row, gsheet, hostdata, selenium)
+
+        if g2g_future:
+            try:
+                results['g2g'] = g2g_future.result()  # Lấy kết quả từ luồng G2G
+                print(f"G2G Result received: {results['g2g']}")
+            except Exception as e:
+                print(f"G2G task failed with exception: {e}")
+                results['g2g'] = None
+        else:
+            results['g2g'] = None
+
+        if fun_future:
+            try:
+                results['fun'] = fun_future.result()  # Lấy kết quả từ luồng FUN
+                print(f"FUN Result received: {results['fun']}")
+            except Exception as e:
+                print(f"FUN task failed with exception: {e}")
+                results['fun'] = None
+        else:
+            results['fun'] = None
+
+        if bij_future:
+            try:
+                results['bij'] = bij_future.result()  # Lấy kết quả từ luồng BIJ
+                print(f"BIJ Result received: {results['bij']}")
+            except Exception as e:
+                print(f"BIJ task failed with exception: {e}")
+                results['bij'] = None
+        else:
+            results['bij'] = None
+
+    g2g_min_price = results.get('g2g')
+    fun_min_price = results.get('fun')
+    bij_min_price = results.get('bij')
+
+    all_prices: List[Optional[Tuple[float, str]]] = [g2g_min_price, fun_min_price, bij_min_price]
+    valid_prices = [p for p in all_prices if p is not None and p[0] > 0]
+
+    if not valid_prices:
+        print("No valid prices found from any source.")
+        final_min_price = None
+    else:
+        final_min_price = min(valid_prices, key=lambda x: x[0])
+        print(f"Overall minimum price: {final_min_price}")
+
+    return final_min_price, all_prices

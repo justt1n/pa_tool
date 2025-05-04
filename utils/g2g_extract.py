@@ -1,7 +1,7 @@
 from typing import Final
 import requests
 from decorator.retry import retry
-from requests import HTTPError
+from requests import HTTPError, Session
 from bs4 import BeautifulSoup, Tag
 
 from model.crawl_model import DeliveryTime, TimeUnit, G2GOfferItem
@@ -9,19 +9,54 @@ from .exceptions import G2GCrawlerError
 
 import re
 
+DEFAULT_HEADERS: Final[dict[str, str]] = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 '
+                  'Safari/537.36',
+    # Common browser UA
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,'
+              'application/signed-exchange;v=b3;q=0.9',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Accept-Encoding': 'gzip, deflate, br',  # Requests handles decompression
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    # 'Referer': 'https://www.g2g.com/', # Optional: Sometimes helps, set to a plausible referring page if needed
+}
+
+DEFAULT_COOKIES: Final[dict[str, str]] = {
+    "g2g_regional": '{"country": "VN", "currency": "USD", "language": "en"}'
+}
+
 
 @retry(retries=5, delay=1.2, exception=HTTPError)
 def __get_soup(
         url: str,
 ) -> BeautifulSoup:
-    res = requests.get(
-        url=url,
-        cookies={
-            "g2g_regional": '{"country": "VN", "currency": "USD", "language": "en"}'
-        },
-    )
-    res.raise_for_status()
-    return BeautifulSoup(res.text, "html.parser")
+    try:
+        session = Session()
+        session.headers.update(DEFAULT_HEADERS) # Set default headers for the session
+
+        res = session.get(
+            url=url,
+            cookies=DEFAULT_COOKIES, # Pass cookies to the specific request
+            timeout=15 # Add a timeout to prevent hanging
+        )
+        # Check for HTTP errors AFTER the request is made
+        res.raise_for_status() # This will raise HTTPError for 4xx/5xx responses
+
+        return BeautifulSoup(res.text, "html.parser")
+
+    # Catch specific HTTPError for retries
+    except HTTPError as e:
+        print(f"HTTP Error encountered for {url}: {e.response.status_code} {e.response.reason}")
+        # Optionally print some response text for debugging, might show a block page
+        # print(f"Response text snippet: {e.response.text[:500]}")
+        raise e # Re-raise the HTTPError so the @retry decorator catches it
+
+    # Catch other potential request errors (network issues, DNS errors, timeouts)
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed for {url}: {e}")
+        # Wrap in your custom exception or raise directly
+        raise G2GCrawlerError(f"Request failed for {url}: {e}") from e
 
 
 def __g2g_extract_offer_items_from_soup(
@@ -120,7 +155,7 @@ def __g2g_extract_price_per_unit(
     raise G2GCrawlerError("Can't extract Price per unit")
 
 
-@retry(retries=10, delay=0.25, exception=HTTPError)
+@retry(retries=5, delay=0.5, exception=HTTPError)
 def g2g_extract_offer_items(
         url: str,
 ) -> list[G2GOfferItem]:

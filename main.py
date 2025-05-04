@@ -2,6 +2,7 @@ import codecs
 import json
 import os
 from datetime import datetime
+from typing import List
 
 from dotenv import load_dotenv
 from gspread.utils import a1_to_rowcol
