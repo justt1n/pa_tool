@@ -1,4 +1,5 @@
 import copy
+import re
 from dataclasses import dataclass, asdict
 
 import requests
@@ -110,6 +111,16 @@ class DD373Product:
                 href = f"https:{href}"
             product.purchase_url = href
 
+        # get quantity form title '30000金=1800.00元'
+        if product.title:
+            quantity_text = product.title.split('=')[0]
+            try:
+                quantity = int(re.search(r'\d+', quantity_text).group())
+                product.stock = quantity*product.stock
+            except (ValueError, TypeError):
+                quantity = 1
+                product.stock = 1
+        product.price = product.price / quantity
         return product
 
     def to_dict(self) -> Dict[str, Any]:
@@ -183,7 +194,7 @@ def get_dd_min_price(dd: DD) -> Optional[Tuple[float, str]]:
         return None
     min_price_object = min(filter_list, key=lambda product: product.price)
 
-    min_price = min_price_object.price * dd.DD_PROFIT * dd.DD_EXCHANGE_RATE
+    min_price = min_price_object.price * dd.DD_PROFIT * dd.DD_QUYDOIDONVI
     min_seller = min_price_object.title
     dd_min_price = (min_price, min_seller)
     return dd_min_price
