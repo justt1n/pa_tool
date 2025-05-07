@@ -220,6 +220,31 @@ def calculate_price_change(
     )
     offer_items_copy = copy.deepcopy(offer_items)
 
+    if len (offer_items_copy) == 1 and offer_items_copy[0].seller.name in black_list:
+        if stock_type is StockType.stock_1:
+            min_price = float(row.product.min_price_stock_1(gsheet))
+            max_price = float(row.product.max_price_stock_1(gsheet))
+            offer_items_copy[0].price = max_price
+        elif stock_type is StockType.stock_2:
+            max_price = float(row.product.max_price_stock_2(gsheet))
+            min_price = float(row.product.min_price_stock_2(gsheet))
+            offer_items_copy[0].price = max_price
+        elif stock_type is StockType.stock_fake:
+            min_price = float(row.product.get_stock_fake_min_price())
+            max_price = float(row.product.get_stock_fake_max_price())
+            offer_items_copy[0].price = max_price
+        return PriceInfo(
+            price_min=min_price,
+            price_mac=max_price,
+            adjusted_price=offer_items_copy[0].price,
+            offer_item=offer_items_copy[0],
+            stock_type=stock_type,
+            range_adjust=None,
+            stock_num_info=stock_num_info,
+            ref_seller="All seller in black list",
+            ref_price=None
+        ), None
+
     # Ensure min_offer_item is valid before proceeding
     valid_filtered_offer_items = filter_valid_offer_items(
         row.product,
