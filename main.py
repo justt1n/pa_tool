@@ -102,6 +102,9 @@ def process(
                 [item_info, stock_fake_items] = calculate_price_change(
                     gsheet, row, offer_items, BIJ_HOST_DATA, browser, pa_blacklist
                 )
+                if item_info is None:
+                    print("No item info")
+                    continue
             except Exception as e:
                 print(f"Error calculating price change: {e}")
                 continue

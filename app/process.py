@@ -213,7 +213,7 @@ def calculate_price_change(
         BIJ_HOST_DATA: dict,
         selenium: SeleniumUtil,
         black_list: list[str],
-) -> None | tuple[PriceInfo, list[tuple[float, str] | None]] | tuple[PriceInfo, None]:
+) -> tuple[None, None] | tuple[PriceInfo, None] | None | tuple[PriceInfo, list[tuple[float, str] | None]]:
     stock_type, stock_num_info = identify_stock(
         gsheet,
         row.stock_info,
@@ -233,6 +233,10 @@ def calculate_price_change(
             min_price = float(row.product.get_stock_fake_min_price())
             max_price = float(row.product.get_stock_fake_max_price())
             offer_items_copy[0].price = max_price
+
+        if offer_items_copy[0].price == max_price:
+            return None, None
+
         return PriceInfo(
             price_min=min_price,
             price_mac=max_price,
