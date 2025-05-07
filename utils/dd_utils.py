@@ -3,7 +3,23 @@ from dataclasses import dataclass, asdict
 
 import requests
 from bs4 import BeautifulSoup, Tag
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
+
+from model.sheet_model import DD
+
+
+class FilterParams:
+    def __init__(self):
+        self.stock_min = 0
+        self.level_min = 0
+
+    def apply(self, product: "DD373Product") -> bool:
+        """Apply the filter to a product"""
+        if self.level_min is not None and product.credit_rating < self.level_min:
+            return False
+        if self.stock_min is not None and product.stock < self.stock_min:
+            return False
+        return True
 
 
 @dataclass
@@ -130,18 +146,47 @@ def get_dd373_listings(url: str) -> List[DD373Product]:
     return [DD373Product.from_html_element(item, domain) for item in goods_list_items]
 
 
-def _filter_valid_offer_item(listOffers: List[DD373Product]) -> List[DD373Product]:
+def _filter_valid_offer_item(listOffers: List[DD373Product], filterParams: FilterParams) -> List[DD373Product]:
     # Make a copy of the list
     offers_copy = copy.deepcopy(listOffers)
 
     # Sort by exchange_rate_2
     sorted_offers = sorted(offers_copy, key=lambda x: float(x.exchange_rate_2.split('=')[1].replace('元', '').strip()))
 
-    # Filter sellers with credit_rating < 5
-    valid_offers = [offer for offer in sorted_offers if offer.credit_rating < 5]
+    # apply filter
+    valid_offers = []
+    for offer in sorted_offers:
+        if filterParams.apply(offer):
+            valid_offers.append(offer)
 
     return valid_offers
 
+
+def get_dd_min_price(dd: DD) -> Optional[Tuple[float, str]]:
+    """
+    Get the minimum price from the payload
+
+    Args:
+        dd: DD object gets from payload
+
+    Returns:
+        Minimum price
+    """
+    _filterParams = FilterParams()
+    _filterParams.stock_min = dd.DD_STOCKMIN
+    _filterParams.level_min = dd.DD_LEVELMIN
+    list_offers = []
+    list_offers = get_dd373_listings(dd.DD_PRODUCT_COMPARE)
+    filter_list = _filter_valid_offer_item(list_offers, _filterParams)
+
+    if not filter_list:
+        return None
+    min_price_object = min(filter_list, key=lambda product: product.price)
+
+    min_price = min_price_object.price * dd.DD_PROFIT * dd.DD_EXCHANGE_RATE
+    min_seller = min_price_object.title
+    dd_min_price = (min_price, min_seller)
+    return dd_min_price
 
 
 if __name__ == "__main__":
@@ -149,3 +194,9 @@ if __name__ == "__main__":
     listings = get_dd373_listings(url)
     for listing in listings:
         print(listing)
+
+    filterParams = FilterParams()
+    filterParams.stock_min = 1
+    filterParams.level_min = 5
+    new_listings = _filter_valid_offer_item(listings, filterParams)
+    print(new_listings)

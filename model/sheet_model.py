@@ -278,3 +278,12 @@ class ExtraInfor(BaseGSheetModel):
         sheet_manager = StockManager(self.GAME_LIST_SHEET_ID)
         game_list = sheet_manager.get_multiple_str_cells(f"'{self.GAME_LIST_SHEET}'!{self.GAME_LIST_CELLS}")
         return game_list
+
+
+class DD(BaseGSheetModel):
+    DD_CHECK: Annotated[int | None, "CU"] = 0
+    DD_PROFIT: Annotated[float | None, "CV"] = 0
+    DD_QUYDOIDONVI: Annotated[float | None, "CW"] = 0
+    DD_PRODUCT_COMPARE: Annotated[str | None, "CX"] = ''
+    DD_STOCKMIN: Annotated[int | None, "CY"] = 0
+    DD_LEVELMIN: Annotated[int | None, "CZ"] = 0
