@@ -287,3 +287,68 @@ class DD(BaseGSheetModel):
     DD_PRODUCT_COMPARE: Annotated[str | None, "CX"] = ''
     DD_STOCKMIN: Annotated[int | None, "CY"] = 0
     DD_LEVELMIN: Annotated[int | None, "CZ"] = 0
+
+
+class PriceSheet1(BaseGSheetModel):
+    SHEET_CHECK: Annotated[int | None, "CY"] = 0
+    SHEET_PROFIT: Annotated[float | None, "CZ"] = 0
+    HE_SO_NHAN: Annotated[float | None, "DA"] = 0
+    QUYDOIDONVI: Annotated[float | None, "DB"] = 0
+    ID_SHEET_PRICE: Annotated[str | None, "DC"] = ""
+    SHEET_PRICE: Annotated[str | None, "DD"] = ""
+    CELL_PRICE: Annotated[float | None, "DE"] = ""
+
+    def get_price(self) -> float:
+        sheet_manager = StockManager(self.ID_SHEET_PRICE)
+        price = sheet_manager.get_cell_float_value(f"'{self.SHEET_PRICE}'!{self.CELL_PRICE}")
+        return float(price)
+
+
+class PriceSheet2(BaseGSheetModel):
+    SHEET_CHECK: Annotated[int | None, "DF"] = 0
+    SHEET_PROFIT: Annotated[float | None, "DG"] = 0
+    HE_SO_NHAN: Annotated[float | None, "DH"] = 0
+    QUYDOIDONVI: Annotated[float | None, "DI"] = 0
+    ID_SHEET_PRICE: Annotated[str | None, "DJ"] = ""
+    SHEET_PRICE: Annotated[str | None, "DK"] = ""
+    CELL_PRICE: Annotated[float | None, "DL"] = ""
+
+    def get_price(self) -> float:
+        sheet_manager = StockManager(self.ID_SHEET_PRICE)
+        price = sheet_manager.get_cell_float_value(f"'{self.SHEET_PRICE}'!{self.CELL_PRICE}")
+        return float(price)
+
+
+class PriceSheet3(BaseGSheetModel):
+    SHEET_CHECK: Annotated[int | None, "DM"] = 0
+    SHEET_PROFIT: Annotated[float | None, "DN"] = 0
+    HE_SO_NHAN: Annotated[float | None, "DO"] = 0
+    QUYDOIDONVI: Annotated[float | None, "DP"] = 0
+    ID_SHEET_PRICE: Annotated[str | None, "DQ"] = ""
+    SHEET_PRICE: Annotated[str | None, "DR"] = ""
+    CELL_PRICE: Annotated[float | None, "DS"] = ""
+
+    def get_price(self) -> float:
+        sheet_manager = StockManager(self.ID_SHEET_PRICE)
+        price = sheet_manager.get_cell_float_value(f"'{self.SHEET_PRICE}'!{self.CELL_PRICE}")
+        return float(price)
+
+
+class PriceSheet4(BaseGSheetModel):
+    SHEET_CHECK: Annotated[int | None, "DT"] = 0
+    SHEET_PROFIT: Annotated[float | None, "DU"] = 0
+    HE_SO_NHAN: Annotated[float | None, "DV"] = 0
+    QUYDOIDONVI: Annotated[float | None, "DW"] = 0
+    ID_SHEET_PRICE: Annotated[str | None, "DX"] = ""
+    SHEET_PRICE: Annotated[str | None, "DY"] = ""
+    CELL_PRICE: Annotated[float | None, "DZ"] = ""
+
+    def get_price(self) -> float:
+        sheet_manager = StockManager(self.ID_SHEET_PRICE)
+        price = sheet_manager.get_cell_float_value(f"'{self.SHEET_PRICE}'!{self.CELL_PRICE}")
+        return float(price)
+
+
+
+
+
