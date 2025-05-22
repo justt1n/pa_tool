@@ -590,16 +590,19 @@ def _process_price1_sheet(row: Row) -> Optional[Tuple[float, str]]:
             try:
                 min_price = (row.s1.get_price()
                                  * row.s1.SHEET_PROFIT
-                                 * row.s1.QUYDOIDONVI, "Get directly from sheet")
+                                 * row.s1.QUYDOIDONVI, "Get directly from sheet1")
                 print(f"\nSheetPrice1 min price: {min_price}")
-                break
+                return min_price
             except Exception as e:
                 print(f"Attempt {attempt + 1} failed for SheetPrice1. Error: {e}")
                 if attempt == 1:
                     print("Error when getting SheetPrice1 after retries", e)
                     raise
+                return None
+        return None
     except Exception as e:
         print(f"Error processing PRICE1: {e}")
+        return None
 
 
 def _process_price2_sheet(row: Row) -> Optional[Tuple[float, str]]:
@@ -609,16 +612,19 @@ def _process_price2_sheet(row: Row) -> Optional[Tuple[float, str]]:
             try:
                 min_price = (row.s2.get_price()
                                  * row.s2.SHEET_PROFIT
-                                 * row.s2.QUYDOIDONVI, "Get directly from sheet")
+                                 * row.s2.QUYDOIDONVI, "Get directly from sheet2")
                 print(f"\nSheetPrice2 min price: {min_price}")
-                break
+                return min_price
             except Exception as e:
                 print(f"Attempt {attempt + 1} failed for SheetPrice2. Error: {e}")
                 if attempt == 1:
                     print("Error when getting SheetPrice2 after retries", e)
                     raise
+                return None
+        return None
     except Exception as e:
         print(f"Error processing SheetPrice2: {e}")
+        return None
 
 
 def _process_price3_sheet(row: Row) -> Optional[Tuple[float, str]]:
@@ -628,16 +634,19 @@ def _process_price3_sheet(row: Row) -> Optional[Tuple[float, str]]:
             try:
                 min_price = (row.s3.get_price()
                                  * row.s3.SHEET_PROFIT
-                                 * row.s3.QUYDOIDONVI, "Get directly from sheet")
+                                 * row.s3.QUYDOIDONVI, "Get directly from sheet3")
                 print(f"\nSheetPrice3 min price: {min_price}")
-                break
+                return min_price
             except Exception as e:
                 print(f"Attempt {attempt + 1} failed for SheetPrice3. Error: {e}")
                 if attempt == 1:
                     print("Error when getting SheetPrice3 after retries", e)
                     raise
+                return None
+        return None
     except Exception as e:
         print(f"Error processing SheetPrice3: {e}")
+        return None
 
 
 def _process_price4_sheet(row: Row) -> Optional[Tuple[float, str]]:
@@ -647,17 +656,19 @@ def _process_price4_sheet(row: Row) -> Optional[Tuple[float, str]]:
             try:
                 min_price = (row.s4.get_price()
                                  * row.s4.SHEET_PROFIT
-                                 * row.s4.QUYDOIDONVI, "Get directly from sheet")
+                                 * row.s4.QUYDOIDONVI, "Get directly from sheet4")
                 print(f"\nSheetPrice4 min price: {min_price}")
-                break
+                return min_price
             except Exception as e:
                 print(f"Attempt {attempt + 1} failed for SheetPrice4. Error: {e}")
                 if attempt == 1:
                     print("Error when getting SheetPrice4 after retries", e)
                     raise
+                return None
+        return None
     except Exception as e:
         print(f"Error processing SheetPrice4: {e}")
-
+        return None
 
 
 def _process_dd(row: Row, gsheet: GSheet) -> Optional[Tuple[float, str]]:

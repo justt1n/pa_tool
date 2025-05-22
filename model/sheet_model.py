@@ -245,7 +245,7 @@ class FUN(BaseGSheetModel):
 # BT BJ BV BW BX BY BZ CA CB CC CD
 class BIJ(BaseGSheetModel):
     BIJ_CHECK: Annotated[int | None, "BT"] = 0
-    BIJ_PROFIT: Annotated[float | None, "BJ"] = 0
+    BIJ_PROFIT: Annotated[float | None, "BU"] = 0
     BIJ_NAME: Annotated[str | None, "BV"] = ''
     BIJ_SERVER: Annotated[str | None, "BW"] = ''
     BIJ_DELIVERY_METHOD: Annotated[str | None, "BX"] = ''
