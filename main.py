@@ -306,6 +306,23 @@ def get_update_str(offer_item: OfferItem, item_info: PriceInfo, stock_fake_items
             _str += f"Min DD: {stock_fake_items[3][1]} = {stock_fake_items[3][0]}, \n"
         else:
             _str += "Min DD: no matching seller\n"
+        if stock_fake_items[4] is not None:
+            _str += f"Min SheetPrice1: {stock_fake_items[4][1]} = {stock_fake_items[4][0]}, \n"
+        else:
+            _str += "Min SheetPrice1: no matching seller\n"
+        if stock_fake_items[5] is not None:
+            _str += f"Min SheetPrice2: {stock_fake_items[5][1]} = {stock_fake_items[5][0]}, \n"
+        else:
+            _str += "Min SheetPrice2: no matching seller\n"
+        if stock_fake_items[6] is not None:
+            _str += f"Min SheetPrice3: {stock_fake_items[6][1]} = {stock_fake_items[6][0]}, \n"
+        else:
+            _str += "Min SheetPrice3: no matching seller\n"
+        if stock_fake_items[7] is not None:
+            _str += f"Min SheetPrice4: {stock_fake_items[7][1]} = {stock_fake_items[7][0]}, \n"
+        else:
+            _str += "Min SheetPrice4: no matching seller\n"
+
     return _str + "\n"
 
 

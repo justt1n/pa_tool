@@ -583,6 +583,83 @@ def _process_bij(row: Row, gsheet: GSheet, hostdata: dict, selenium: SeleniumUti
         return None
 
 
+def _process_price1_sheet(row: Row) -> Optional[Tuple[float, str]]:
+    try:
+        print("Starting SheetPrice1 sheet...")
+        for attempt in range(2):
+            try:
+                min_price = (row.s1.get_price()
+                                 * row.s1.SHEET_PROFIT
+                                 * row.s1.QUYDOIDONVI, "Get directly from sheet")
+                print(f"\nSheetPrice1 min price: {min_price}")
+                break
+            except Exception as e:
+                print(f"Attempt {attempt + 1} failed for SheetPrice1. Error: {e}")
+                if attempt == 1:
+                    print("Error when getting SheetPrice1 after retries", e)
+                    raise
+    except Exception as e:
+        print(f"Error processing PRICE1: {e}")
+
+
+def _process_price2_sheet(row: Row) -> Optional[Tuple[float, str]]:
+    try:
+        print("Starting SheetPrice2 sheet...")
+        for attempt in range(2):
+            try:
+                min_price = (row.s2.get_price()
+                                 * row.s2.SHEET_PROFIT
+                                 * row.s2.QUYDOIDONVI, "Get directly from sheet")
+                print(f"\nSheetPrice2 min price: {min_price}")
+                break
+            except Exception as e:
+                print(f"Attempt {attempt + 1} failed for SheetPrice2. Error: {e}")
+                if attempt == 1:
+                    print("Error when getting SheetPrice2 after retries", e)
+                    raise
+    except Exception as e:
+        print(f"Error processing SheetPrice2: {e}")
+
+
+def _process_price3_sheet(row: Row) -> Optional[Tuple[float, str]]:
+    try:
+        print("Starting PRICE3 sheet...")
+        for attempt in range(2):
+            try:
+                min_price = (row.s3.get_price()
+                                 * row.s3.SHEET_PROFIT
+                                 * row.s3.QUYDOIDONVI, "Get directly from sheet")
+                print(f"\nSheetPrice3 min price: {min_price}")
+                break
+            except Exception as e:
+                print(f"Attempt {attempt + 1} failed for SheetPrice3. Error: {e}")
+                if attempt == 1:
+                    print("Error when getting SheetPrice3 after retries", e)
+                    raise
+    except Exception as e:
+        print(f"Error processing SheetPrice3: {e}")
+
+
+def _process_price4_sheet(row: Row) -> Optional[Tuple[float, str]]:
+    try:
+        print("Starting SheetPrice4 sheet...")
+        for attempt in range(2):
+            try:
+                min_price = (row.s4.get_price()
+                                 * row.s4.SHEET_PROFIT
+                                 * row.s4.QUYDOIDONVI, "Get directly from sheet")
+                print(f"\nSheetPrice4 min price: {min_price}")
+                break
+            except Exception as e:
+                print(f"Attempt {attempt + 1} failed for SheetPrice4. Error: {e}")
+                if attempt == 1:
+                    print("Error when getting SheetPrice4 after retries", e)
+                    raise
+    except Exception as e:
+        print(f"Error processing SheetPrice4: {e}")
+
+
+
 def _process_dd(row: Row, gsheet: GSheet) -> Optional[Tuple[float, str]]:
     try:
         print("Starting DD fetch...")
@@ -616,12 +693,16 @@ def calculate_price_stock_fake(
     fun_future = None
     bij_future = None
     dd_future = None
+    s1_future = None
+    s2_future = None
+    s3_future = None
+    s4_future = None
 
     results = {}  # Dictionary để lưu kết quả theo nguồn
 
     # Sử dụng ThreadPoolExecutor để chạy song song
     # max_workers=3 để giới hạn số luồng bằng số nguồn dữ liệu
-    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         # Submit G2G task
         if row.g2g.G2G_CHECK == 1:
             print("Submitting G2G task...")
@@ -640,6 +721,23 @@ def calculate_price_stock_fake(
         if row.dd.DD_CHECK == 1:
             print("Submitting DD task...")
             dd_future = executor.submit(_process_dd, row, gsheet)
+
+        if row.s1.SHEET_CHECK == 1:
+            print("Submitting SheetPrice1 task...")
+            s1_future = executor.submit(_process_price1_sheet, row)
+
+        if row.s2.SHEET_CHECK == 1:
+            print("Submitting SheetPrice2 task...")
+            s2_future = executor.submit(_process_price2_sheet, row)
+
+        if row.s3.SHEET_CHECK == 1:
+            print("Submitting SheetPrice3 task...")
+            s3_future = executor.submit(_process_price3_sheet, row)
+
+        if row.s4.SHEET_CHECK == 1:
+            print("Submitting SheetPrice4 task...")
+            s4_future = executor.submit(_process_price4_sheet, row)
+
 
         if g2g_future:
             try:
@@ -679,12 +777,49 @@ def calculate_price_stock_fake(
                 print(f"DD task failed with exception: {e}")
                 results['dd'] = None
 
+        if s1_future:
+            try:
+                results['s1'] = s1_future.result()
+                print(f"S1 Result received: {results['s1']}")
+            except Exception as e:
+                print(f"S1 task failed with exception: {e}")
+                results['s1'] = None
+
+        if s2_future:
+            try:
+                results['s2'] = s2_future.result()
+                print(f"S2 Result received: {results['s2']}")
+            except Exception as e:
+                print(f"S2 task failed with exception: {e}")
+                results['s2'] = None
+
+        if s3_future:
+            try:
+                results['s3'] = s3_future.result()
+                print(f"S3 Result received: {results['s3']}")
+            except Exception as e:
+                print(f"S3 task failed with exception: {e}")
+                results['s3'] = None
+
+        if s4_future:
+            try:
+                results['s4'] = s4_future.result()
+                print(f"S4 Result received: {results['s4']}")
+            except Exception as e:
+                print(f"S4 task failed with exception: {e}")
+                results['s4'] = None
+
+
     g2g_min_price = results.get('g2g')
     fun_min_price = results.get('fun')
     bij_min_price = results.get('bij')
     dd_min_price = results.get('dd')
+    s1_min_price = results.get('s1')
+    s2_min_price = results.get('s2')
+    s3_min_price = results.get('s3')
+    s4_min_price = results.get('s4')
 
-    all_prices: List[Optional[Tuple[float, str]]] = [g2g_min_price, fun_min_price, bij_min_price, dd_min_price]
+    all_prices: List[Optional[Tuple[float, str]]] = [g2g_min_price, fun_min_price, bij_min_price, dd_min_price, s1_min_price, s2_min_price, s3_min_price, s4_min_price]
     valid_prices = [p for p in all_prices if p is not None and p[0] > 0]
 
     if not valid_prices:
