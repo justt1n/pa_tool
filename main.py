@@ -264,7 +264,7 @@ def create_data_from_str(s: str) -> CurrencyQueryItem | ItemQueryItem | None:
             Server=s[1],
             Faction=s[2],
         )
-    elif len(s) == 4:
+    elif len(s) == 6:
         return ItemQueryItem(
             ID="",
             game=s[0],
