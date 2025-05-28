@@ -1,6 +1,7 @@
 import codecs
 import json
 import os
+import time
 from datetime import datetime
 from typing import List
 
@@ -209,7 +210,13 @@ def process(
                             description=row.product.DESCRIPTION,
                         )
                     )
-
+            try:
+                __time_sleep = float(os.getenv("TIME_SLEEP_ROW"))
+            except Exception:
+                print("No time sleep each row (add TIME_SLEEP_ROW to settings file), set default to ")
+                __time_sleep = 0
+            print(f"Sleeping for {__time_sleep} seconds")
+            time.sleep(_time_sleep)
             print(f"Price change:\n{item_info.model_dump(mode='json')}")
             log_str = ""
             for offer_item in offer_items:
@@ -394,8 +401,10 @@ if __name__ == "__main__":
             try:
                 _time_sleep = float(os.getenv("TIME_SLEEP"))
             except Exception:
-                _time_sleep = 0
+                print("No time sleep (TIME_SLEEP), set default to 2")
+                _time_sleep = 2
             print(f"Sleeping for {_time_sleep} seconds")
+            time.sleep(_time_sleep)
             # test_browser = SeleniumUtil(mode=1)
             # login(test_browser, False)
         except Exception as e:
