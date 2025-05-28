@@ -210,13 +210,6 @@ def process(
                             description=row.product.DESCRIPTION,
                         )
                     )
-            try:
-                __time_sleep = float(os.getenv("TIME_SLEEP_ROW"))
-            except Exception:
-                print("No time sleep each row (add TIME_SLEEP_ROW to settings file), set default to ")
-                __time_sleep = 0
-            print(f"Sleeping for {__time_sleep} seconds")
-            time.sleep(_time_sleep)
             print(f"Price change:\n{item_info.model_dump(mode='json')}")
             log_str = ""
             for offer_item in offer_items:
@@ -231,6 +224,13 @@ def process(
         #     print("No valid offer item")
         #     _current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "\nNo valid offer item\n"
         #     write_to_log_cell(worksheet, index, _current_time, log_type="time")
+        try:
+            __time_sleep = float(os.getenv("TIME_SLEEP_ROW"))
+        except Exception:
+            print("No time sleep each row (add TIME_SLEEP_ROW to settings file), set default to ")
+            __time_sleep = 0
+        print(f"Sleeping for {__time_sleep} seconds")
+        time.sleep(_time_sleep)
         print("Next row...")
     currency_template = currency_templates_to_dicts(currency_template)
     is_have_item = False
