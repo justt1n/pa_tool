@@ -230,7 +230,7 @@ def process(
             print("No time sleep each row (add TIME_SLEEP_ROW to settings file), set default to ")
             __time_sleep = 0
         print(f"Sleeping for {__time_sleep} seconds")
-        time.sleep(_time_sleep)
+        time.sleep(__time_sleep)
         print("Next row...")
     currency_template = currency_templates_to_dicts(currency_template)
     is_have_item = False
